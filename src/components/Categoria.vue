@@ -12,38 +12,40 @@
                 <v-text-field class="text-xs-center" v-model="search" append-icon="search" 
                 label="Búsqueda" single-line hide-details></v-text-field>
                 <v-spacer></v-spacer>
+                <!--Modal agregar o editar artículo-->
                 <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
-                        <span class="headline">{{ formTitle }}</span>
+                            <span class="headline">{{ formTitle }}</span>
                         </v-card-title>            
                         <v-card-text>
-                        <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="nombre" label="Nombre"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="descripcion" label="Descripción"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm12 md12 v-show="valida">
-                                    <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v">
+                            <v-container grid-list-md>
+                                <v-layout wrap>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-model="nombre" label="Nombre"></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-model="descripcion" label="Descripción"></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 md12 v-show="valida">
+                                        <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v">
 
-                                    </div>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
+                                        </div>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
                         </v-card-text>            
                         <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
-                        <v-btn color="blue darken-1" flat @click="guardar">Guardar</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
+                            <v-btn color="blue darken-1" flat @click="guardar">Guardar</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+                <!--Modal activar o desactivar-->
                 <v-dialog v-model="adModal" max-width="290">
                     <v-card>
                         <v-card-title class="headline" v-if="adAccion==1">
@@ -77,46 +79,31 @@
                 :search="search"
                 class="elevation-1"
             >
-                <template v-slot:items="props">
-                <td class="justify-center layout px-0">
-                    <v-icon
-                    small
-                    class="mr-2"
-                    @click="editItem(props.item)"
-                    >
-                    edit
-                    </v-icon>
-                    <template v-if="props.item.estado">
-                        <v-icon
-                        small
-                        @click="activarDesactivarMostrar(2,props.item)"
-                        >
-                        block
-                        </v-icon>
+            
+                    <template v-slot:item.opciones="{item}">
+                        <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+                            <div v-if="item.estado">
+                                <v-icon small @click="activarDesactivarMostrar(2,item)">block</v-icon>
+                            </div>
+                            <div v-else>
+                                <v-icon small @click="activarDesactivarMostrar(1,item)">check</v-icon>
+                            </div>
                     </template>
-                    <template v-else>
-                        <v-icon
-                        small
-                        @click="activarDesactivarMostrar(1,props.item)"
-                        >
-                        check
-                        </v-icon>
+                    <template v-slot:items="props">
+                        <td>{{ props.item.nombre }}</td>
+                        <td>{{ props.item.descripcion }}</td>
                     </template>
-                </td>
-                <td>{{ props.item.nombre }}</td>
-                <td>{{ props.item.descripcion }}</td>
-                <td>
-                    <div v-if="props.item.estado">
-                        <span class="blue--text">Activo</span>
-                    </div>
-                    <div v-else>
-                        <span class="red--text">Inactivo</span>
-                    </div>
-                </td>                
-                </template>
-                <template v-slot:no-data>
-                <v-btn color="primary" @click="listar()">Resetear</v-btn>
-                </template>
+                    <template v-slot:item.estado="{item}">
+                        <div v-if="item.estado">
+                            <span class="blue--text">Activo</span>
+                        </div>
+                        <div v-else>
+                            <span class="red--text">Inactivo</span>
+                        </div>
+                    </template>
+                    <template v-slot:no-data>
+                        <v-btn color="primary" @click="listar()">Resetear</v-btn>
+                    </template>
             </v-data-table>
         </v-flex>
     </v-layout>
