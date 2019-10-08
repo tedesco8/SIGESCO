@@ -4,9 +4,11 @@
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       app
+      v-if="logueado"
     >
       <v-list dense>
-        <template>
+        <!-- HOME -->
+        <template v-if="esAdministrador || esAlmacenero || esVendedor">
           <v-list-item :to="{name: 'home'}">
             <v-list-item-action>
               <v-icon>home</v-icon>
@@ -18,7 +20,7 @@
         </template>
 
         <!-- ALMACEN -->
-        <template>
+        <template v-if="esAdministrador || esAlmacenero" >
           <v-list-group>
             <v-list-item slot="activator">
               <v-list-item-content>
@@ -51,7 +53,7 @@
         </template>
 
         <!-- COMPRAS -->
-        <template>
+        <template v-if="esAdministrador || esAlmacenero">
           <v-list-group>
             <v-list-item slot="activator">
               <v-list-item-content>
@@ -84,7 +86,7 @@
         </template>
 
         <!-- VENTAS -->
-        <template>
+        <template v-if="esAdministrador || esVendedor">
           <v-list-group>
             <v-list-item slot="activator">
               <v-list-item-content>
@@ -117,7 +119,7 @@
         </template>
 
         <!-- ACCESOS -->
-        <template>
+        <template v-if="esAdministrador">
           <v-list-group>
             <v-list-item slot="activator">
               <v-list-item-content>
@@ -140,7 +142,7 @@
         </template>
         
         <!-- REPORTES -->
-        <template>
+        <template v-if="esAdministrador || esAlmacenero || esVendedor">
           <v-list-group>
             <v-list-item slot="activator">
               <v-list-item-content>
@@ -189,8 +191,11 @@
       </v-toolbar-title>
       
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn @click="salir()" icon v-if="logueado">
         <v-icon>logout</v-icon>
+      </v-btn>
+      <v-btn :to="{name: 'login'}" icon v-else>
+        <v-icon>apps</v-icon>
       </v-btn>
     </v-app-bar>
     <v-content>
@@ -223,7 +228,29 @@ export default {
   name: 'App',
   data () {
     return {
-      drawer: null
+      drawer: true,
+    }
+  },
+  computed:{
+    logueado(){
+      return this.$store.state.usuario;
+    },
+    esAdministrador(){
+      return this.$store.state.usuario && this.$store.state.usuario.rol == 'Administrador';
+    },
+    esAlmacenero(){
+      return this.$store.state.usuario && this.$store.state.usuario.rol == 'Almacenero';
+    },
+    esVendedor(){
+      return this.$store.state.usuario && this.$store.state.usuario.rol == 'Vendedor';
+    }
+  },
+  created(){
+    this.$store.dispatch("autoLogin");
+  },
+  methods: {
+    salir(){
+      this.$store.dispatch("salir");
     }
   }
 };
