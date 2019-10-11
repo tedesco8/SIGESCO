@@ -12,7 +12,7 @@
                 <v-text-field class="text-xs-center" v-model="search" append-icon="search" 
                 label="Búsqueda" single-line hide-details></v-text-field>
                 <v-spacer></v-spacer>
-                <!--Modal agregar o editar artículo-->
+                <!--Modal agregar o editar categoria-->
                 <v-dialog v-model="dialog" max-width="500px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" dark class="mb-2" v-on="on">Nuevo</v-btn>
