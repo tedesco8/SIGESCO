@@ -6,6 +6,8 @@ import Categoria from './components/Categoria.vue'
 import Login from './components/Login.vue'
 import Usuario from './components/Usuario.vue'
 import Articulo from './components/Articulo.vue'
+import Cliente from './components/Cliente.vue'
+import Proveedor from './components/Proveedor.vue'
 
 Vue.use(Router)
 
@@ -44,6 +46,24 @@ var router = new Router({
       path: '/articulo',
       name: 'articulo',
       component: Articulo,
+      meta: {
+        administrador: true,
+        almacenero: true
+      }
+    },
+    {
+      path: '/cliente',
+      name: 'cliente',
+      component: Cliente,
+      meta: {
+        administrador: true,
+        vendedor: true
+      }
+    },
+    {
+      path: '/proveedor',
+      name: 'proveedor',
+      component: Proveedor,
       meta: {
         administrador: true,
         almacenero: true
