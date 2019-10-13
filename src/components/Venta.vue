@@ -2,7 +2,7 @@
     <v-layout align-start>
         <v-flex>
             <v-toolbar flat color="white">
-                <v-toolbar-title>Ingresos</v-toolbar-title>
+                <v-toolbar-title>Ventas</v-toolbar-title>
                 <v-divider
                 class="mx-2"
                 inset
@@ -96,7 +96,7 @@
             </v-toolbar>
             <v-data-table
                 :headers="headers"
-                :items="ingresos"
+                :items="ventas"
                 :search="search"
                 class="elevation-1"
                 v-if="verNuevo==0"
@@ -160,7 +160,7 @@
                         </v-text-field>
                     </v-flex>
                     <v-flex xs12 sm8 md8 lg8 xl8>
-                        <v-autocomplete :items="personas" v-model="persona" label="Proveedor">
+                        <v-autocomplete :items="personas" v-model="persona" label="Cliente">
                         </v-autocomplete>
                     </v-flex>
                     <v-flex xs12 sm4 md4 lg4 xl4>
@@ -202,7 +202,8 @@
                                     <td class="text-xs-center">{{ props.item.articulo }}</td>
                                     <td class="text-xs-center"><v-text-field v-model="props.item.cantidad" type="number"></v-text-field></td>
                                     <td class="text-xs-center"><v-text-field v-model="props.item.precio" type="number"></v-text-field></td>
-                                    <td class="text-xs-right">$ {{ props.item.cantidad * props.item.precio}}</td>
+                                    <td class="text-xs-center"><v-text-field v-model="props.item.descuento" type="number"></v-text-field></td>
+                                    <td class="text-xs-right">$ {{ (props.item.cantidad * props.item.precio)-props.item.descuento}}</td>
                                 </template>
                                 <template slot="no-data">
                                     <h3>No hay artículos agregados al detalle.</h3>
@@ -210,12 +211,10 @@
                             </v-data-table>
                             <v-flex class="text-xs-right">
                                 <strong>Total Parcial:</strong> $ 
-                                <!-- es el total sin sumar el impuesto -->
                                 {{totalParcial=(total-totalImpuesto).toFixed(2)}}
                             </v-flex>
                             <v-flex class="text-xs-right">
                                 <strong>Total Impuesto:</strong> $ 
-                                <!-- regla de tres. toFixed solicita solo 2 decimales del impuest -->
                                 {{totalImpuesto=((total*impuesto)/(1+impuesto)).toFixed(2)}}
                             </v-flex>
                             <v-flex class="text-xs-right">
@@ -244,11 +243,11 @@
             return{
                 dialog: false,
                 search:'',
-                ingresos:[],
+                ventas:[],
                 headers: [
                     { text: 'Opciones', value: 'opciones', sortable: false },
                     { text: 'Usuario', value: 'usuario.nombre', sortable: true },
-                    { text: 'Proveedor', value: 'persona.nombre', sortable: true },
+                    { text: 'Cliente', value: 'persona.nombre', sortable: true },
                     { text: 'Tipo Comprobante', value: 'tipo_comprobante', sortable: true },
                     { text: 'Serie comprobante', value: 'serie_comprobante', sortable: false  },
                     { text: 'Número comprobante', value: 'num_comprobante', sortable: false  },
@@ -271,6 +270,7 @@
                     { text: 'Artículo', value: 'articulo', sortable: false },
                     { text: 'Cantidad', value: 'cantidad', sortable: false },
                     { text: 'Precio', value: 'precio', sortable: false },
+                    { text: 'Descuento', value: 'descuento', sortable: false },
                     { text: 'Sub Total', value: 'subtotal', sortable: false  }
                 ],
                 detalles:[],
@@ -304,8 +304,7 @@
             calcularTotal: function(){
                 let resultado=0.0;
                 for(var i=0;i<this.detalles.length;i++){
-                    //resultado acumula
-                    resultado=resultado+(this.detalles[i].cantidad*this.detalles[i].precio);
+                    resultado=resultado+((this.detalles[i].cantidad*this.detalles[i].precio)-this.detalles[i].descuento);
                 }
                 return resultado;
             }
@@ -325,7 +324,7 @@
                 let personaArray=[];
                 let header={"Token" : this.$store.state.token};
                 let configuracion= {headers : header};            
-                axios.get('persona/listProveedores',configuracion).then(function (response){
+                axios.get('persona/listClientes',configuracion).then(function (response){
                     personaArray=response.data;
                     personaArray.map(function(x){
                         me.personas.push({text:x.nombre, value:x._id});
@@ -357,7 +356,8 @@
                             _id:data._id,
                             articulo:data.nombre,
                             cantidad:1,
-                            precio:data.precio_venta
+                            precio:data.precio_venta,
+                            descuento:0
                         }
                     );
                     this.codigo='';
@@ -396,7 +396,7 @@
                 let me=this;
                 let header={"Token" : this.$store.state.token};
                 let configuracion= {headers : header};            
-                axios.get('ingreso/query?_id='+id,configuracion).then(function (response){
+                axios.get('venta/query?_id='+id,configuracion).then(function (response){
                     me.detalles=response.data.detalles;
                 }).catch(function(error){
                     console.log(error);
@@ -417,8 +417,8 @@
                 let me=this;
                 let header={"Token" : this.$store.state.token};
                 let configuracion= {headers : header};            
-                axios.get('ingreso/list',configuracion).then(function (response){
-                    me.ingresos=response.data;
+                axios.get('venta/list',configuracion).then(function (response){
+                    me.ventas=response.data;
                 }).catch(function(error){
                     console.log(error);
                 });
@@ -444,7 +444,7 @@
                 this.valida=0;
                 this.validaMensaje=[];
                 if(!this.persona){
-                    this.validaMensaje.push('Seleccione un proveedor.');
+                    this.validaMensaje.push('Seleccione un cliente.');
                 }
                 if(!this.tipo_comprobante){
                     this.validaMensaje.push('Seleccione un tipo de comprobante.');
@@ -478,7 +478,7 @@
                     return;
                 }
                 //Código para guardar
-                axios.post('ingreso/add',
+                axios.post('venta/add',
                 {
                     'persona':this.persona,
                     'usuario':this.$store.state.usuario._id,
@@ -517,7 +517,7 @@
                 let me=this;
                 let header={"Token" : this.$store.state.token};
                 let configuracion= {headers : header};
-                axios.put('ingreso/activate',{'_id':this.adId},configuracion)
+                axios.put('venta/activate',{'_id':this.adId},configuracion)
                     .then(function(response){
                         me.adModal=0;
                         me.adAccion=0;
@@ -533,7 +533,7 @@
                 let me=this;
                 let header={"Token" : this.$store.state.token};
                 let configuracion= {headers : header};
-                axios.put('ingreso/deactivate',{'_id':this.adId},configuracion)
+                axios.put('venta/deactivate',{'_id':this.adId},configuracion)
                     .then(function(response){
                         me.adModal=0;
                         me.adAccion=0;

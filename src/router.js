@@ -9,6 +9,7 @@ import Articulo from './components/Articulo.vue'
 import Cliente from './components/Cliente.vue'
 import Proveedor from './components/Proveedor.vue'
 import Ingreso from './components/Ingreso.vue'
+import Venta from './components/Venta.vue'
 
 Vue.use(Router)
 
@@ -65,6 +66,15 @@ var router = new Router({
       path: '/cliente',
       name: 'cliente',
       component: Cliente,
+      meta: {
+        administrador: true,
+        vendedor: true
+      }
+    },
+    {
+      path: '/venta',
+      name: 'venta',
+      component: Venta,
       meta: {
         administrador: true,
         vendedor: true
