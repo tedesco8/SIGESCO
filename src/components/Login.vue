@@ -42,6 +42,11 @@ export default {
                 return respuesta.data;
             })
             .then(data =>{
+                swal({
+              title: "Genial!",
+              text: "Bienvenido a SIGESCO",
+              icon: "success"
+            });
                 this.$store.dispatch("guardarToken", data.tokenReturn);
                 this.$router.push({name: 'home'});
             })

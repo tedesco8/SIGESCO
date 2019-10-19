@@ -245,6 +245,11 @@ export default {
             configuracion
           )
           .then(function(response) {
+            swal({
+              title: "Buen trabajo!",
+              text: "Cliente editado exitosamente",
+              icon: "success"
+            });
             me.limpiar();
             me.close();
             me.listar();
@@ -269,6 +274,11 @@ export default {
             configuracion
           )
           .then(function(response) {
+            swal({
+              title: "Buen trabajo!",
+              text: "Cliente agregado exitosamente",
+              icon: "success"
+            });
             me.limpiar();
             me.close();
             me.listar();
@@ -313,6 +323,11 @@ export default {
       axios
         .put("persona/activate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Cliente activado exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
@@ -330,6 +345,11 @@ export default {
       axios
         .put("persona/deactivate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Cliente desactivado exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";

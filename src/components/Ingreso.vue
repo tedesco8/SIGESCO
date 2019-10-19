@@ -478,6 +478,11 @@ export default {
           configuracion
         )
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Ingreso agregado exitosamente",
+              icon: "success"
+            });
           me.limpiar();
           me.close();
           me.listar();
@@ -508,6 +513,11 @@ export default {
       axios
         .put("ingreso/activate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Ingreso activado exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
@@ -525,6 +535,11 @@ export default {
       axios
         .put("ingreso/deactivate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Ingreso desactivado exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";

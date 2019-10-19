@@ -199,6 +199,11 @@ export default {
             configuracion
           )
           .then(function(response) {
+            swal({
+              title: "Buen trabajo!",
+              text: "Categoría editada exitosamente",
+              icon: "success"
+            });
             me.limpiar();
             me.close();
             me.listar();
@@ -215,6 +220,11 @@ export default {
             configuracion
           )
           .then(function(response) {
+            swal({
+              title: "Buen trabajo!",
+              text: "Categoría agregada exitosamente",
+              icon: "success"
+            });
             me.limpiar();
             me.close();
             me.listar();
@@ -253,6 +263,11 @@ export default {
       axios
         .put("categoria/activate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Categoría activada exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
@@ -270,6 +285,11 @@ export default {
       axios
         .put("categoria/deactivate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Categoría desactivada exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";

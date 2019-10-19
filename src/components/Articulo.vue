@@ -122,6 +122,7 @@
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import swal from 'sweetalert';
 
 export default {
   data() {
@@ -294,6 +295,12 @@ export default {
             configuracion
           )
           .then(function(response) {
+            // swal("", "Artículo editado exitosamente", "success");
+            swal({
+              title: "Buen trabajo!",
+              text: "Artículo editado exitosamente",
+              icon: "success"
+            });
             me.limpiar();
             me.close();
             me.listar();
@@ -317,6 +324,11 @@ export default {
             configuracion
           )
           .then(function(response) {
+           swal({
+              title: "Buen trabajo!",
+              text: "Artículo editado exitosamente",
+              icon: "success"
+            });
             me.limpiar();
             me.close();
             me.listar();
@@ -359,6 +371,11 @@ export default {
       axios
         .put("articulo/activate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Artículo activado exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
@@ -376,6 +393,11 @@ export default {
       axios
         .put("articulo/deactivate", { _id: this.adId }, configuracion)
         .then(function(response) {
+          swal({
+              title: "Buen trabajo!",
+              text: "Artículo desactivado exitosamente",
+              icon: "success"
+            });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
