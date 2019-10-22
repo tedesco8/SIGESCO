@@ -10,6 +10,8 @@ import Cliente from './components/Cliente.vue'
 import Proveedor from './components/Proveedor.vue'
 import Ingreso from './components/Ingreso.vue'
 import Venta from './components/Venta.vue'
+import ReporteVenta from './components/ReporteVenta.vue'
+import ReporteIngreso from './components/ReporteIngreso.vue'
 
 Vue.use(Router)
 
@@ -93,6 +95,22 @@ var router = new Router({
       path: '/usuario',
       name: 'usuario',
       component: Usuario,
+      meta: {
+        administrador: true
+      }
+    },
+    {
+      path: '/reporteVenta',
+      name: 'reporteVenta',
+      component: ReporteVenta,
+      meta: {
+        administrador: true
+      }
+    },
+    {
+      path: '/reporteIngreso',
+      name: 'reporteIngreso',
+      component: ReporteIngreso,
       meta: {
         administrador: true
       }

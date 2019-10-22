@@ -27,7 +27,7 @@ export default {
       let me=this;
       let header={"Token" : this.$store.state.token};
       let configuracion= {headers : header};            
-      axios.get('venta/grafico12meses',configuracion).then(function (response){
+      axios.get('ingreso/grafico12meses',configuracion).then(function (response){
           me.valores=response.data;
           me.graficar();
       }).catch(function(error){
@@ -88,7 +88,7 @@ export default {
           data: {
               labels: me.meses,
               datasets: [{
-                  label: 'Total de ventas',
+                  label: 'Total de compras',
                   data: me.totales,
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)',
