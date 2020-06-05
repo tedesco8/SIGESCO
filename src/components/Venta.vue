@@ -16,6 +16,7 @@
         ></v-text-field>
         <v-spacer></v-spacer>
         <v-btn color="primary" v-if="verNuevo==0" @click="mostrarNuevo()" dark class="mb-2">Nuevo</v-btn>
+        <!-- Modal mostrar articulos -->
         <v-dialog v-model="dialog" max-width="1000px">
           <v-card>
             <v-card-title>
@@ -248,6 +249,7 @@
           <v-btn color="primary" @click="listar()">Resetear</v-btn>
         </template>
       </v-data-table>
+      <!-- Template nueva venta -->
       <v-container grid-list-sm class="pa-4 white" v-if="verNuevo">
         <v-layout row wrap>
           <v-flex xs12 sm4 md4 lg4 xl4>

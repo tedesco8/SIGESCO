@@ -160,21 +160,22 @@
                 <template v-slot:item.articulo="{item}">{{ item.articulo }}</template>
                 <template v-slot:item.cantidad="{item}">
                   <div class="text-xs-center">
-                    <v-text-field v-model="props.item.cantidad" type="number"></v-text-field>
+                    <v-text-field v-model="item.cantidad" type="number"></v-text-field>
                   </div>
                 </template>
                 <template v-slot:item.precio="{item}">
                   <div class="text-xs-center">
-                    <v-text-field v-model="props.item.precio" type="number"></v-text-field>
+                    <v-text-field v-model="item.precio" type="number"></v-text-field>
                   </div>
                 </template>
                 <template v-slot:item.subtotal="{item}">
-                  <div class="text-xs-right">$ {{ props.item.cantidad * props.item.precio}}</div>
+                  <div class="text-xs-right">$ {{ item.cantidad * item.precio}}</div>
                 </template>
                 <template slot="no-data">
                   <h3>No hay artículos agregados al detalle.</h3>
                 </template>
               </v-data-table>
+              <!-- Resultado -->
               <v-flex class="text-xs-right">
                 <strong>Total Parcial:</strong> $
                 <!-- es el total sin sumar el impuesto -->
