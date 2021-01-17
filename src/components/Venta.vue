@@ -118,9 +118,8 @@
         <v-dialog v-model="comprobanteModal" max-width="1000px">
           <v-card>
             <v-card-title class="headline">
-              <v-btn @click="crearPDF()">
-                <v-icon>print</v-icon> </v-btn
-              >Reporte de venta
+              <v-btn @click="crearPDF()"> <v-icon>print</v-icon> </v-btn>Reporte
+              de venta
             </v-card-title>
 
             <v-card-text>
@@ -263,188 +262,166 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <!-- Template nueva venta -->
+        <v-container grid-list-sm class="pa-4 white" v-if="verNuevo">
+          <v-layout row wrap>
+            <v-flex xs12 sm4 md4 lg4 xl4>
+              <v-select
+                v-model="tipo_comprobante"
+                :items="comprobantes"
+                label="Tipo Comprobante"
+              ></v-select>
+            </v-flex>
+            <v-flex xs12 sm4 md4 lg4 xl4>
+              <v-text-field
+                v-model="serie_comprobante"
+                label="Serie Comprobante"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm4 md4 lg4 xl4>
+              <v-text-field
+                v-model="num_comprobante"
+                label="Número Comprobante"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm8 md8 lg8 xl8>
+              <v-autocomplete
+                :items="personas"
+                v-model="persona"
+                label="Cliente"
+              ></v-autocomplete>
+            </v-flex>
+            <v-flex xs12 sm4 md4 lg4 xl4>
+              <v-text-field
+                type="number"
+                v-model="impuesto"
+                label="Impuesto"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm8 md8 lg8 x8>
+              <v-text-field
+                v-model="codigo"
+                label="Código"
+                @keyup.enter="buscarCodigo()"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12 sm2 md2 lg2 xl2>
+              <v-btn
+                small
+                fab
+                dark
+                color="teal"
+                @click="mostrarModalArticulos()"
+              >
+                <v-icon dark>list</v-icon>
+              </v-btn>
+            </v-flex>
+            <v-flex xs12 sm2 md2 lg2 xl2 v-show="errorArticulo">
+              <div class="red--text" v-text="errorArticulo"></div>
+            </v-flex>
+            <v-flex xs12 sm12 md12 lg12 xl12>
+              <template>
+                <v-data-table
+                  :headers="cabeceraDetalles"
+                  :items="detalles"
+                  hide-default-footer
+                  class="elevation-1"
+                >
+                  <template v-slot:item.borrar="{ item }">
+                    <v-icon
+                      small
+                      class="mr-2"
+                      @click="eliminarDetalle(detalles, item)"
+                      >delete</v-icon
+                    >
+                  </template>
+                  <template v-slot:item.articulo="{ item }">
+                    <div class="text-xs-center">{{ item.articulo }}</div>
+                  </template>
+                  <template v-slot:item.cantidad="{ item }">
+                    <div class="text-xs-center">
+                      <v-text-field
+                        v-model="item.cantidad"
+                        type="number"
+                      ></v-text-field>
+                    </div>
+                  </template>
+                  <template v-slot:item.precio="{ item }">
+                    <div class="text-xs-center">
+                      <v-text-field
+                        v-model="item.precio"
+                        type="number"
+                      ></v-text-field>
+                    </div>
+                  </template>
+                  <template v-slot:item.descuento="{ item }">
+                    <div class="text-xs-center">
+                      <v-text-field
+                        v-model="item.descuento"
+                        type="number"
+                      ></v-text-field>
+                    </div>
+                  </template>
+                  <template v-slot:item.subtotal="{ item }">
+                    <div class="text-xs-right">
+                      $ {{ item.cantidad * item.precio - item.descuento }}
+                    </div>
+                  </template>
+                  <template slot="no-data">
+                    <h3>No hay artículos agregados al detalle.</h3>
+                  </template>
+                </v-data-table>
+                <v-flex class="text-xs-right">
+                  <strong>Total Parcial:</strong>
+                  $
+                  {{ (totalParcial = (total - totalImpuesto).toFixed(2)) }}
+                </v-flex>
+                <v-flex class="text-xs-right">
+                  <strong>Total Impuesto:</strong>
+                  $
+                  {{
+                    (totalImpuesto = (
+                      (total * impuesto) /
+                      (1 + impuesto)
+                    ).toFixed(2))
+                  }}
+                </v-flex>
+                <v-flex class="text-xs-right">
+                  <strong>Total Neto:</strong>
+                  $ {{ (total = calcularTotal) }}
+                </v-flex>
+              </template>
+            </v-flex>
+            <v-flex xs12 sm12 md12 v-show="valida">
+              <div
+                class="red--text"
+                v-for="v in validaMensaje"
+                :key="v"
+                v-text="v"
+              ></div>
+            </v-flex>
+            <v-flex xs12 sm12 md12 lg12 xl12>
+              <v-btn color="blue darken-1" flat @click.native="ocultarNuevo()"
+                >Cancelar</v-btn
+              >
+              <v-btn
+                color="success"
+                v-if="verDetalle == 0"
+                @click.native="guardar()"
+                >Guardar</v-btn
+              >
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-toolbar>
       <!-- Tabla principal -->
-      <v-data-table
+      <Table
+        :ventas="true"
+        :opciones="true"
+        :title="'Ventas'"
         :headers="headers"
-        :items="ventas"
-        :search="search"
-        class="elevation-1"
-        v-if="verNuevo == 0"
-      >
-        <template v-slot:item.opciones="{ item }">
-          <v-icon small class="mr-2" @click="verIngreso(item)">tab</v-icon>
-          <v-icon small class="mr-2" @click="mostrarComprobante(item)"
-            >print</v-icon
-          >
-          <template v-if="item.estado">
-            <v-icon small @click="activarDesactivarMostrar(2, item)"
-              >block</v-icon
-            >
-          </template>
-          <template v-else>
-            <v-icon small @click="activarDesactivarMostrar(1, item)"
-              >check</v-icon
-            >
-          </template>
-        </template>
-        <template v-slot:item.estado="{ item }">
-          <div v-if="item.estado">
-            <span class="blue--text">Aceptado</span>
-          </div>
-          <div v-else>
-            <span class="red--text">Anulado</span>
-          </div>
-        </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="listar()">Resetear</v-btn>
-        </template>
-      </v-data-table>
-      <!-- Template nueva venta -->
-      <v-container grid-list-sm class="pa-4 white" v-if="verNuevo">
-        <v-layout row wrap>
-          <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-select
-              v-model="tipo_comprobante"
-              :items="comprobantes"
-              label="Tipo Comprobante"
-            ></v-select>
-          </v-flex>
-          <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field
-              v-model="serie_comprobante"
-              label="Serie Comprobante"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field
-              v-model="num_comprobante"
-              label="Número Comprobante"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm8 md8 lg8 xl8>
-            <v-autocomplete
-              :items="personas"
-              v-model="persona"
-              label="Cliente"
-            ></v-autocomplete>
-          </v-flex>
-          <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field
-              type="number"
-              v-model="impuesto"
-              label="Impuesto"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm8 md8 lg8 x8>
-            <v-text-field
-              v-model="codigo"
-              label="Código"
-              @keyup.enter="buscarCodigo()"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 sm2 md2 lg2 xl2>
-            <v-btn small fab dark color="teal" @click="mostrarModalArticulos()">
-              <v-icon dark>list</v-icon>
-            </v-btn>
-          </v-flex>
-          <v-flex xs12 sm2 md2 lg2 xl2 v-show="errorArticulo">
-            <div class="red--text" v-text="errorArticulo"></div>
-          </v-flex>
-          <v-flex xs12 sm12 md12 lg12 xl12>
-            <template>
-              <v-data-table
-                :headers="cabeceraDetalles"
-                :items="detalles"
-                hide-default-footer
-                class="elevation-1"
-              >
-                <template v-slot:item.borrar="{ item }">
-                  <v-icon
-                    small
-                    class="mr-2"
-                    @click="eliminarDetalle(detalles, item)"
-                    >delete</v-icon
-                  >
-                </template>
-                <template v-slot:item.articulo="{ item }">
-                  <div class="text-xs-center">{{ item.articulo }}</div>
-                </template>
-                <template v-slot:item.cantidad="{ item }">
-                  <div class="text-xs-center">
-                    <v-text-field
-                      v-model="item.cantidad"
-                      type="number"
-                    ></v-text-field>
-                  </div>
-                </template>
-                <template v-slot:item.precio="{ item }">
-                  <div class="text-xs-center">
-                    <v-text-field
-                      v-model="item.precio"
-                      type="number"
-                    ></v-text-field>
-                  </div>
-                </template>
-                <template v-slot:item.descuento="{ item }">
-                  <div class="text-xs-center">
-                    <v-text-field
-                      v-model="item.descuento"
-                      type="number"
-                    ></v-text-field>
-                  </div>
-                </template>
-                <template v-slot:item.subtotal="{ item }">
-                  <div class="text-xs-right">
-                    $ {{ item.cantidad * item.precio - item.descuento }}
-                  </div>
-                </template>
-                <template slot="no-data">
-                  <h3>No hay artículos agregados al detalle.</h3>
-                </template>
-              </v-data-table>
-              <v-flex class="text-xs-right">
-                <strong>Total Parcial:</strong>
-                $
-                {{ (totalParcial = (total - totalImpuesto).toFixed(2)) }}
-              </v-flex>
-              <v-flex class="text-xs-right">
-                <strong>Total Impuesto:</strong>
-                $
-                {{
-                  (totalImpuesto = (
-                    (total * impuesto) /
-                    (1 + impuesto)
-                  ).toFixed(2))
-                }}
-              </v-flex>
-              <v-flex class="text-xs-right">
-                <strong>Total Neto:</strong>
-                $ {{ (total = calcularTotal) }}
-              </v-flex>
-            </template>
-          </v-flex>
-          <v-flex xs12 sm12 md12 v-show="valida">
-            <div
-              class="red--text"
-              v-for="v in validaMensaje"
-              :key="v"
-              v-text="v"
-            ></div>
-          </v-flex>
-          <v-flex xs12 sm12 md12 lg12 xl12>
-            <v-btn color="blue darken-1" flat @click.native="ocultarNuevo()"
-              >Cancelar</v-btn
-            >
-            <v-btn
-              color="success"
-              v-if="verDetalle == 0"
-              @click.native="guardar()"
-              >Guardar</v-btn
-            >
-          </v-flex>
-        </v-layout>
-      </v-container>
+        :arrayList="ventas"
+      />
     </v-flex>
   </v-layout>
 </template>
@@ -452,6 +429,7 @@
 import axios from "axios";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import Table from "./base/table/Table";
 export default {
   data() {
     return {
@@ -523,6 +501,9 @@ export default {
       comprobanteModal: 0,
       fecha: null,
     };
+  },
+  components: {
+    Table,
   },
   computed: {
     calcularTotal: function () {
