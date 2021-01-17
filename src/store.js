@@ -23,6 +23,7 @@ export default new Vuex.Store({
       commit("setToken", token)
       commit("setUsuario", decode(token))
       localStorage.setItem("token", token)
+      router.push({ name: "home" });
     },
     autoLogin({commit}){
       let token = localStorage.getItem("token");
