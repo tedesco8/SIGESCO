@@ -6,7 +6,7 @@
         <v-divider class="mx-2" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <v-text-field
-          v-if="verNuevo==0"
+          v-if="verNuevo == 0"
           class="text-xs-center"
           v-model="search"
           append-icon="search"
@@ -15,7 +15,14 @@
           hide-details
         ></v-text-field>
         <v-spacer></v-spacer>
-        <v-btn color="primary" v-if="verNuevo==0" @click="mostrarNuevo()" dark class="mb-2">Nuevo</v-btn>
+        <v-btn
+          color="primary"
+          v-if="verNuevo == 0"
+          @click="mostrarNuevo()"
+          dark
+          class="mb-2"
+          >Nuevo</v-btn
+        >
         <!-- Modal mostrar articulos -->
         <v-dialog v-model="dialog" max-width="1000px">
           <v-card>
@@ -40,7 +47,12 @@
                         class="elevation-1"
                       >
                         <template v-slot:item.seleccionar="{ item }">
-                          <v-icon small class="mr-2" @click="agregarDetalle(item)">add</v-icon>
+                          <v-icon
+                            small
+                            class="mr-2"
+                            @click="agregarDetalle(item)"
+                            >add</v-icon
+                          >
                         </template>
                         <template v-slot:item.estado="{ item }">
                           <div v-if="item.estado">
@@ -65,29 +77,40 @@
         <!-- Modal Activar desactivar -->
         <v-dialog v-model="adModal" max-width="290">
           <v-card>
-            <v-card-title class="headline" v-if="adAccion==1">Activar Item</v-card-title>
-            <v-card-title class="headline" v-if="adAccion==2">Desactivar Item</v-card-title>
+            <v-card-title class="headline" v-if="adAccion == 1"
+              >Activar Item</v-card-title
+            >
+            <v-card-title class="headline" v-if="adAccion == 2"
+              >Desactivar Item</v-card-title
+            >
             <v-card-text>
               Estás a punto de
-              <span v-if="adAccion==1">activar</span>
-              <span v-if="adAccion==2">desactivar</span>
-              el item {{adNombre}}
+              <span v-if="adAccion == 1">activar</span>
+              <span v-if="adAccion == 2">desactivar</span>
+              el item {{ adNombre }}
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="activarDesactivarCerrar()" color="green darken-1" flat="flat">Cancelar</v-btn>
               <v-btn
-                v-if="adAccion==1"
+                @click="activarDesactivarCerrar()"
+                color="green darken-1"
+                flat="flat"
+                >Cancelar</v-btn
+              >
+              <v-btn
+                v-if="adAccion == 1"
                 @click="activar()"
                 color="orange darken-4"
                 flat="flat"
-              >Activar</v-btn>
+                >Activar</v-btn
+              >
               <v-btn
-                v-if="adAccion==2"
+                v-if="adAccion == 2"
                 @click="desactivar()"
                 color="orange darken-4"
                 flat="flat"
-              >Desactivar</v-btn>
+                >Desactivar</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -96,8 +119,8 @@
           <v-card>
             <v-card-title class="headline">
               <v-btn @click="crearPDF()">
-                <v-icon>print</v-icon>
-              </v-btn>Reporte de venta
+                <v-icon>print</v-icon> </v-btn
+              >Reporte de venta
             </v-card-title>
 
             <v-card-text>
@@ -119,11 +142,11 @@
                   </div>
                   <div id="fact">
                     <p>
-                      {{tipo_comprobante}}
+                      {{ tipo_comprobante }}
                       <br />
-                      {{serie_comprobante}}-{{num_comprobante}}
+                      {{ serie_comprobante }}-{{ num_comprobante }}
                       <br />
-                      {{fecha}}
+                      {{ fecha }}
                     </p>
                   </div>
                 </header>
@@ -134,19 +157,19 @@
                       <tbody>
                         <tr>
                           <td id="cliente">
-                            <strong>Sr(a). {{persona.nombre}}</strong>
+                            <strong>Sr(a). {{ persona.nombre }}</strong>
                             <br />
                             <strong>Documento:</strong>
-                            {{persona.num_documento}}
+                            {{ persona.num_documento }}
                             <br />
                             <strong>Dirección:</strong>
-                            {{persona.direccion}}
+                            {{ persona.direccion }}
                             <br />
                             <strong>Teléfono:</strong>
-                            {{persona.telefono}}
+                            {{ persona.telefono }}
                             <br />
                             <strong>Email:</strong>
-                            {{persona.email}}
+                            {{ persona.email }}
                           </td>
                         </tr>
                       </tbody>
@@ -168,11 +191,13 @@
                       </thead>
                       <tbody>
                         <tr v-for="det in detalles" :key="det._id">
-                          <td style="text-align:center;">{{det.cantidad}}</td>
-                          <td>{{det.articulo}}</td>
-                          <td style="text-align:right;">{{det.precio}}</td>
-                          <td style="text-align:right;">{{det.descuento}}</td>
-                          <td style="text-align:right;">{{(det.cantidad*det.precio)-det.descuento}}</td>
+                          <td style="text-align: center">{{ det.cantidad }}</td>
+                          <td>{{ det.articulo }}</td>
+                          <td style="text-align: right">{{ det.precio }}</td>
+                          <td style="text-align: right">{{ det.descuento }}</td>
+                          <td style="text-align: right">
+                            {{ det.cantidad * det.precio - det.descuento }}
+                          </td>
                         </tr>
                       </tbody>
                       <tfoot>
@@ -180,26 +205,41 @@
                           <th></th>
                           <th></th>
                           <th></th>
-                          <th style="text-align:right;">SUBTOTAL</th>
-                          <th
-                            style="text-align:right;"
-                          >$ {{totalParcial=(total-totalImpuesto).toFixed(2)}}</th>
+                          <th style="text-align: right">SUBTOTAL</th>
+                          <th style="text-align: right">
+                            $
+                            {{
+                              (totalParcial = (total - totalImpuesto).toFixed(
+                                2
+                              ))
+                            }}
+                          </th>
                         </tr>
                         <tr>
                           <th></th>
                           <th></th>
                           <th></th>
-                          <th style="text-align:right;">IVA({{impuesto}}%)</th>
-                          <th
-                            style="text-align:right;"
-                          >$ {{totalImpuesto=((total*impuesto)/(1+impuesto)).toFixed(2)}}</th>
+                          <th style="text-align: right">
+                            IVA({{ impuesto }}%)
+                          </th>
+                          <th style="text-align: right">
+                            $
+                            {{
+                              (totalImpuesto = (
+                                (total * impuesto) /
+                                (1 + impuesto)
+                              ).toFixed(2))
+                            }}
+                          </th>
                         </tr>
                         <tr>
                           <th></th>
                           <th></th>
                           <th></th>
-                          <th style="text-align:right;">TOTAL</th>
-                          <th style="text-align:right;">$ {{total=calcularTotal}}</th>
+                          <th style="text-align: right">TOTAL</th>
+                          <th style="text-align: right">
+                            $ {{ (total = calcularTotal) }}
+                          </th>
                         </tr>
                       </tfoot>
                     </table>
@@ -217,7 +257,9 @@
               </div>
             </v-card-text>
             <v-card-actions>
-              <v-btn @click="ocultarComprobante()" color="blue darken-1" flat>Cancelar</v-btn>
+              <v-btn @click="ocultarComprobante()" color="blue darken-1" flat
+                >Cancelar</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -228,16 +270,22 @@
         :items="ventas"
         :search="search"
         class="elevation-1"
-        v-if="verNuevo==0"
+        v-if="verNuevo == 0"
       >
         <template v-slot:item.opciones="{ item }">
           <v-icon small class="mr-2" @click="verIngreso(item)">tab</v-icon>
-          <v-icon small class="mr-2" @click="mostrarComprobante(item)">print</v-icon>
+          <v-icon small class="mr-2" @click="mostrarComprobante(item)"
+            >print</v-icon
+          >
           <template v-if="item.estado">
-            <v-icon small @click="activarDesactivarMostrar(2,item)">block</v-icon>
+            <v-icon small @click="activarDesactivarMostrar(2, item)"
+              >block</v-icon
+            >
           </template>
           <template v-else>
-            <v-icon small @click="activarDesactivarMostrar(1,item)">check</v-icon>
+            <v-icon small @click="activarDesactivarMostrar(1, item)"
+              >check</v-icon
+            >
           </template>
         </template>
         <template v-slot:item.estado="{ item }">
@@ -256,22 +304,44 @@
       <v-container grid-list-sm class="pa-4 white" v-if="verNuevo">
         <v-layout row wrap>
           <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-select v-model="tipo_comprobante" :items="comprobantes" label="Tipo Comprobante"></v-select>
+            <v-select
+              v-model="tipo_comprobante"
+              :items="comprobantes"
+              label="Tipo Comprobante"
+            ></v-select>
           </v-flex>
           <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field v-model="serie_comprobante" label="Serie Comprobante"></v-text-field>
+            <v-text-field
+              v-model="serie_comprobante"
+              label="Serie Comprobante"
+            ></v-text-field>
           </v-flex>
           <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field v-model="num_comprobante" label="Número Comprobante"></v-text-field>
+            <v-text-field
+              v-model="num_comprobante"
+              label="Número Comprobante"
+            ></v-text-field>
           </v-flex>
           <v-flex xs12 sm8 md8 lg8 xl8>
-            <v-autocomplete :items="personas" v-model="persona" label="Cliente"></v-autocomplete>
+            <v-autocomplete
+              :items="personas"
+              v-model="persona"
+              label="Cliente"
+            ></v-autocomplete>
           </v-flex>
           <v-flex xs12 sm4 md4 lg4 xl4>
-            <v-text-field type="number" v-model="impuesto" label="Impuesto"></v-text-field>
+            <v-text-field
+              type="number"
+              v-model="impuesto"
+              label="Impuesto"
+            ></v-text-field>
           </v-flex>
           <v-flex xs12 sm8 md8 lg8 x8>
-            <v-text-field v-model="codigo" label="Código" @keyup.enter="buscarCodigo()"></v-text-field>
+            <v-text-field
+              v-model="codigo"
+              label="Código"
+              @keyup.enter="buscarCodigo()"
+            ></v-text-field>
           </v-flex>
           <v-flex xs12 sm2 md2 lg2 xl2>
             <v-btn small fab dark color="teal" @click="mostrarModalArticulos()">
@@ -286,34 +356,48 @@
               <v-data-table
                 :headers="cabeceraDetalles"
                 :items="detalles"
-                hide-actions
+                hide-default-footer
                 class="elevation-1"
               >
                 <template v-slot:item.borrar="{ item }">
-                  <v-icon small class="mr-2" @click="eliminarDetalle(detalles,item)">delete</v-icon>
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="eliminarDetalle(detalles, item)"
+                    >delete</v-icon
+                  >
                 </template>
                 <template v-slot:item.articulo="{ item }">
                   <div class="text-xs-center">{{ item.articulo }}</div>
                 </template>
                 <template v-slot:item.cantidad="{ item }">
                   <div class="text-xs-center">
-                    <v-text-field v-model="item.cantidad" type="number"></v-text-field>
+                    <v-text-field
+                      v-model="item.cantidad"
+                      type="number"
+                    ></v-text-field>
                   </div>
                 </template>
                 <template v-slot:item.precio="{ item }">
                   <div class="text-xs-center">
-                    <v-text-field v-model="item.precio" type="number"></v-text-field>
+                    <v-text-field
+                      v-model="item.precio"
+                      type="number"
+                    ></v-text-field>
                   </div>
                 </template>
                 <template v-slot:item.descuento="{ item }">
                   <div class="text-xs-center">
-                    <v-text-field v-model="item.descuento" type="number"></v-text-field>
+                    <v-text-field
+                      v-model="item.descuento"
+                      type="number"
+                    ></v-text-field>
                   </div>
                 </template>
                 <template v-slot:item.subtotal="{ item }">
-                  <div
-                    class="text-xs-right"
-                  >$ {{ (item.cantidad * item.precio)-item.descuento}}</div>
+                  <div class="text-xs-right">
+                    $ {{ item.cantidad * item.precio - item.descuento }}
+                  </div>
                 </template>
                 <template slot="no-data">
                   <h3>No hay artículos agregados al detalle.</h3>
@@ -322,25 +406,42 @@
               <v-flex class="text-xs-right">
                 <strong>Total Parcial:</strong>
                 $
-                {{totalParcial=(total-totalImpuesto).toFixed(2)}}
+                {{ (totalParcial = (total - totalImpuesto).toFixed(2)) }}
               </v-flex>
               <v-flex class="text-xs-right">
                 <strong>Total Impuesto:</strong>
                 $
-                {{totalImpuesto=((total*impuesto)/(1+impuesto)).toFixed(2)}}
+                {{
+                  (totalImpuesto = (
+                    (total * impuesto) /
+                    (1 + impuesto)
+                  ).toFixed(2))
+                }}
               </v-flex>
               <v-flex class="text-xs-right">
                 <strong>Total Neto:</strong>
-                $ {{total=calcularTotal}}
+                $ {{ (total = calcularTotal) }}
               </v-flex>
             </template>
           </v-flex>
           <v-flex xs12 sm12 md12 v-show="valida">
-            <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v"></div>
+            <div
+              class="red--text"
+              v-for="v in validaMensaje"
+              :key="v"
+              v-text="v"
+            ></div>
           </v-flex>
           <v-flex xs12 sm12 md12 lg12 xl12>
-            <v-btn color="blue darken-1" flat @click.native="ocultarNuevo()">Cancelar</v-btn>
-            <v-btn color="success" v-if="verDetalle==0" @click.native="guardar()">Guardar</v-btn>
+            <v-btn color="blue darken-1" flat @click.native="ocultarNuevo()"
+              >Cancelar</v-btn
+            >
+            <v-btn
+              color="success"
+              v-if="verDetalle == 0"
+              @click.native="guardar()"
+              >Guardar</v-btn
+            >
           </v-flex>
         </v-layout>
       </v-container>
@@ -365,17 +466,17 @@ export default {
         {
           text: "Serie comprobante",
           value: "serie_comprobante",
-          sortable: false
+          sortable: false,
         },
         {
           text: "Número comprobante",
           value: "num_comprobante",
-          sortable: false
+          sortable: false,
         },
         { text: "Fecha", value: "createdAt", sortable: false },
         { text: "Impuesto", value: "impuesto", sortable: false },
         { text: "Total", value: "total", sortable: false },
-        { text: "Estado", value: "estado", sortable: false }
+        { text: "Estado", value: "estado", sortable: false },
       ],
       _id: "",
       persona: "",
@@ -392,7 +493,7 @@ export default {
         { text: "Cantidad", value: "cantidad", sortable: false },
         { text: "Precio", value: "precio", sortable: false },
         { text: "Descuento", value: "descuento", sortable: false },
-        { text: "Sub Total", value: "subtotal", sortable: false }
+        { text: "Sub Total", value: "subtotal", sortable: false },
       ],
       detalles: [],
       verNuevo: 0,
@@ -410,7 +511,7 @@ export default {
         { text: "Stock", value: "stock", sortable: false },
         { text: "Precio Venta", value: "precio_venta", sortable: false },
         { text: "Descripción", value: "descripcion", sortable: false },
-        { text: "Estado", value: "estado", sortable: false }
+        { text: "Estado", value: "estado", sortable: false },
       ],
       verDetalle: 0,
       valida: 0,
@@ -420,11 +521,11 @@ export default {
       adNombre: "",
       adId: "",
       comprobanteModal: 0,
-      fecha: null
+      fecha: null,
     };
   },
   computed: {
-    calcularTotal: function() {
+    calcularTotal: function () {
       let resultado = 0.0;
       for (var i = 0; i < this.detalles.length; i++) {
         resultado =
@@ -433,12 +534,12 @@ export default {
             this.detalles[i].descuento);
       }
       return resultado;
-    }
+    },
   },
   watch: {
     dialog(val) {
       val || this.close();
-    }
+    },
   },
   created() {
     this.listar();
@@ -447,7 +548,7 @@ export default {
   methods: {
     crearPDF() {
       var quotes = document.getElementById("factura");
-      html2canvas(quotes).then(function(canvas) {
+      html2canvas(quotes).then(function (canvas) {
         var imgData = canvas.toDataURL("image/png");
         var imgWidth = 210;
         var pageHeight = 295;
@@ -491,13 +592,13 @@ export default {
       let configuracion = { headers: header };
       axios
         .get("persona/listClientes", configuracion)
-        .then(function(response) {
+        .then(function (response) {
           personaArray = response.data;
-          personaArray.map(function(x) {
+          personaArray.map(function (x) {
             me.personas.push({ text: x.nombre, value: x._id });
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -508,10 +609,10 @@ export default {
       let configuracion = { headers: header };
       axios
         .get("articulo/queryCodigo?codigo=" + this.codigo, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           me.agregarDetalle(response.data);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           me.errorArticulo = "No existe el artículo.";
         });
     },
@@ -525,7 +626,7 @@ export default {
           articulo: data.nombre,
           cantidad: 1,
           precio: data.precio_venta,
-          descuento: 0
+          descuento: 0,
         });
         this.codigo = "";
       }
@@ -551,10 +652,10 @@ export default {
       let configuracion = { headers: header };
       axios
         .get("articulo/list?valor=" + this.texto, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           me.articulos = response.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -567,10 +668,10 @@ export default {
       let configuracion = { headers: header };
       axios
         .get("venta/query?_id=" + id, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           me.detalles = response.data.detalles;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -591,10 +692,10 @@ export default {
       let configuracion = { headers: header };
       axios
         .get("venta/list", configuracion)
-        .then(function(response) {
+        .then(function (response) {
           me.ventas = response.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -651,7 +752,7 @@ export default {
       if (this.validar()) {
         return;
       }
-      debugger
+      debugger;
       //Código para guardar
       axios
         .post(
@@ -664,21 +765,21 @@ export default {
             num_comprobante: this.num_comprobante,
             impuesto: this.impuesto,
             total: this.total,
-            detalles: this.detalles
+            detalles: this.detalles,
           },
           configuracion
         )
-        .then(function(response) {
+        .then(function (response) {
           swal({
-              title: "Buen trabajo!",
-              text: "Venta agregada exitosamente",
-              icon: "success"
-            });
+            title: "Buen trabajo!",
+            text: "Venta agregada exitosamente",
+            icon: "success",
+          });
           me.limpiar();
           me.close();
           me.listar();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -703,19 +804,19 @@ export default {
       let configuracion = { headers: header };
       axios
         .put("venta/activate", { _id: this.adId }, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           swal({
-              title: "Buen trabajo!",
-              text: "Venta activada exitosamente",
-              icon: "success"
-            });
+            title: "Buen trabajo!",
+            text: "Venta activada exitosamente",
+            icon: "success",
+          });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
           me.adId = "";
           me.listar();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -725,26 +826,26 @@ export default {
       let configuracion = { headers: header };
       axios
         .put("venta/deactivate", { _id: this.adId }, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           swal({
-              title: "Buen trabajo!",
-              text: "Venta desactivada exitosamente",
-              icon: "success"
-            });
+            title: "Buen trabajo!",
+            text: "Venta desactivada exitosamente",
+            icon: "success",
+          });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
           me.adId = "";
           me.listar();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
     close() {
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

@@ -151,7 +151,7 @@
               <v-data-table
                 :headers="cabeceraDetalles"
                 :items="detalles"
-                hide-actions
+                hide-default-footer
                 class="elevation-1"
               >
                 <template v-slot:item.borrar="{item}">
