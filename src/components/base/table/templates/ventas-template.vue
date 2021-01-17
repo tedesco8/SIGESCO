@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: "ventas-template",
   props: {
     item: Object,
   },

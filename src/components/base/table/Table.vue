@@ -29,25 +29,25 @@
             <Opciones :item="item" />
           </template>
           <template v-if="ventas" v-slot:item="{ item }">
-            <VentasC :item="item" />
+            <VentasTemplate :item="item" />
           </template>
           <template v-if="ingresos" v-slot:item="{ item }">
-            <IngresosC :item="item" />
+            <IngresosTemplate :item="item" />
           </template>
           <template v-if="categoria" v-slot:item="{ item }">
-            <CategoriasC :item="item" />
+            <CategoriasTemplate :item="item" />
           </template>
           <template v-if="articulos" v-slot:item="{ item }">
-            <ArticulosC :item="item" />
+            <ArticulosTemplate :item="item" />
           </template>
           <template v-if="provedores" v-slot:item="{ item }">
-            <ProvedoresC :item="item" />
+            <ProvedoresTemplate :item="item" />
           </template>
           <template v-if="clientes" v-slot:item="{ item }">
-            <ClientesC v-if="ventas" :item="item" />
+            <ClientesTemplate v-if="ventas" :item="item" />
           </template>
           <template v-if="usuarios" v-slot:item="{ item }">
-            <UsuariosC :item="item" />
+            <UsuariosTemplate :item="item" />
           </template>
         </v-data-table>
       </v-col>
@@ -57,17 +57,17 @@
 
 <script>
 import Opciones from "./Opciones.vue";
-import VentasC from "./templates/VentasC";
-import IngresosC from "./templates/IngresosC";
-import CategoriasC from "./templates/CategoriasC";
-import ArticulosC from "./templates/ArticulosC";
-import ProvedoresC from "./templates/ProvedoresC";
-import ClientesC from "./templates/ClientesC";
-import UsuariosC from "./templates/UsuariosC";
+import VentasTemplate from "./templates/ventas-template";
+import IngresosTemplate from "./templates/ingresos-template";
+import CategoriasTemplate from "./templates/categorias-template";
+import ArticulosTemplate from "./templates/articulos-template";
+import ProvedoresTemplate from "./templates/provedores-template";
+import ClientesTemplate from "./templates/clientes-template";
+import UsuariosTemplate from "./templates/usuarios-template";
 export default {
   components: {
     Opciones,
-    VentasC,
+    VentasTemplate,
   },
   props: {
     title: String,
