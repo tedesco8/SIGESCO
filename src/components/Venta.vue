@@ -62,6 +62,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <!-- Modal Activar desactivar -->
         <v-dialog v-model="adModal" max-width="290">
           <v-card>
             <v-card-title class="headline" v-if="adAccion==1">Activar Item</v-card-title>
@@ -90,6 +91,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <!-- Imprimir comprobante -->
         <v-dialog v-model="comprobanteModal" max-width="1000px">
           <v-card>
             <v-card-title class="headline">
@@ -220,6 +222,7 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
+      <!-- Tabla principal -->
       <v-data-table
         :headers="headers"
         :items="ventas"
@@ -648,6 +651,7 @@ export default {
       if (this.validar()) {
         return;
       }
+      debugger
       //Código para guardar
       axios
         .post(

@@ -7,8 +7,8 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-//'https://sigesco-a.herokuapp.com/api/'
-axios.defaults.baseURL='http://localhost:4000/api/'
+let back = window.location.host == 'localhost:8080' ? 'http://localhost:4000/api/' : 'https://sigesco-a.herokuapp.com/api/';
+axios.defaults.baseURL=back
 
 
 new Vue({
