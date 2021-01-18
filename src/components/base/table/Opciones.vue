@@ -2,9 +2,7 @@
   <div>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
-        <v-icon small class="mr-2" v-on="on" @click="verIngreso(item)"
-          >tab</v-icon
-        >
+        <v-icon small class="mr-2" v-on="on" @click="verItem()">tab</v-icon>
       </template>
       <span>Ver detalle</span>
     </v-tooltip>
@@ -14,9 +12,9 @@
           >edit</v-icon
         >
       </template>
-      <span>Editar artículo</span>
+      <span>Editar</span>
     </v-tooltip>
-    <v-tooltip v-if="!extra && !precio_extra" bottom>
+    <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-icon
           v-if="item.estado"
@@ -40,7 +38,7 @@
       </template>
       <span>Eliminar</span>
     </v-tooltip>
-    <v-tooltip v-if="reserva" bottom>
+    <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-icon small class="mr-2" v-on="on" @click="imprimir(item)"
           >print</v-icon
@@ -48,7 +46,7 @@
       </template>
       <span>Imprimir</span>
     </v-tooltip>
-    <v-tooltip v-if="reserva" bottom>
+    <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-icon small class="mr-2" v-on="on" @click="email(item)">email</v-icon>
       </template>
@@ -61,6 +59,38 @@
 export default {
   props: {
     item: Object,
+  },
+  computed: {
+    logueado() {
+      return this.$store.state.usuario;
+    },
+    esAdministrador() {
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.rol == "Administrador"
+      );
+    },
+    esAlmacenero() {
+      return (
+        this.$store.state.usuario &&
+        this.$store.state.usuario.rol == "Almacenero"
+      );
+    },
+    esVendedor() {
+      return (
+        this.$store.state.usuario && this.$store.state.usuario.rol == "Vendedor"
+      );
+    },
+    esInvitado() {
+      return (
+        this.$store.state.usuario && this.$store.state.usuario.rol == "Invitado"
+      );
+    },
+  },
+  methods: {
+    verItem() {
+      this.$emit("verItemClick", this.item);
+    },
   },
 };
 </script>

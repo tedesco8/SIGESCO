@@ -26,7 +26,7 @@
           class="elevation-1"
         >
           <template v-if="opciones" v-slot:item.opciones="{ item }">
-            <Opciones :item="item" />
+            <Opciones :item="item" @verItemClick="verItemClick" />
           </template>
           <template v-if="ventas" v-slot:item="{ item }">
             <VentasTemplate :item="item" />
@@ -106,6 +106,11 @@ export default {
     opciones: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    verItemClick(item) {
+      this.$emit("verItem", item);
     },
   },
 };
