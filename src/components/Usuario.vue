@@ -248,45 +248,59 @@ export default {
     validar() {
       this.valida = 0;
       this.validaMensaje = [];
-      if (!this.rol) {
-        this.validaMensaje.push("Seleccione un rol.");
+      try {
+        if (!this.rol) {
+          this.validaMensaje.push("Seleccione un rol.");
+        }
+        if (this.nombre.length < 1 || this.nombre.length > 50) {
+          this.validaMensaje.push(
+            "El nombre del usuario debe tener entre 1-50 caracteres."
+          );
+        }
+        if (!this.direccion) {
+          this.direccion = "";
+        } else {
+          if (this.direccion.length > 70) {
+            this.validaMensaje.push(
+              "La dirección no debe tener más de 70 caracteres."
+            );
+          }
+        }
+        if (!this.telefono) {
+          this.telefono = "";
+        } else {
+          if (this.telefono.length > 20) {
+            this.validaMensaje.push(
+              "El teléfono no debe tener más de 20 caracteres."
+            );
+          }
+        }
+
+        if (this.email.length < 1 || this.nombre.length > 50) {
+          this.validaMensaje.push(
+            "El email del usuario debe tener entre 1-50 caracteres."
+          );
+        }
+        if (this.password.length < 1 || this.nombre.length > 64) {
+          this.validaMensaje.push(
+            "El password del usuario debe tener entre 1-64 caracteres."
+          );
+        }
+        if (this.validaMensaje.length) {
+          this.valida = 1;
+        }
+      } catch (error) {
+        swal({
+          title: "Ups!",
+          text: `Ha ocurrido un error ${error}`,
+          icon: "success",
+        });
       }
-      if (this.nombre.length < 1 || this.nombre.length > 50) {
-        this.validaMensaje.push(
-          "El nombre del usuario debe tener entre 1-50 caracteres."
-        );
-      }
-      if (this.num_documento.length > 20) {
-        this.validaMensaje.push(
-          "El documento no debe tener más de 20 caracteres."
-        );
-      }
-      if (this.direccion.length > 70) {
-        this.validaMensaje.push(
-          "La dirección no debe tener más de 70 caracteres."
-        );
-      }
-      if (this.telefono.length > 20) {
-        this.validaMensaje.push(
-          "El teléfono no debe tener más de 20 caracteres."
-        );
-      }
-      if (this.email.length < 1 || this.nombre.length > 50) {
-        this.validaMensaje.push(
-          "El email del usuario debe tener entre 1-50 caracteres."
-        );
-      }
-      if (this.password.length < 1 || this.nombre.length > 64) {
-        this.validaMensaje.push(
-          "El password del usuario debe tener entre 1-64 caracteres."
-        );
-      }
-      if (this.validaMensaje.length) {
-        this.valida = 1;
-      }
+
       return this.valida;
     },
     guardar() {
+      debugger;
       let me = this;
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
