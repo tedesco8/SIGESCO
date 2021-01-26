@@ -26,10 +26,10 @@
           class="elevation-1"
         >
           <template v-if="opciones" v-slot:item.opciones="{ item }">
-            <Opciones :item="item" @verItemClick="verItemClick" />
+            <Opciones :item="item" @verItemClick="verItem" />
           </template>
           <template v-if="ventas" v-slot:item="{ item }">
-            <VentasTemplate :item="item" />
+            <VentasTemplate :item="item" @listarClick="listar"/>
           </template>
           <template v-if="ingresos" v-slot:item="{ item }">
             <IngresosTemplate :item="item" />
@@ -75,6 +75,14 @@ export default {
     arrayList: Array,
     search: "",
     select: "",
+    opciones: {
+      type: Boolean,
+      default: false,
+    },
+    ventas: {
+      type: Boolean,
+      default: false,
+    },
     articulos: {
       type: Boolean,
       default: false,
@@ -84,10 +92,6 @@ export default {
       default: false,
     },
     ingresos: {
-      type: Boolean,
-      default: false,
-    },
-    ventas: {
       type: Boolean,
       default: false,
     },
@@ -103,15 +107,14 @@ export default {
       type: Boolean,
       default: false,
     },
-    opciones: {
-      type: Boolean,
-      default: false,
-    },
   },
   methods: {
-    verItemClick(item) {
+    verItem(item) {
       this.$emit("verItem", item);
     },
+    listar() {
+      this.$emit("listar");
+    }
   },
 };
 </script>

@@ -73,6 +73,7 @@
       <!-- Tabla principal -->
       <Table
         @verItem="verItem"
+        @listar="listar"
         :ventas="true"
         :opciones="true"
         :title="'Ventas'"
@@ -155,7 +156,7 @@ export default {
     },
     close() {
       this.verDetalle = false;
-      this.venta = false;
+      this.venta = null;
       this.ventaBoo = false;
       this.dialog = false;
     },

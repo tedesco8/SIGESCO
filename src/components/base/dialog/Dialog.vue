@@ -8,7 +8,7 @@
     >
       <v-card>
         <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialog = false">
+          <v-btn icon dark @click="close">
             <v-icon>chevron_left</v-icon>
           </v-btn>
           <v-toolbar-title>{{
@@ -53,6 +53,9 @@ export default {
   methods: {
     guardar() {
       this.$emit("guardar", this.item);
+    },
+    close() {
+      this.$emit("close");
     },
   },
   watch: {

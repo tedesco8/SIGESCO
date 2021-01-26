@@ -16,5 +16,10 @@ export default {
   props: {
     item: Object,
   },
+  methods: {
+    listar() {
+      this.$emit("listarClick");
+    },
+  },
 };
 </script>
