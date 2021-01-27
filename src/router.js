@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "./store";
+import store from './modules/usuarios'
 import Home from "./views/Home.vue";
 import Categoria from "./components/Categoria.vue";
 import Login from "./components/Login.vue";
@@ -27,7 +27,7 @@ var router = new Router({
         administrador: true,
         almacenero: true,
         vendedor: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -45,7 +45,7 @@ var router = new Router({
       meta: {
         administrador: true,
         almacenero: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -55,7 +55,7 @@ var router = new Router({
       meta: {
         administrador: true,
         almacenero: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -65,7 +65,7 @@ var router = new Router({
       meta: {
         administrador: true,
         almacenero: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -75,7 +75,7 @@ var router = new Router({
       meta: {
         administrador: true,
         vendedor: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -85,7 +85,7 @@ var router = new Router({
       meta: {
         administrador: true,
         vendedor: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -95,7 +95,7 @@ var router = new Router({
       meta: {
         administrador: true,
         almacenero: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -112,7 +112,7 @@ var router = new Router({
       component: ReporteVenta,
       meta: {
         administrador: true,
-        invitado: true
+        invitado: true,
       },
     },
     {
@@ -121,7 +121,7 @@ var router = new Router({
       component: ReporteIngreso,
       meta: {
         administrador: true,
-        invitado: true
+        invitado: true,
       },
     },
   ],

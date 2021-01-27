@@ -13,6 +13,7 @@
 <script>
 import axios from "axios";
 import Chart from "chart.js";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -21,10 +22,13 @@ export default {
       totales: [],
     };
   },
+  computed: {
+    ...mapState("usuariosNamespace", ["token"]),
+  },
   methods: {
     listar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("venta/grafico12meses", configuracion)

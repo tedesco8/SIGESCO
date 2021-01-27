@@ -81,13 +81,15 @@ export default {
   },
   computed: {
     calcularTotal: function () {
-      debugger;
       let resultado = 0.0;
-      for (var i = 0; i < this.detalles.length; i++) {
-        resultado =
-          resultado +
-          (this.detalles[i].cantidad * this.detalles[i].precio -
-            this.detalles[i].descuento);
+      let me = this;
+      if (this.detalles) {
+        for (var i = 0; i < me.detalles.length; i++) {
+          resultado =
+            resultado +
+            (me.detalles[i].cantidad * me.detalles[i].precio -
+              me.detalles[i].descuento);
+        }
       }
       return resultado;
     },

@@ -180,7 +180,7 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-btn @click="salir()" icon v-if="esInvitado || logueado">
+      <v-btn @click="salirClick()" icon v-if="esInvitado || logueado">
         <v-icon>logout</v-icon>
       </v-btn>
       <v-btn :to="{ name: 'login' }" icon v-else>
@@ -191,6 +191,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -198,35 +199,37 @@ export default {
     };
   },
   computed: {
+    ...mapState("usuariosNamespace", ["usuario"]),
     logueado() {
-      return this.$store.state.usuario;
+      return this.usuario;
     },
     esAdministrador() {
       return (
-        this.$store.state.usuario &&
-        this.$store.state.usuario.rol == "Administrador"
+        this.usuario &&
+        this.usuario.rol == "Administrador"
       );
     },
     esAlmacenero() {
       return (
-        this.$store.state.usuario &&
-        this.$store.state.usuario.rol == "Almacenero"
+        this.usuario &&
+        this.usuario.rol == "Almacenero"
       );
     },
     esVendedor() {
       return (
-        this.$store.state.usuario && this.$store.state.usuario.rol == "Vendedor"
+        this.usuario && this.usuario.rol == "Vendedor"
       );
     },
     esInvitado() {
       return (
-        this.$store.state.usuario && this.$store.state.usuario.rol == "Invitado"
+        this.usuario && this.usuario.rol == "Invitado"
       );
     },
   },
   methods: {
-    salir() {
-      this.$store.dispatch("salir");
+     ...mapActions("usuariosNamespace", ["salir"]),
+    salirClick() {
+      this.salir();
     },
   },
 };

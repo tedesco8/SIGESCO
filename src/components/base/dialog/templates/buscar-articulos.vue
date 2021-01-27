@@ -47,6 +47,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 export default {
   name: "buscar-articulos",
   data() {
@@ -68,10 +69,13 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapState("usuariosNamespace", ["token"]),
+  },
   methods: {
     listarArticulos() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("articulo/list?valor=" + this.texto, configuracion)

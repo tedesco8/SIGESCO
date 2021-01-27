@@ -114,6 +114,7 @@
 </template>
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -150,6 +151,7 @@ export default {
     };
   },
   computed: {
+    ...mapState("usuariosNamespace", ["token", "usuario"]),
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo registro" : "Editar registro";
     }
@@ -165,7 +167,7 @@ export default {
   methods: {
     listar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("persona/listProveedores", configuracion)
@@ -222,7 +224,7 @@ export default {
     },
     guardar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       if (this.validar()) {
         return;
@@ -318,7 +320,7 @@ export default {
     },
     activar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .put("persona/activate", { _id: this.adId }, configuracion)
@@ -340,7 +342,7 @@ export default {
     },
     desactivar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .put("persona/deactivate", { _id: this.adId }, configuracion)

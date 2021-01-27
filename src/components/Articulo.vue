@@ -33,25 +33,50 @@
               <v-container grid-list-md>
                 <v-layout wrap>
                   <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="codigo" label="Código"></v-text-field>
+                    <v-text-field
+                      v-model="codigo"
+                      label="Código"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
-                    <v-select v-model="categoria" :items="categorias" label="Categoría"></v-select>
+                    <v-select
+                      v-model="categoria"
+                      :items="categorias"
+                      label="Categoría"
+                    ></v-select>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="nombre" label="Nombre"></v-text-field>
+                    <v-text-field
+                      v-model="nombre"
+                      label="Nombre"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
-                    <v-text-field type="number" v-model="stock" label="Stock"></v-text-field>
+                    <v-text-field
+                      type="number"
+                      v-model="stock"
+                      label="Stock"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm6 md6>
-                    <v-text-field v-model="precio_venta" label="precio_venta"></v-text-field>
+                    <v-text-field
+                      v-model="precio_venta"
+                      label="precio_venta"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12>
-                    <v-text-field v-model="descripcion" label="Descripción"></v-text-field>
+                    <v-text-field
+                      v-model="descripcion"
+                      label="Descripción"
+                    ></v-text-field>
                   </v-flex>
                   <v-flex xs12 sm12 md12 v-show="valida">
-                    <div class="red--text" v-for="v in validaMensaje" :key="v" v-text="v"></div>
+                    <div
+                      class="red--text"
+                      v-for="v in validaMensaje"
+                      :key="v"
+                      v-text="v"
+                    ></div>
                   </v-flex>
                 </v-layout>
               </v-container>
@@ -66,44 +91,64 @@
         <!--Modal activar o desactivar-->
         <v-dialog v-model="adModal" max-width="290">
           <v-card>
-            <v-card-title class="headline" v-if="adAccion==1">Activar Item</v-card-title>
-            <v-card-title class="headline" v-if="adAccion==2">Desactivar Item</v-card-title>
+            <v-card-title class="headline" v-if="adAccion == 1"
+              >Activar Item</v-card-title
+            >
+            <v-card-title class="headline" v-if="adAccion == 2"
+              >Desactivar Item</v-card-title
+            >
             <v-card-text>
               Estás a punto de
-              <span v-if="adAccion==1">activar</span>
-              <span v-if="adAccion==2">desactivar</span>
-              el item {{adNombre}}
+              <span v-if="adAccion == 1">activar</span>
+              <span v-if="adAccion == 2">desactivar</span>
+              el item {{ adNombre }}
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn @click="activarDesactivarCerrar()" color="green darken-1" text="text">Cancelar</v-btn>
               <v-btn
-                v-if="adAccion==1"
+                @click="activarDesactivarCerrar()"
+                color="green darken-1"
+                text="text"
+                >Cancelar</v-btn
+              >
+              <v-btn
+                v-if="adAccion == 1"
                 @click="activar()"
                 color="orange darken-4"
                 text="text"
-              >Activar</v-btn>
+                >Activar</v-btn
+              >
               <v-btn
-                v-if="adAccion==2"
+                v-if="adAccion == 2"
                 @click="desactivar()"
                 color="orange darken-4"
                 text="text"
-              >Desactivar</v-btn>
+                >Desactivar</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-toolbar>
-      <v-data-table :headers="headers" :items="articulos" :search="search" class="elevation-1">
-        <template v-slot:item.opciones="{item}">
+      <v-data-table
+        :headers="headers"
+        :items="articulos"
+        :search="search"
+        class="elevation-1"
+      >
+        <template v-slot:item.opciones="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
           <div v-if="item.estado">
-            <v-icon small @click="activarDesactivarMostrar(2,item)">block</v-icon>
+            <v-icon small @click="activarDesactivarMostrar(2, item)"
+              >block</v-icon
+            >
           </div>
           <div v-else>
-            <v-icon small @click="activarDesactivarMostrar(1,item)">check</v-icon>
+            <v-icon small @click="activarDesactivarMostrar(1, item)"
+              >check</v-icon
+            >
           </div>
         </template>
-        <template v-slot:item.estado="{item}">
+        <template v-slot:item.estado="{ item }">
           <div v-if="item.estado">
             <span class="blue--text">Activo</span>
           </div>
@@ -122,7 +167,8 @@
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import swal from 'sweetalert';
+import swal from "sweetalert";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -138,7 +184,7 @@ export default {
         { text: "Stock", value: "stock", sortable: false },
         { text: "Precio Venta", value: "precio_venta", sortable: false },
         { text: "Descripción", value: "descripcion", sortable: false },
-        { text: "Estado", value: "estado", sortable: false }
+        { text: "Estado", value: "estado", sortable: false },
       ],
       editedIndex: -1,
       _id: "",
@@ -154,18 +200,19 @@ export default {
       adModal: 0,
       adAccion: 0,
       adNombre: "",
-      adId: ""
+      adId: "",
     };
   },
   computed: {
+    ...mapState("usuariosNamespace", ["token", "usuario"]),
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo registro" : "Editar registro";
-    }
+    },
   },
   watch: {
     dialog(val) {
       val || this.close();
-    }
+    },
   },
   created() {
     this.listar(), this.selectCategoria();
@@ -177,25 +224,25 @@ export default {
         { title: "Código", dataKey: "codigo" },
         { title: "Categoría", dataKey: "categoria" },
         { title: "Stock", dataKey: "stock" },
-        { title: "Precio Venta", dataKey: "precio_venta" }
+        { title: "Precio Venta", dataKey: "precio_venta" },
       ];
       var rows = [];
 
-      this.articulos.map(function(x) {
+      this.articulos.map(function (x) {
         rows.push({
           nombre: x.nombre,
           codigo: x.codigo,
           categoria: x.categoria.nombre,
           stock: x.stock,
-          precio_venta: x.precio_venta
+          precio_venta: x.precio_venta,
         });
       });
       var doc = new jsPDF("p", "pt");
       doc.autoTable(columns, rows, {
         margin: { top: 60 },
-        addPageContent: function(data) {
+        addPageContent: function (data) {
           doc.text("Lista de Artículos", 40, 30);
-        }
+        },
       });
 
       doc.save("Articulos.pdf");
@@ -203,30 +250,30 @@ export default {
     selectCategoria() {
       let me = this;
       let categoriaArray = [];
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("categoria/list", configuracion)
-        .then(function(response) {
+        .then(function (response) {
           categoriaArray = response.data;
-          categoriaArray.map(function(x) {
+          categoriaArray.map(function (x) {
             me.categorias.push({ text: x.nombre, value: x._id });
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
     listar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("articulo/list", configuracion)
-        .then(function(response) {
+        .then(function (response) {
           me.articulos = response.data;
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
@@ -273,7 +320,7 @@ export default {
     },
     guardar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       if (this.validar()) {
         return;
@@ -290,22 +337,22 @@ export default {
               nombre: this.nombre,
               stock: this.stock,
               precio_venta: this.precio_venta,
-              descripcion: this.descripcion
+              descripcion: this.descripcion,
             },
             configuracion
           )
-          .then(function(response) {
+          .then(function (response) {
             // swal("", "Artículo editado exitosamente", "success");
             swal({
               title: "Buen trabajo!",
               text: "Artículo editado exitosamente",
-              icon: "success"
+              icon: "success",
             });
             me.limpiar();
             me.close();
             me.listar();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       } else {
@@ -319,21 +366,21 @@ export default {
               nombre: this.nombre,
               stock: this.stock,
               precio_venta: this.precio_venta,
-              descripcion: this.descripcion
+              descripcion: this.descripcion,
             },
             configuracion
           )
-          .then(function(response) {
-           swal({
+          .then(function (response) {
+            swal({
               title: "Buen trabajo!",
               text: "Artículo editado exitosamente",
-              icon: "success"
+              icon: "success",
             });
             me.limpiar();
             me.close();
             me.listar();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
       }
@@ -366,51 +413,51 @@ export default {
     },
     activar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .put("articulo/activate", { _id: this.adId }, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           swal({
-              title: "Buen trabajo!",
-              text: "Artículo activado exitosamente",
-              icon: "success"
-            });
+            title: "Buen trabajo!",
+            text: "Artículo activado exitosamente",
+            icon: "success",
+          });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
           me.adId = "";
           me.listar();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
     desactivar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .put("articulo/deactivate", { _id: this.adId }, configuracion)
-        .then(function(response) {
+        .then(function (response) {
           swal({
-              title: "Buen trabajo!",
-              text: "Artículo desactivado exitosamente",
-              icon: "success"
-            });
+            title: "Buen trabajo!",
+            text: "Artículo desactivado exitosamente",
+            icon: "success",
+          });
           me.adModal = 0;
           me.adAccion = 0;
           me.adNombre = "";
           me.adId = "";
           me.listar();
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     },
     close() {
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 </script>

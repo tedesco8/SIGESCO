@@ -23,7 +23,7 @@
       <v-flex xs12 sm8 md8 lg8 xl8>
         <v-autocomplete
           :items="personas"
-          v-model="item.persona.nombre"
+          v-model="item.persona"
           label="Cliente"
         ></v-autocomplete>
       </v-flex>
@@ -37,10 +37,12 @@
       <!--Buscar articulos -->
       <BuscarArticulos v-if="action != 1" @agregarDetalle="agregarDetalle" />
       <!-- Detalle -->
-      <DetalleArticulos
-        :detalles="item.detalles"
-        @eliminarDetalle="eliminarDetalle"
-      />
+      <v-flex xs12 sm12 md12 lg12 xl12>
+        <DetalleArticulos
+          :detalles="item.detalles"
+          @eliminarDetalle="eliminarDetalle"
+        />
+      </v-flex>
       <v-flex xs12 sm12 md12 v-show="valida">
         <div
           class="red--text"
@@ -57,6 +59,7 @@
 import axios from "axios";
 import BuscarArticulos from "./buscar-articulos";
 import DetalleArticulos from "./detalle-articulos";
+import { mapState } from "vuex";
 export default {
   name: "venta-template-dialog",
   data() {
@@ -78,6 +81,9 @@ export default {
   },
   created() {
     this.selectPersona();
+  },
+  computed: {
+    ...mapState("usuariosNamespace", ["token"]),
   },
   methods: {
     validar() {
@@ -120,9 +126,10 @@ export default {
       }
     },
     selectPersona() {
+      debugger;
       let me = this;
       let personaArray = [];
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("persona/listClientes", configuracion)

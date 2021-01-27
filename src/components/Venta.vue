@@ -90,6 +90,7 @@ import axios from "axios";
 import Table from "./base/table/Table";
 import Dialog from "./base/dialog/Dialog";
 import Imprimir from "./base/Imprimir";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -141,6 +142,9 @@ export default {
   created() {
     this.listar();
   },
+  computed: {
+    ...mapState("usuariosNamespace", ["token", "usuario"]),
+  },
   methods: {
     mostrarNuevo() {
       this.venta = {};
@@ -171,7 +175,7 @@ export default {
     },
     listar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .get("venta/list", configuracion)
@@ -184,7 +188,7 @@ export default {
     },
     guardar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       debugger;
       if(this.action == 0) {
@@ -242,7 +246,7 @@ export default {
     },
     activar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .put("venta/activate", { _id: this.adId }, configuracion)
@@ -264,7 +268,7 @@ export default {
     },
     desactivar() {
       let me = this;
-      let header = { Token: this.$store.state.token };
+      let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
         .put("venta/deactivate", { _id: this.adId }, configuracion)

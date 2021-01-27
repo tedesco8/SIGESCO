@@ -15,15 +15,18 @@
 <script>
 import Footer from './components/layout/Footer.vue'
 import NavBar from './components/layout/NavBar.vue'
+import { mapActions } from "vuex";
 export default {
   name: "App",
-  
   components: {
     Footer,
     NavBar
   },
   created() {
-    this.$store.dispatch("autoLogin");
+    this.autoLogin()
   },
+  methods: {
+    ...mapActions("usuariosNamespace", ['autoLogin']),
+  }
 };
 </script>

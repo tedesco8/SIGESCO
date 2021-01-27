@@ -37,6 +37,7 @@
 </template>
 <script>
 import axios from "axios";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -45,7 +46,11 @@ export default {
       errorM: null,
     };
   },
+  computed: {
+    ...mapState("usuariosNamespace", ["token"]),
+  },
   methods: {
+    ...mapActions("usuariosNamespace", ['guardarToken']),
     ingresar() {
       axios
         .post("usuario/login", { email: this.email, password: this.password })
@@ -58,7 +63,7 @@ export default {
             text: "Bienvenido a SIGESCO",
             icon: "success",
           });
-          this.$store.dispatch("guardarToken", data.tokenReturn);
+          this.guardarToken(data.tokenReturn);
         })
         .catch((error) => {
           //console.log(error);
