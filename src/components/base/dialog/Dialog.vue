@@ -12,39 +12,37 @@
             <v-icon>chevron_left</v-icon>
           </v-btn>
           <v-toolbar-title>{{
-            detalle ? "Detalle" : `Nueva ${title}`
+            action == 1 ? "Detalle" : `Nueva ${title}`
           }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text v-if="!detalle" @click.native="guardar()">
+            <v-btn dark text v-if="action != 1" @click.native="guardar()">
               Guardar
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
-        <VentaTemplate v-if="venta" :item="item" />
+        <VentaTemplateDialog
+          v-if="venta"
+          :item="item"
+          :action="action"
+          @item="itemAction"
+        />
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 <script>
-import VentaTemplate from "./templates/venta-template";
+import VentaTemplateDialog from "./templates/venta-template-dialog";
 export default {
-  components: { VentaTemplate },
+  components: { VentaTemplateDialog },
   props: {
     title: String,
     dialog: {
       type: Boolean,
       default: false,
     },
+    action: Number,
     item: Object,
-    nuevo: {
-      type: Boolean,
-      default: false,
-    },
-    detalle: {
-      type: Boolean,
-      default: false,
-    },
     venta: {
       type: Boolean,
       default: false,
@@ -54,6 +52,9 @@ export default {
     guardar() {
       this.$emit("guardar", this.item);
     },
+    itemAction(item) {
+      this.$emit("item", item);
+    },
     close() {
       this.$emit("close");
     },
@@ -61,7 +62,7 @@ export default {
   watch: {
     dialog(val) {
       val || this.$emit("close");
-    }
+    },
   },
 };
 </script>

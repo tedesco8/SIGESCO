@@ -63,17 +63,19 @@
       <!-- Template nueva venta -->
       <Dialog
         @close="close"
+        @guardar="guardar"
+        @item="itemAction"
         :title="'venta'"
         :venta="ventaBoo"
         :dialog="dialog"
-        :nuevo="nuevo"
-        :detalle="verDetalle"
+        :action="action"
         :item="venta"
       />
       <!-- Tabla principal -->
       <Table
-        @verItem="verItem"
         @listar="listar"
+        @verItem="verItem"
+        @editItem="editItem"
         :ventas="true"
         :opciones="true"
         :title="'Ventas'"
@@ -92,10 +94,9 @@ export default {
   data() {
     return {
       dialog: false,
+      action: null,
       ventaBoo: false,
       venta: null,
-      nuevo: false,
-      verDetalle: false,
       search: "",
       ventas: [],
       headers: [
@@ -144,18 +145,26 @@ export default {
     mostrarNuevo() {
       this.venta = {};
       this.ventaBoo = true;
-      this.nuevo = true;
-      this.verDetalle = false;
+      this.action = 0;
       this.dialog = true;
     },
     verItem(item) {
       this.venta = item;
-      this.verDetalle = true;
+      this.action = 1;
       this.ventaBoo = true;
       this.dialog = true;
     },
+    editItem(item) {
+      this.venta = item;
+      this.action = 2;
+      this.ventaBoo = true;
+      this.dialog = true;
+    },
+    itemAction(item) {
+      this.venta = item;
+    },
     close() {
-      this.verDetalle = false;
+      this.action = null;
       this.venta = null;
       this.ventaBoo = false;
       this.dialog = false;
@@ -177,25 +186,12 @@ export default {
       let me = this;
       let header = { Token: this.$store.state.token };
       let configuracion = { headers: header };
-      if (this.validar()) {
-        return;
-      }
       debugger;
-      //Código para guardar
+      if(this.action == 0) {
+        //Código para guardar
       axios
         .post(
-          "venta/add",
-          {
-            persona: this.persona,
-            usuario: this.$store.state.usuario._id,
-            tipo_comprobante: this.tipo_comprobante,
-            serie_comprobante: this.serie_comprobante,
-            num_comprobante: this.num_comprobante,
-            impuesto: this.impuesto,
-            total: this.total,
-            detalles: this.detalles,
-          },
-          configuracion
+          "venta/add", me.venta, configuracion
         )
         .then(function (response) {
           swal({
@@ -209,6 +205,25 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+      } else {
+        //Código para guardar
+      axios
+        .put(
+          "venta/update", me.venta, configuracion
+        )
+        .then(function (response) {
+          swal({
+            title: "Buen trabajo!",
+            text: "Venta editada correctamente",
+            icon: "success",
+          });
+          me.close();
+          me.listar();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
     activarDesactivarMostrar(accion, item) {
       this.adModal = 1;

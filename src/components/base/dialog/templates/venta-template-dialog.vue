@@ -35,7 +35,7 @@
         ></v-text-field>
       </v-flex>
       <!--Buscar articulos -->
-      <BuscarArticulos @agregarDetalle="agregarDetalle" />
+      <BuscarArticulos v-if="action != 1" @agregarDetalle="agregarDetalle" />
       <!-- Detalle -->
       <DetalleArticulos
         :detalles="item.detalles"
@@ -58,7 +58,7 @@ import axios from "axios";
 import BuscarArticulos from "./buscar-articulos";
 import DetalleArticulos from "./detalle-articulos";
 export default {
-  name: "venta-template",
+  name: "venta-template-dialog",
   data() {
     return {
       impuesto: 0.18,
@@ -74,6 +74,7 @@ export default {
   },
   props: {
     item: Object,
+    action: Number, //0 = nuevo, 1 = ver, 2 = editar
   },
   created() {
     this.selectPersona();
@@ -106,6 +107,11 @@ export default {
       if (validar()) {
         this.item.detalles = articulos;
       }
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.$emit("item", this.item);
+      });
     },
     eliminarDetalle(arr, item) {
       let i = arr.indexOf(item);

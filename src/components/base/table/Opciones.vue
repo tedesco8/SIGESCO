@@ -91,6 +91,9 @@ export default {
     verItem() {
       this.$emit("verItemClick", this.item);
     },
+    editItem() {
+      this.$emit("editItemClick", this.item);
+    }
   },
 };
 </script>

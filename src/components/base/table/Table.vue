@@ -26,10 +26,14 @@
           class="elevation-1"
         >
           <template v-if="opciones" v-slot:item.opciones="{ item }">
-            <Opciones :item="item" @verItemClick="verItem" />
+            <Opciones
+              :item="item"
+              @verItemClick="verItem"
+              @editItemClick="editItem"
+            />
           </template>
           <template v-if="ventas" v-slot:item="{ item }">
-            <VentasTemplate :item="item" @listarClick="listar"/>
+            <VentasTemplateTable :item="item" @listarClick="listar" />
           </template>
           <template v-if="ingresos" v-slot:item="{ item }">
             <IngresosTemplate :item="item" />
@@ -57,7 +61,7 @@
 
 <script>
 import Opciones from "./Opciones.vue";
-import VentasTemplate from "./templates/ventas-template";
+import VentasTemplateTable from "./templates/ventas-template-table";
 import IngresosTemplate from "./templates/ingresos-template";
 import CategoriasTemplate from "./templates/categorias-template";
 import ArticulosTemplate from "./templates/articulos-template";
@@ -67,7 +71,7 @@ import UsuariosTemplate from "./templates/usuarios-template";
 export default {
   components: {
     Opciones,
-    VentasTemplate,
+    VentasTemplateTable,
   },
   props: {
     title: String,
@@ -109,11 +113,14 @@ export default {
     },
   },
   methods: {
+    listar() {
+      this.$emit("listar");
+    },
     verItem(item) {
       this.$emit("verItem", item);
     },
-    listar() {
-      this.$emit("listar");
+    editItem(item) {
+      this.$emit("editItem", item);
     }
   },
 };
