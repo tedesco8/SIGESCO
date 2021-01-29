@@ -59,7 +59,7 @@
 import axios from "axios";
 import BuscarArticulos from "./buscar-articulos";
 import DetalleArticulos from "./detalle-articulos";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "venta-template-dialog",
   data() {
@@ -86,6 +86,7 @@ export default {
     ...mapState("usuariosNamespace", ["token"]),
   },
   methods: {
+    ...mapActions("ventasNamespace", ["setVenta"]),
     validar() {
       this.valida = 0;
       this.validaMensaje = [];
@@ -110,11 +111,11 @@ export default {
       return this.valida;
     },
     agregarDetalle(articulos) {
-        this.$emit("detalle", articulos);
+        this.setVenta({detalle: articulos})
     },
     mounted() {
       this.$nextTick(() => {
-        this.$emit("item", this.item);
+        this.setVenta({data: this.item})
       });
     },
     eliminarDetalle(arr, item) {

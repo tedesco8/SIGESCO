@@ -23,8 +23,6 @@
           v-if="venta"
           :item="item"
           :action="action"
-          @item="itemAction"
-          @detalle="detalle"
         />
       </v-card>
     </v-dialog>
@@ -66,12 +64,6 @@ export default {
   methods: {
     guardar() {
       this.$emit("guardar", this.item);
-    },
-    detalle(items) {
-      this.$emit("detalle", items);
-    },
-    itemAction(item) {
-      this.$emit("item", item);
     },
     close() {
       this.$emit("close");

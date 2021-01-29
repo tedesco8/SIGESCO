@@ -34,8 +34,6 @@
       <Dialog
         @close="close"
         @guardar="guardar"
-        @item="itemFn"
-        @detalle="detalle"
         :title="'venta'"
         :venta="ventaBoo"
         :dialog="dialog"
@@ -63,16 +61,14 @@ import Table from "./base/table/Table";
 import Dialog from "./base/dialog/Dialog";
 import Imprimir from "./base/Imprimir";
 import DialogModal from "./base/modal/DialogModal";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
       dialog: false,
       action: null,
       ventaBoo: false,
-      venta: null,
       search: "",
-      ventas: [],
       headers: [
         { text: "Opciones", value: "opciones", sortable: false },
         { text: "Usuario", value: "usuario.nombre", sortable: true },
@@ -94,7 +90,6 @@ export default {
         { text: "Estado", value: "estado", sortable: false },
       ],
       _id: "",
-
       adModal: 0,
       adAccion: 0,
       adNombre: "",
@@ -118,39 +113,40 @@ export default {
   },
   computed: {
     ...mapState("usuariosNamespace", ["token", "usuario"]),
+    ...mapState("ventasNamespace", ["ventas", "venta"]),
   },
   methods: {
+    ...mapActions("ventasNamespace", [
+      "getVentas",
+      "newVenta",
+      "clear",
+      "setVenta",
+      "saveVenta",
+      "updateVenta",
+      "activateVenta",
+      "deactivateVenta",
+    ]),
     mostrarNuevo() {
-      this.venta = { impuesto: 0.18 };
+      this.newVenta();
       this.ventaBoo = true;
       this.action = 0;
       this.dialog = true;
     },
     verItem(item) {
-      this.venta = item;
+      this.setVenta({ data: item });
       this.action = 1;
       this.ventaBoo = true;
       this.dialog = true;
     },
     editItem(item) {
-      this.venta = item;
+      this.setVenta({ data: item });
       this.action = 2;
       this.ventaBoo = true;
       this.dialog = true;
     },
-    itemFn(item) {
-      this.venta = item;
-    },
-    detalle(items) {
-      if (this.ventas.detalles > 0) {
-        this.venta.detalles.push(items);
-      } else {
-        this.venta.detalles = items;
-      }
-    },
     close() {
       this.action = null;
-      this.venta = null;
+      this.clear();
       this.adNombre = null;
       this.adAccion = null;
       this.adId = null;
@@ -159,17 +155,7 @@ export default {
       this.adModal = 0;
     },
     listar() {
-      let me = this;
-      let header = { Token: this.token };
-      let configuracion = { headers: header };
-      axios
-        .get("venta/list", configuracion)
-        .then(function (response) {
-          me.ventas = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.getVentas(this.token);
     },
     guardar() {
       let me = this;
@@ -180,7 +166,6 @@ export default {
         //Código para guardar
         let resultado = 0.0;
         let detalles = this.venta.detalles;
-        let me = this;
         if (detalles) {
           for (var i = 0; i < detalles.length; i++) {
             resultado =
@@ -191,41 +176,19 @@ export default {
         }
         this.venta.total = resultado;
         this.venta.usuario = this.usuario._id;
-        axios
-          .post("venta/add", me.venta, configuracion)
-          .then(function (response) {
-            swal({
-              title: "Buen trabajo!",
-              text: "Venta agregada exitosamente",
-              icon: "success",
-            });
-            me.close();
-            me.listar();
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        this.saveVenta({ token: this.token, data: this.venta });
+        this.close();
+        this.listar();
       } else {
-        //Código para guardar
-        axios
-          .put("venta/update", me.venta, configuracion)
-          .then(function (response) {
-            swal({
-              title: "Buen trabajo!",
-              text: "Venta editada correctamente",
-              icon: "success",
-            });
-            me.close();
-            me.listar();
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        //Código para editar
+        this.updateVenta({ token: this.token, data: this.venta });
+        this.close();
+        this.listar();
       }
     },
     activarDesactivarMostrar(accion, item) {
       this.adModal = 1;
-      this.adNombre = item.serie_comprobante + ' ' + item.num_comprobante;
+      this.adNombre = item.serie_comprobante + " " + item.num_comprobante;
       this.adId = item._id;
       if (accion == 1) {
         this.adAccion = 1;
@@ -236,48 +199,20 @@ export default {
       }
     },
     activar(id) {
-      let me = this;
-      let header = { Token: this.token };
-      let configuracion = { headers: header };
-      axios
-        .put("venta/activate", { _id: id }, configuracion)
-        .then(function (response) {
-          swal({
-            title: "Buen trabajo!",
-            text: "Venta activada exitosamente",
-            icon: "success",
-          });
-          me.adModal = 0;
-          me.adAccion = 0;
-          me.adNombre = "";
-          me.adId = "";
-          me.listar();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.activateVenta({ token: this.token, id: id });
+      this.adModal = 0;
+      this.adAccion = 0;
+      this.adNombre = "";
+      this.adId = "";
+      this.listar();
     },
     desactivar(id) {
-      let me = this;
-      let header = { Token: this.token };
-      let configuracion = { headers: header };
-      axios
-        .put("venta/deactivate", { _id: id }, configuracion)
-        .then(function (response) {
-          swal({
-            title: "Buen trabajo!",
-            text: "Venta desactivada exitosamente",
-            icon: "success",
-          });
-          me.adModal = 0;
-          me.adAccion = 0;
-          me.adNombre = "";
-          me.adId = "";
-          me.listar();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.deactivateVenta({ token: this.token, id: id });
+      this.adModal = 0;
+      this.adAccion = 0;
+      this.adNombre = "";
+      this.adId = "";
+      this.listar();
     },
   },
 };
