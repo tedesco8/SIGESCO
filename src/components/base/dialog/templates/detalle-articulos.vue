@@ -99,5 +99,10 @@ export default {
       this.$emit("eliminarDetalle", arr, item);
     },
   },
+  watch: {
+    detalles(val) {
+      val || this.$forceUpdate();
+    },
+  },
 };
 </script>

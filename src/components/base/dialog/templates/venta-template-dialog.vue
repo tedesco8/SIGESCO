@@ -110,9 +110,7 @@ export default {
       return this.valida;
     },
     agregarDetalle(articulos) {
-      if (validar()) {
-        this.item.detalles = articulos;
-      }
+        this.$emit("detalle", articulos);
     },
     mounted() {
       this.$nextTick(() => {
@@ -126,7 +124,6 @@ export default {
       }
     },
     selectPersona() {
-      debugger;
       let me = this;
       let personaArray = [];
       let header = { Token: this.token };

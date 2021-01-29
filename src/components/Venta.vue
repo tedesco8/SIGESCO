@@ -64,7 +64,8 @@
       <Dialog
         @close="close"
         @guardar="guardar"
-        @item="itemAction"
+        @item="itemFn"
+        @detalle="detalle"
         :title="'venta'"
         :venta="ventaBoo"
         :dialog="dialog"
@@ -147,7 +148,7 @@ export default {
   },
   methods: {
     mostrarNuevo() {
-      this.venta = {};
+      this.venta = { impuesto: 0.18 };
       this.ventaBoo = true;
       this.action = 0;
       this.dialog = true;
@@ -164,8 +165,15 @@ export default {
       this.ventaBoo = true;
       this.dialog = true;
     },
-    itemAction(item) {
+    itemFn(item) {
       this.venta = item;
+    },
+    detalle(items) {
+      if (this.ventas.detalles > 0) {
+        this.venta.detalles.push(items);
+      } else {
+        this.venta.detalles = items;
+      }
     },
     close() {
       this.action = null;
@@ -191,42 +199,51 @@ export default {
       let header = { Token: this.token };
       let configuracion = { headers: header };
       debugger;
-      if(this.action == 0) {
+      if (this.action == 0) {
         //Código para guardar
-      axios
-        .post(
-          "venta/add", me.venta, configuracion
-        )
-        .then(function (response) {
-          swal({
-            title: "Buen trabajo!",
-            text: "Venta agregada exitosamente",
-            icon: "success",
+        let resultado = 0.0;
+        let detalles = this.venta.detalles
+        let me = this;
+        if (detalles) {
+          for (var i = 0; i < detalles.length; i++) {
+            resultado =
+              resultado +
+              (detalles[i].cantidad * detalles[i].precio -
+                detalles[i].descuento);
+          }
+        }
+        this.venta.total = resultado
+        this.venta.usuario = this.usuario._id
+        axios
+          .post("venta/add", me.venta, configuracion)
+          .then(function (response) {
+            swal({
+              title: "Buen trabajo!",
+              text: "Venta agregada exitosamente",
+              icon: "success",
+            });
+            me.close();
+            me.listar();
+          })
+          .catch(function (error) {
+            console.log(error);
           });
-          me.close();
-          me.listar();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
       } else {
         //Código para guardar
-      axios
-        .put(
-          "venta/update", me.venta, configuracion
-        )
-        .then(function (response) {
-          swal({
-            title: "Buen trabajo!",
-            text: "Venta editada correctamente",
-            icon: "success",
+        axios
+          .put("venta/update", me.venta, configuracion)
+          .then(function (response) {
+            swal({
+              title: "Buen trabajo!",
+              text: "Venta editada correctamente",
+              icon: "success",
+            });
+            me.close();
+            me.listar();
+          })
+          .catch(function (error) {
+            console.log(error);
           });
-          me.close();
-          me.listar();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
       }
     },
     activarDesactivarMostrar(accion, item) {
