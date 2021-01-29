@@ -33,6 +33,14 @@
               @actdeaItemClick="actdeaItem"
             />
           </template>
+          <template v-slot:item.estado="{ item }">
+            <div v-if="item.estado">
+              <span class="green--text">Activo</span>
+            </div>
+            <div v-else>
+              <span class="red--text">Inactivo</span>
+            </div>
+          </template>
           <template v-if="ventas" v-slot:item="{ item }">
             <VentasTemplateTable :item="item" @listarClick="listar" />
           </template>
@@ -125,7 +133,7 @@ export default {
     },
     actdeaItem(act, item) {
       this.$emit("actdeaItem", act, item);
-    }
+    },
   },
 };
 </script>

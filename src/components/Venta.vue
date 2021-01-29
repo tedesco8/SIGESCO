@@ -235,9 +235,6 @@ export default {
         this.adModal = 0;
       }
     },
-    activarDesactivarCerrar() {
-      
-    },
     activar(id) {
       let me = this;
       let header = { Token: this.token };
@@ -261,7 +258,6 @@ export default {
         });
     },
     desactivar(id) {
-      debugger
       let me = this;
       let header = { Token: this.token };
       let configuracion = { headers: header };
