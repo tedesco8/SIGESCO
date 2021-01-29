@@ -30,6 +30,7 @@
               :item="item"
               @verItemClick="verItem"
               @editItemClick="editItem"
+              @actdeaItemClick="actdeaItem"
             />
           </template>
           <template v-if="ventas" v-slot:item="{ item }">
@@ -121,6 +122,9 @@ export default {
     },
     editItem(item) {
       this.$emit("editItem", item);
+    },
+    actdeaItem(act, item) {
+      this.$emit("actdeaItem", act, item);
     }
   },
 };

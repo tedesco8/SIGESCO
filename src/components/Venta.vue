@@ -17,49 +17,19 @@
         <v-btn color="primary" @click="mostrarNuevo()" dark class="mb-2"
           >Nuevo</v-btn
         >
-        <!-- Modal Activar desactivar -->
-        <v-dialog v-model="adModal" max-width="290">
-          <v-card>
-            <v-card-title class="headline" v-if="adAccion == 1"
-              >Activar Item</v-card-title
-            >
-            <v-card-title class="headline" v-if="adAccion == 2"
-              >Desactivar Item</v-card-title
-            >
-            <v-card-text>
-              Estás a punto de
-              <span v-if="adAccion == 1">activar</span>
-              <span v-if="adAccion == 2">desactivar</span>
-              el item {{ adNombre }}
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                @click="activarDesactivarCerrar()"
-                color="green darken-1"
-                text="text"
-                >Cancelar</v-btn
-              >
-              <v-btn
-                v-if="adAccion == 1"
-                @click="activar()"
-                color="orange darken-4"
-                text="text"
-                >Activar</v-btn
-              >
-              <v-btn
-                v-if="adAccion == 2"
-                @click="desactivar()"
-                color="orange darken-4"
-                text="text"
-                >Desactivar</v-btn
-              >
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-toolbar>
       <!-- Imprimir comprobante -->
       <!-- <Imprimir :dialog="true" :imprimir="imprimir" /> -->
+      <!-- Modal Activar desactivar -->
+      <DialogModal
+        @cerrar="close"
+        @activar="activar"
+        @desactivar="desactivar"
+        :adModal="adModal"
+        :accion="adAccion"
+        :id="adId"
+        :nombre="adNombre"
+      />
       <!-- Template nueva venta -->
       <Dialog
         @close="close"
@@ -77,6 +47,7 @@
         @listar="listar"
         @verItem="verItem"
         @editItem="editItem"
+        @actdeaItem="activarDesactivarMostrar"
         :ventas="true"
         :opciones="true"
         :title="'Ventas'"
@@ -91,6 +62,7 @@ import axios from "axios";
 import Table from "./base/table/Table";
 import Dialog from "./base/dialog/Dialog";
 import Imprimir from "./base/Imprimir";
+import DialogModal from "./base/modal/DialogModal";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -134,6 +106,7 @@ export default {
     Table,
     Dialog,
     Imprimir,
+    DialogModal,
   },
   watch: {
     dialog(val) {
@@ -178,8 +151,12 @@ export default {
     close() {
       this.action = null;
       this.venta = null;
+      this.adNombre = null;
+      this.adAccion = null;
+      this.adId = null;
       this.ventaBoo = false;
       this.dialog = false;
+      this.adModal = 0;
     },
     listar() {
       let me = this;
@@ -202,7 +179,7 @@ export default {
       if (this.action == 0) {
         //Código para guardar
         let resultado = 0.0;
-        let detalles = this.venta.detalles
+        let detalles = this.venta.detalles;
         let me = this;
         if (detalles) {
           for (var i = 0; i < detalles.length; i++) {
@@ -212,8 +189,8 @@ export default {
                 detalles[i].descuento);
           }
         }
-        this.venta.total = resultado
-        this.venta.usuario = this.usuario._id
+        this.venta.total = resultado;
+        this.venta.usuario = this.usuario._id;
         axios
           .post("venta/add", me.venta, configuracion)
           .then(function (response) {
@@ -248,7 +225,7 @@ export default {
     },
     activarDesactivarMostrar(accion, item) {
       this.adModal = 1;
-      this.adNombre = item.num_comprobante;
+      this.adNombre = item.serie_comprobante + ' ' + item.num_comprobante;
       this.adId = item._id;
       if (accion == 1) {
         this.adAccion = 1;
@@ -259,14 +236,14 @@ export default {
       }
     },
     activarDesactivarCerrar() {
-      this.adModal = 0;
+      
     },
-    activar() {
+    activar(id) {
       let me = this;
       let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
-        .put("venta/activate", { _id: this.adId }, configuracion)
+        .put("venta/activate", { _id: id }, configuracion)
         .then(function (response) {
           swal({
             title: "Buen trabajo!",
@@ -283,12 +260,13 @@ export default {
           console.log(error);
         });
     },
-    desactivar() {
+    desactivar(id) {
+      debugger
       let me = this;
       let header = { Token: this.token };
       let configuracion = { headers: header };
       axios
-        .put("venta/deactivate", { _id: this.adId }, configuracion)
+        .put("venta/deactivate", { _id: id }, configuracion)
         .then(function (response) {
           swal({
             title: "Buen trabajo!",

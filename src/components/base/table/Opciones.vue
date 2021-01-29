@@ -8,7 +8,7 @@
     </v-tooltip>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
-        <v-icon small class="mr-2" v-on="on" @click="editItem(item)"
+        <v-icon small class="mr-2" v-on="on" @click="editItem()"
           >edit</v-icon
         >
       </template>
@@ -21,10 +21,10 @@
           small
           class="mr-2"
           v-on="on"
-          @click="activarDesactivar(2, item)"
+          @click="activarDesactivar(2)"
           >block</v-icon
         >
-        <v-icon v-else small class="mr-2" @click="activarDesactivar(1, item)"
+        <v-icon v-else small class="mr-2" @click="activarDesactivar(1)"
           >check</v-icon
         >
       </template>
@@ -93,6 +93,9 @@ export default {
     },
     editItem() {
       this.$emit("editItemClick", this.item);
+    },
+    activarDesactivar(act) {
+      this.$emit("actdeaItemClick", act, this.item);
     }
   },
 };
