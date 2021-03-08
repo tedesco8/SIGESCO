@@ -7,7 +7,7 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-let back = window.location.host == 'localhost:8080' ? 'http://localhost:4000/api/' : 'https://sigesco.tedesco.es/api/';
+let back = window.location.host == 'localhost:8080' ? 'http://localhost:5000/api/' : 'https://sigesco.tedesco.es/api/';
 axios.defaults.baseURL=back
 
 

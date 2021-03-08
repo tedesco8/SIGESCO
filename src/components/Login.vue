@@ -50,10 +50,10 @@ export default {
     ...mapState("usuariosNamespace", ["token"]),
   },
   methods: {
-    ...mapActions("usuariosNamespace", ['guardarToken']),
+    ...mapActions("usuariosNamespace", ["guardarToken"]),
     ingresar() {
       axios
-        .post("usuario/login", { email: this.email, password: this.password })
+        .post("user/login", { email: this.email, password: this.password })
         .then((respuesta) => {
           return respuesta.data;
         })
