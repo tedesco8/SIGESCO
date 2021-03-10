@@ -22,6 +22,9 @@ export default {
       totales: [],
     };
   },
+  mounted() {
+    // this.listar();
+  },
   computed: {
     ...mapState("usuariosNamespace", ["token"]),
   },
@@ -142,9 +145,6 @@ export default {
         },
       });
     },
-  },
-  mounted() {
-    this.listar();
   },
 };
 </script>

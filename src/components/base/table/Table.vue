@@ -81,6 +81,7 @@ export default {
   components: {
     Opciones,
     VentasTemplateTable,
+    UsuariosTemplate
   },
   props: {
     title: String,

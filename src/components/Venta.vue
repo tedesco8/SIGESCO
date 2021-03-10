@@ -56,7 +56,6 @@
   </v-layout>
 </template>
 <script>
-import axios from "axios";
 import Table from "./base/table/Table";
 import Dialog from "./base/dialog/Dialog";
 import Imprimir from "./base/Imprimir";
@@ -126,6 +125,9 @@ export default {
       "activateVenta",
       "deactivateVenta",
     ]),
+    listar() {
+      this.getVentas(this.token);
+    },
     mostrarNuevo() {
       this.newVenta();
       this.ventaBoo = true;
@@ -153,9 +155,6 @@ export default {
       this.ventaBoo = false;
       this.dialog = false;
       this.adModal = 0;
-    },
-    listar() {
-      this.getVentas(this.token);
     },
     guardar() {
       let me = this;
