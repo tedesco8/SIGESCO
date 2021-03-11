@@ -20,7 +20,7 @@
         <!--Data Table-->
         <v-data-table
           :headers="headers"
-          :items="arrayList"
+          :items="items"
           :search="search"
           :single-select="true"
           class="elevation-1"
@@ -33,18 +33,21 @@
               @actdeaItemClick="actdeaItem"
             />
           </template>
-          <template v-slot:item.estado="{ item }">
-            <div v-if="item.estado">
+          <template v-slot:item.status="{ item }">
+            <div v-if="item.status">
               <span class="green--text">Activo</span>
             </div>
             <div v-else>
               <span class="red--text">Inactivo</span>
             </div>
           </template>
+          <template v-if="usuarios" v-slot:item="{ item }">
+            <UsuariosTemplate :item="item" @listarClick="listar" />
+          </template>
           <template v-if="ventas" v-slot:item="{ item }">
             <VentasTemplateTable :item="item" @listarClick="listar" />
           </template>
-          <template v-if="ingresos" v-slot:item="{ item }">
+          <!-- <template v-if="ingresos" v-slot:item="{ item }">
             <IngresosTemplate :item="item" />
           </template>
           <template v-if="categoria" v-slot:item="{ item }">
@@ -58,10 +61,7 @@
           </template>
           <template v-if="clientes" v-slot:item="{ item }">
             <ClientesTemplate v-if="ventas" :item="item" />
-          </template>
-          <template v-if="usuarios" v-slot:item="{ item }">
-            <UsuariosTemplate :item="item" />
-          </template>
+          </template> -->
         </v-data-table>
       </v-col>
     </v-row>
@@ -86,7 +86,7 @@ export default {
   props: {
     title: String,
     headers: Array,
-    arrayList: Array,
+    items: Array,
     search: "",
     select: "",
     opciones: {
@@ -127,6 +127,7 @@ export default {
       this.$emit("listar");
     },
     verItem(item) {
+      debugger
       this.$emit("verItem", item);
     },
     editItem(item) {

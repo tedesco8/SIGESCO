@@ -38,16 +38,16 @@
 </template>
 
 <script>
-name: "DialogModal";
 export default {
+  name: "DialogModal",
   props: {
-    adModal: Number,
+    adModal: {
+      type: Boolean,
+      default: false,
+    },
     accion: Number,
-    id: String,
+    id: Number,
     nombre: String,
   },
 };
 </script>
-
-<style>
-</style>

@@ -17,7 +17,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-icon
-          v-if="item.estado"
+          v-if="item.status"
           small
           class="mr-2"
           v-on="on"
@@ -28,7 +28,7 @@
           >check</v-icon
         >
       </template>
-      <span>{{ item.estado ? "Anular" : "Activar" }}</span>
+      <span>{{ item.status ? "Anular" : "Activar" }}</span>
     </v-tooltip>
     <v-tooltip v-if="esAdministrador" bottom>
       <template v-slot:activator="{ on }">

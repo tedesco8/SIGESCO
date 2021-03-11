@@ -17,7 +17,7 @@ export default {
     setUsuario(state, usuario) {
       state.usuario = usuario;
     },
-    allUsers(state, data) {
+    setUsers(state, data) {
       state.users = data;
     },
     setUser(state, data) {
@@ -39,22 +39,22 @@ export default {
       let configuracion = { headers: header };
       let data = null;
 
-      debugger
+      // debugger;
       await axios
         .get("user/get", configuracion)
         .then(function(response) {
           data = response.data;
-          commit("allUsers", data);
+          commit("setUsers", data);
         })
-        .catch(function(error) {
-          console.log(error);
+        .catch(function(err) {
+          console.log(err);
         });
     },
     getUser: async function({ commit }, dataUser) {
       let header = { Token: dataUser.token };
       let configuracion = { headers: header };
       let data = null;
-      debugger;
+      // debugger;
       await axios
         .get(`user/query?id=${dataUser.id}`, configuracion)
         .then(function(response) {
@@ -74,7 +74,18 @@ export default {
       let data = dataUser.data;
       // debugger;
       await axios
-        .post("user/add", { data }, configuracion)
+        .post(
+          "user/add",
+          {
+            name: data.name,
+            surname: data.surname,
+            email: data.email,
+            rol: data.rol,
+            phone: data.phone,
+            password: data.password,
+          },
+          configuracion
+        )
         .then(function(res) {
           // debugger;
           dispatch("getUsers", dataUser.token);
@@ -108,7 +119,18 @@ export default {
       //debugger;
       let data = dataUser.data;
       await axios
-        .put("user/update",{data},configuracion
+        .put(
+          "user/update",
+          {
+            id: data.id,
+            name: data.name,
+            surname: data.surname,
+            email: data.email,
+            rol: data.rol,
+            phone: data.phone,
+            password: data.password,
+          },
+          configuracion
         )
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
@@ -141,7 +163,7 @@ export default {
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("user/activate", { _id: dataUser.id }, configuracion)
+        .put("user/activate", { id: dataUser.id }, configuracion)
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
           swal({
@@ -163,7 +185,7 @@ export default {
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("user/deactivate", { _id: dataUser.id }, configuracion)
+        .put("user/deactivate", { id: dataUser.id }, configuracion)
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
           swal({

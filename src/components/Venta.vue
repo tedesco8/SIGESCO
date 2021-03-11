@@ -50,7 +50,7 @@
         :opciones="true"
         :title="'Ventas'"
         :headers="headers"
-        :arrayList="ventas"
+        :items="ventas"
       />
     </v-flex>
   </v-layout>
@@ -89,10 +89,10 @@ export default {
         { text: "Estado", value: "estado", sortable: false },
       ],
       _id: "",
-      adModal: 0,
+      adModal: false,
       adAccion: 0,
       adNombre: "",
-      adId: "",
+      adId: null,
       fecha: null,
     };
   },
@@ -154,7 +154,7 @@ export default {
       this.adId = null;
       this.ventaBoo = false;
       this.dialog = false;
-      this.adModal = 0;
+      this.adModal = false;
     },
     guardar() {
       let me = this;
@@ -186,31 +186,31 @@ export default {
       }
     },
     activarDesactivarMostrar(accion, item) {
-      this.adModal = 1;
+      this.adModal = false;
       this.adNombre = item.serie_comprobante + " " + item.num_comprobante;
-      this.adId = item._id;
+      this.adId = item.id;
       if (accion == 1) {
         this.adAccion = 1;
       } else if (accion == 2) {
         this.adAccion = 2;
       } else {
-        this.adModal = 0;
+        this.adModal = false;
       }
     },
     activar(id) {
       this.activateVenta({ token: this.token, id: id });
-      this.adModal = 0;
+      this.adModal = false;
       this.adAccion = 0;
       this.adNombre = "";
-      this.adId = "";
+      this.adId = null;
       this.listar();
     },
     desactivar(id) {
       this.deactivateVenta({ token: this.token, id: id });
-      this.adModal = 0;
+      this.adModal = false;
       this.adAccion = 0;
       this.adNombre = "";
-      this.adId = "";
+      this.adId = null;
       this.listar();
     },
   },

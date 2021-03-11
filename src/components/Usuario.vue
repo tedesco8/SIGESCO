@@ -28,15 +28,15 @@
         :id="adId"
         :nombre="adNombre"
       />
-      <!-- Template nueva venta -->
+      <!-- Template -->
       <Dialog
         @close="close"
         @guardar="guardar"
         :title="'usuario'"
-        :venta="userBoo"
+        :usuario="userBoo"
         :dialog="dialog"
         :action="action"
-        :item="venta"
+        :item="user"
       />
       <!-- Tabla principal -->
       <Table
@@ -48,7 +48,7 @@
         :opciones="true"
         :title="'Usuarios'"
         :headers="headers"
-        :arrayList="users"
+        :items="users"
       />
     </v-flex>
   </v-layout>
@@ -76,13 +76,10 @@ export default {
       ],
       editedIndex: -1,
       _id: "",
-      roles: ["Administrador", "Almacenero", "Vendedor", "Invitado"],
-      tipo_documento: "",
-      documentos: ["DNI", "RUC", "PASAPORTE", "CEDULA"],
-      adModal: 0,
+      adModal: false,
       adAccion: 0,
       adNombre: "",
-      adId: "",
+      adId: null,
     };
   },
   components: {
@@ -109,6 +106,7 @@ export default {
       "getUser",
       "getUsers",
       "newUser",
+      "setUser",
       "saveUser",
       "updateUser",
       "activateUser",
@@ -144,7 +142,7 @@ export default {
       this.adId = null;
       this.userBoo = false;
       this.dialog = false;
-      this.adModal = 0;
+      this.adModal = false;
     },
     guardar() {
       debugger;
@@ -161,35 +159,32 @@ export default {
       }
     },
     activarDesactivarMostrar(accion, item) {
-      this.adModal = 1;
-      this.adNombre = item.name + " " + item.apellido;
+      this.adModal = true;
+      this.adNombre = item.name + " " + item.surname;
       this.adId = item.id;
       if (accion == 1) {
         this.adAccion = 1;
       } else if (accion == 2) {
         this.adAccion = 2;
       } else {
-        this.adModal = 0;
+        this.adModal = false;
       }
     },
     activar(id) {
       this.activateUser({ token: this.token, id: id });
-      this.adModal = 0;
+      this.adModal = false;
       this.adAccion = 0;
       this.adNombre = "";
-      this.adId = "";
+      this.adId = null;
       this.listar();
     },
     desactivar(id) {
       this.deactivateUser({ token: this.token, id: id });
-      this.adModal = 0;
+      this.adModal = false;
       this.adAccion = 0;
       this.adNombre = "";
-      this.adId = "";
+      this.adId = null;
       this.listar();
-    },
-    close() {
-      this.dialog = false;
     },
   },
 };
