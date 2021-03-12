@@ -4,6 +4,6 @@
 
 <script>
 export default {
-name: "provedores-template"
+name: "provedores-template-table"
 }
 </script>

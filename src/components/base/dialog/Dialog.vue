@@ -19,17 +19,23 @@
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
-        <VentaTemplateDialog v-if="venta" :item="item" :action="action" />
         <UsuarioTemplateDialog v-if="usuario" :item="item" :action="action" />
+        <CategoriaTemplateDialog v-if="categoria" :item="item" :action="action" />
+        <VentaTemplateDialog v-if="venta" :item="item" :action="action" />
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 <script>
 import UsuarioTemplateDialog from "./templates/usuario-template-dialog";
+import CategoriaTemplateDialog from "./templates/categoria-template-dialog";
 import VentaTemplateDialog from "./templates/venta-template-dialog";
 export default {
-  components: { VentaTemplateDialog, UsuarioTemplateDialog },
+  components: {
+    UsuarioTemplateDialog,
+    CategoriaTemplateDialog,
+    VentaTemplateDialog,
+  },
   props: {
     title: String,
     dialog: {
@@ -43,6 +49,10 @@ export default {
       default: false,
     },
     usuario: {
+      type: Boolean,
+      default: false,
+    },
+    categoria: {
       type: Boolean,
       default: false,
     },
@@ -65,7 +75,7 @@ export default {
   },
   methods: {
     guardar() {
-      debugger
+      debugger;
       this.$emit("guardar", this.item);
     },
     close() {

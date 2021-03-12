@@ -67,29 +67,6 @@ export default {
   },
   methods: {
     ...mapActions("usuariosNamespace", ["setUser"]),
-    validar() {
-      this.valida = 0;
-      this.validaMensaje = [];
-      if (!this.item.persona) {
-        this.validaMensaje.push("Seleccione un cliente.");
-      }
-      if (!this.item.tipo_comprobante) {
-        this.validaMensaje.push("Seleccione un tipo de comprobante.");
-      }
-      if (!this.item.num_comprobante) {
-        this.validaMensaje.push("Ingrese el número del comprobante.");
-      }
-      if (!this.item.impuesto || this.impuesto < 0 || this.impuesto > 1) {
-        this.validaMensaje.push("Ingrese un impuesto válido.");
-      }
-      if (this.item.detalles.length <= 0) {
-        this.validaMensaje.push("Ingrese al menos un artículo al detalle");
-      }
-      if (this.validaMensaje.length) {
-        this.valida = 1;
-      }
-      return this.valida;
-    },
   },
 };
 </script>

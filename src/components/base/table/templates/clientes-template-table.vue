@@ -2,6 +2,6 @@
 
 <script>
 export default {
-  name: "categorias-template",
+  name: "clientes-template-table",
 };
 </script>

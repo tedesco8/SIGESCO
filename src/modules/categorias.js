@@ -3,85 +3,81 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    article: {},
-    articles: [],
+    category: {},
+    categorys: [],
   },
   mutations: {
-    setArticles(state, data) {
-      state.articles = data;
+    setCategorys(state, data) {
+      state.categorys = data;
     },
-    setArticle(state, data) {
-      state.article = data;
+    setCategory(state, data) {
+      state.category = data;
     },
     limpiar(state) {
-      state.article = {};
+      state.category = {};
     },
   },
   actions: {
     clear: async function({ commit }) {
       commit("limpiar");
     },
-    newUser: async function({ commit }) {
+    newCategory: async function({ commit }) {
       commit("limpiar");
     },
-    getArticles: async function({ commit }, token) {
+    getCategorys: async function({ commit }, token) {
       let header = { Token: token };
       let configuracion = { headers: header };
       let data = null;
 
       // debugger;
       await axios
-        .get("article/get", configuracion)
+        .get("type/get", configuracion)
         .then(function(response) {
           data = response.data;
-          commit("setArticles", data);
+          commit("setCategorys", data);
         })
         .catch(function(err) {
           console.log(err);
         });
     },
-    getArticle: async function({ commit }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    getCategory: async function({ commit }, dataCategory) {
+      let header = { Token: dataCategory.token };
       let configuracion = { headers: header };
       let data = null;
       // debugger;
       await axios
-        .get(`article/query?id=${dataArticle.id}`, configuracion)
+        .get(`type/query?id=${dataCategory.id}`, configuracion)
         .then(function(response) {
           data = { data: response.data };
-          commit("setArticle", data);
+          commit("setCategory", data);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-    setArticle: async function({ commit }, dataArticle) {
-      commit("setArticle", dataArticle.data);
+    setCategory: async function({ commit }, dataCategory) {
+      commit("setCategory", dataCategory.data);
     },
-    saveArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    saveCategory: async function({ dispatch }, dataCategory) {
+      let header = { Token: dataCategory.token };
       let configuracion = { headers: header };
-      let data = dataArticle.data;
+      let data = dataCategory.data;
       // debugger;
       await axios
         .post(
-          "article/add",
+          "type/add",
           {
             name: data.name,
-            surname: data.surname,
-            email: data.email,
-            rol: data.rol,
-            phone: data.phone,
-            password: data.password,
+            description: data.description,
           },
           configuracion
         )
         .then(function(res) {
           // debugger;
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getCategorys", dataCategory.token);
           swal({
             title: "Buen trabajo!",
-            text: `Usuario ${res.data.name} ${res.data.surname} agregado exitosamente`,
+            text: `Categoría ${res.data.name} agregada exitosamente`,
             icon: "success",
           });
         })
@@ -103,30 +99,26 @@ export default {
           }
         });
     },
-    updateArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    updateCategory: async function({ dispatch }, dataCategory) {
+      let header = { Token: dataCategory.token };
       let configuracion = { headers: header };
       //debugger;
-      let data = dataArticle.data;
+      let data = dataCategory.data;
       await axios
         .put(
-          "article/update",
+          "type/update",
           {
             id: data.id,
             name: data.name,
-            surname: data.surname,
-            email: data.email,
-            rol: data.rol,
-            phone: data.phone,
-            password: data.password,
+            description: data.description,
           },
           configuracion
         )
         .then(function(res) {
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getCategorys", dataCategory.token);
           swal({
             title: "Buen trabajo!",
-            text: `El usuario ${res.data.name} ${res.data.surname} fue editado exitosamente`,
+            text: `La Categoría ${res.data.name} fue editada exitosamente`,
             icon: "success",
           });
         })
@@ -148,17 +140,17 @@ export default {
           }
         });
     },
-    activateArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    activateCategory: async function({ dispatch }, dataCategory) {
+      let header = { Token: dataCategory.token };
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("article/activate", { id: dataArticle.id }, configuracion)
+        .put("type/activate", { id: dataCategory.id }, configuracion)
         .then(function(res) {
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getCategorys", dataCategory.token);
           swal({
             title: "Buen trabajo!",
-            text: `Usuario ${res.data.name} ${res.data.surname} activado correctamente`,
+            text: `Categoría ${res.data.name} activada correctamente`,
             icon: "success",
           });
         })
@@ -170,17 +162,17 @@ export default {
           });
         });
     },
-    deactivateArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    deactivateCategory: async function({ dispatch }, dataCategory) {
+      let header = { Token: dataCategory.token };
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("article/deactivate", { id: dataArticle.id }, configuracion)
+        .put("type/deactivate", { id: dataCategory.id }, configuracion)
         .then(function(res) {
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getCategorys", dataCategory.token);
           swal({
             title: "Buen trabajo!",
-            text: `Usuario ${res.data.name} ${res.data.surname} desactivado correctamente`,
+            text: `Categoría ${res.data.name} desactivada correctamente`,
             icon: "success",
           });
         })

@@ -2,6 +2,6 @@
 
 <script>
 export default {
-  name: "ingresos-template",
+  name: "articulos-template-table",
 };
 </script>

@@ -44,14 +44,14 @@
           <template v-if="usuarios" v-slot:item="{ item }">
             <UsuariosTemplate :item="item" @listarClick="listar" />
           </template>
+          <template v-if="categoria" v-slot:item="{ item }">
+            <CategoriasTemplate :item="item" />
+          </template>
           <template v-if="ventas" v-slot:item="{ item }">
             <VentasTemplateTable :item="item" @listarClick="listar" />
           </template>
           <!-- <template v-if="ingresos" v-slot:item="{ item }">
             <IngresosTemplate :item="item" />
-          </template>
-          <template v-if="categoria" v-slot:item="{ item }">
-            <CategoriasTemplate :item="item" />
           </template>
           <template v-if="articulos" v-slot:item="{ item }">
             <ArticulosTemplate :item="item" />
@@ -70,18 +70,19 @@
 
 <script>
 import Opciones from "./Opciones.vue";
+import UsuariosTemplate from "./templates/usuarios-template-table";
+import CategoriasTemplate from "./templates/categorias-template-table";
 import VentasTemplateTable from "./templates/ventas-template-table";
-import IngresosTemplate from "./templates/ingresos-template";
-import CategoriasTemplate from "./templates/categorias-template";
-import ArticulosTemplate from "./templates/articulos-template";
-import ProvedoresTemplate from "./templates/provedores-template";
-import ClientesTemplate from "./templates/clientes-template";
-import UsuariosTemplate from "./templates/usuarios-template";
+import IngresosTemplate from "./templates/ingresos-template-table";
+import ArticulosTemplate from "./templates/articulos-template-table";
+import ProvedoresTemplate from "./templates/provedores-template-table";
+import ClientesTemplate from "./templates/clientes-template-table";
 export default {
   components: {
     Opciones,
-    VentasTemplateTable,
-    UsuariosTemplate
+    UsuariosTemplate,
+    CategoriasTemplate,
+    VentasTemplateTable
   },
   props: {
     title: String,
@@ -93,7 +94,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    ventas: {
+    categorias: {
       type: Boolean,
       default: false,
     },
@@ -101,7 +102,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    categorias: {
+    ventas: {
       type: Boolean,
       default: false,
     },
