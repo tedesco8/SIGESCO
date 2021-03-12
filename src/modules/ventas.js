@@ -40,7 +40,7 @@ export default {
 
       // debugger
       await axios
-        .get("venta/list", configuracion)
+        .get("sale/get", configuracion)
         .then(function(response) {
           data = response.data;
           commit("llenarVentas", data);
@@ -55,7 +55,7 @@ export default {
       let data = null;
       debugger;
       await axios
-        .get(`venta/query?_id=${dataVenta.id}`, configuracion)
+        .get(`sale/query?id=${dataVenta.id}`, configuracion)
         .then(function(response) {
           data = { data: response.data };
           commit("llenarVenta", data);
@@ -68,9 +68,9 @@ export default {
       let header = { Token: dataVenta.token };
       let configuracion = { headers: header };
       let data = dataVenta.data;
-        debugger
+      debugger;
       await axios
-        .post("venta/add",{data},configuracion)
+        .post("sale/add", { data }, configuracion)
         .then(function(res) {
           debugger;
           dispatch("getVentas", dataVenta.token);
@@ -104,8 +104,7 @@ export default {
       //debugger;
       let data = dataVenta.data;
       await axios
-        .put("venta/update",{data},configuracion
-        )
+        .put("sale/update", { id: data.id }, configuracion)
         .then(function(res) {
           dispatch("getVentas", dataVenta.token);
           swal({
@@ -137,7 +136,7 @@ export default {
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("venta/activate", { _id: dataVenta.id }, configuracion)
+        .put("sale/activate", { id: dataVenta.id }, configuracion)
         .then(function() {
           dispatch("getVentas", dataVenta.token);
           swal({
@@ -159,7 +158,7 @@ export default {
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("venta/deactivate", { _id: dataVenta.id }, configuracion)
+        .put("sale/deactivate", { id: dataVenta.id }, configuracion)
         .then(function() {
           dispatch("getVentas", dataVenta.token);
           swal({
@@ -182,7 +181,7 @@ export default {
       let configuracion = { headers: header };
 
       await axios
-        .delete(`venta/remove?_id=${dataVenta.id}`, configuracion)
+        .delete(`sale/remove?id=${dataVenta.id}`, configuracion)
         .then(function() {
           // debugger
           dispatch("getVentas", dataVenta.token);
