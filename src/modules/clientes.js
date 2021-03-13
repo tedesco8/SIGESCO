@@ -3,88 +3,88 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    article: {},
-    articles: [],
+    client: {},
+    clients: [],
   },
   mutations: {
-    setArticles(state, data) {
-      state.articles = data;
+    setClients(state, data) {
+      state.clients = data;
     },
-    setArticle(state, data) {
-      state.article = data;
+    setClient(state, data) {
+      state.client = data;
     },
     limpiar(state) {
-      state.article = {};
+      state.client = {};
     },
   },
   actions: {
     clear: async function({ commit }) {
       commit("limpiar");
     },
-    newArticle: async function({ commit }) {
+    newClient: async function({ commit }) {
       commit("limpiar");
     },
-    getArticles: async function({ commit }, token) {
+    getClients: async function({ commit }, token) {
       let header = { Token: token };
       let configuracion = { headers: header };
       let data = null;
 
       // debugger;
       await axios
-        .get("article/get", configuracion)
+        .get("client/get", configuracion)
         .then(function(response) {
           data = response.data;
-          commit("setArticles", data);
+          commit("setClients", data);
         })
         .catch(function(err) {
           console.log(err);
         });
     },
-    getArticle: async function({ commit }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    getClient: async function({ commit }, dataClient) {
+      let header = { Token: dataClient.token };
       let configuracion = { headers: header };
       let data = null;
       // debugger;
       await axios
-        .get(`article/query?id=${dataArticle.id}`, configuracion)
+        .get(`client/query?id=${dataClient.id}`, configuracion)
         .then(function(response) {
           data = { data: response.data };
-          commit("setArticle", data);
+          commit("setClient", data);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-    setArticle: async function({ commit }, dataArticle) {
-      commit("setArticle", dataArticle.data);
+    setClient: async function({ commit }, dataClient) {
+      commit("setClient", dataClient.data);
     },
-    saveArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    saveClient: async function({ dispatch }, dataClient) {
+      let header = { Token: dataClient.token };
       let configuracion = { headers: header };
-      let data = dataArticle.data;
-      // debugger;
+      let data = dataClient.data;
+      debugger;
       await axios
         .post(
-          "article/add",
+          "client/add",
           {
+            rol: data.rol,
             name: data.name,
-            type: data.type,
-            description: data.description,
-            priceUnity: data.priceUnity,
-            priceWholesale: data.priceWholesale,
-            stock: data.stock,
-            image: data.image,
-            class: data.class
+            surname: data.surname,
+            email: data.email,
+            password: data.password,
+            phone: data.phone,
+            address: data.address,
+            city: data.city
 
           },
           configuracion
         )
         .then(function(res) {
           // debugger;
-          dispatch("getArticles", dataArticle.token);
+          dispatch("getClients", dataClient.token);
           this.$swal.fire({
             title: "Buen trabajo!",
-            text: `El artículo ${res.data.name} agregado exitosamente`,
+            text: `El Cliente ${res.data.name} agregado exitosamente`,
             type: "success",
           });
         })
@@ -106,32 +106,32 @@ export default {
           }
         });
     },
-    updateArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    updateClient: async function({ dispatch }, dataClient) {
+      let header = { Token: dataClient.token };
       let configuracion = { headers: header };
       //debugger;
-      let data = dataArticle.data;
+      let data = dataClient.data;
       await axios
         .put(
-          "article/update",
+          "client/update",
           {
             id: data.id,
+            rol: data.rol,
             name: data.name,
-            type: data.type,
-            description: data.description,
-            priceUnity: data.priceUnity,
-            priceWholesale: data.priceWholesale,
-            stock: data.stock,
-            image: data.image,
-            class: data.class
+            surname: data.surname,
+            email: data.email,
+            password: data.password,
+            phone: data.phone,
+            address: data.address,
+            city: data.city
           },
           configuracion
         )
         .then(function(res) {
-          dispatch("getArticles", dataArticle.token);
+          dispatch("getClients", dataClient.token);
           this.$swal.fire({
             title: "Buen trabajo!",
-            text: `El artículo ${res.data.name} fue editado exitosamente`,
+            text: `El Cliente ${res.data.name} fue editado exitosamente`,
             type: "success",
           });
         })
@@ -153,17 +153,17 @@ export default {
           }
         });
     },
-    activateArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    activateClient: async function({ dispatch }, dataClient) {
+      let header = { Token: dataClient.token };
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("article/activate", { id: dataArticle.id }, configuracion)
+        .put("client/activate", { id: dataClient.id }, configuracion)
         .then(function(res) {
-          dispatch("getArticles", dataArticle.token);
+          dispatch("getClients", dataClient.token);
           this.$swal.fire({
             title: "Buen trabajo!",
-            text: `Artículo ${res.data.name} activado correctamente`,
+            text: `Cliente ${res.data.name} activado correctamente`,
             type: "success",
           });
         })
@@ -175,17 +175,17 @@ export default {
           });
         });
     },
-    deactivateArticle: async function({ dispatch }, dataArticle) {
-      let header = { Token: dataArticle.token };
+    deactivateClient: async function({ dispatch }, dataClient) {
+      let header = { Token: dataClient.token };
       let configuracion = { headers: header };
       //debugger
       await axios
-        .put("article/deactivate", { id: dataArticle.id }, configuracion)
+        .put("client/deactivate", { id: dataClient.id }, configuracion)
         .then(function(res) {
-          dispatch("getArticles", dataArticle.token);
+          dispatch("getClients", dataClient.token);
           this.$swal.fire({
             title: "Buen trabajo!",
-            text: `Artículo ${res.data.name} desactivado correctamente`,
+            text: `Cliente ${res.data.name} desactivado correctamente`,
             type: "success",
           });
         })

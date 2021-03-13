@@ -20,6 +20,7 @@
           </v-toolbar-items>
         </v-toolbar>
         <UsuarioTemplateDialog v-if="usuario" :item="item" :action="action" />
+        <ClienteTemplateDialog v-if="cliente" :item="item" :action="action" />
         <CategoriaTemplateDialog v-if="categoria" :item="item" :action="action" />
         <ArticuloTemplateDialog v-if="articulo" :item="item" :action="action" />
         <VentaTemplateDialog v-if="venta" :item="item" :action="action" />
@@ -29,12 +30,14 @@
 </template>
 <script>
 import UsuarioTemplateDialog from "./templates/usuario-template-dialog";
+import ClienteTemplateDialog from "./templates/cliente-template-dialog";
 import CategoriaTemplateDialog from "./templates/categoria-template-dialog";
 import ArticuloTemplateDialog from "./templates/articulo-template-dialog";
 import VentaTemplateDialog from "./templates/venta-template-dialog";
 export default {
   components: {
     UsuarioTemplateDialog,
+    ClienteTemplateDialog,
     CategoriaTemplateDialog,
     ArticuloTemplateDialog,
     VentaTemplateDialog,
@@ -48,6 +51,10 @@ export default {
     action: Number, //0 = nuevo, 1 = ver, 2 = editar
     item: Object,
     usuario: {
+      type: Boolean,
+      default: false,
+    },
+    cliente: {
       type: Boolean,
       default: false,
     },
