@@ -74,26 +74,26 @@ export default {
         .then(function(res) {
           debugger;
           dispatch("getVentas", dataVenta.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: "Venta agregada exitosamente",
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -107,26 +107,26 @@ export default {
         .put("sale/update", { id: data.id }, configuracion)
         .then(function(res) {
           dispatch("getVentas", dataVenta.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `La venta fue editada exitosamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -139,17 +139,17 @@ export default {
         .put("sale/activate", { id: dataVenta.id }, configuracion)
         .then(function() {
           dispatch("getVentas", dataVenta.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Venta activada correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },
@@ -161,17 +161,17 @@ export default {
         .put("sale/deactivate", { id: dataVenta.id }, configuracion)
         .then(function() {
           dispatch("getVentas", dataVenta.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Venta desactivada correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },
@@ -185,10 +185,10 @@ export default {
         .then(function() {
           // debugger
           dispatch("getVentas", dataVenta.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Pedido eliminado correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {

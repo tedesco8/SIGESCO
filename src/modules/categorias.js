@@ -75,7 +75,7 @@ export default {
         .then(function(res) {
           // debugger;
           dispatch("getCategorys", dataCategory.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Categoría ${res.data.name} agregada exitosamente`,
             icon: "success",
@@ -84,17 +84,17 @@ export default {
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
                 icon: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -116,26 +116,26 @@ export default {
         )
         .then(function(res) {
           dispatch("getCategorys", dataCategory.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `La Categoría ${res.data.name} fue editada exitosamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -148,17 +148,17 @@ export default {
         .put("type/activate", { id: dataCategory.id }, configuracion)
         .then(function(res) {
           dispatch("getCategorys", dataCategory.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Categoría ${res.data.name} activada correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },
@@ -170,17 +170,17 @@ export default {
         .put("type/deactivate", { id: dataCategory.id }, configuracion)
         .then(function(res) {
           dispatch("getCategorys", dataCategory.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Categoría ${res.data.name} desactivada correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },

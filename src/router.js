@@ -136,40 +136,40 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.administrador)) {
       next();
     } else {
-      swal({
+      this.$swal.fire({
         title: "Ups!",
         text: "No tienes acceso a esta ruta",
-        icon: "error",
+        type: "error",
       });
     }
   } else if (store.state.usuario && store.state.usuario.rol == "Vendedor") {
     if (to.matched.some((record) => record.meta.vendedor)) {
       next();
     } else {
-      swal({
+      this.$swal.fire({
         title: "Ups!",
         text: "No tienes acceso a esta ruta",
-        icon: "error",
+        type: "error",
       });
     }
   } else if (store.state.usuario && store.state.usuario.rol == "Almacenero") {
     if (to.matched.some((record) => record.meta.almacenero)) {
       next();
     } else {
-      swal({
+      this.$swal.fire({
         title: "Ups!",
         text: "No tienes acceso a esta ruta",
-        icon: "error",
+        type: "error",
       });
     }
   } else if (store.state.usuario && store.state.usuario.rol == "Invitado") {
     if (to.matched.some((record) => record.meta.invitado)) {
       next();
     } else {
-      swal({
+      this.$swal.fire({
         title: "Ups!",
         text: "No tienes acceso a esta ruta",
-        icon: "error",
+        type: "error",
       });
     }
   } else {

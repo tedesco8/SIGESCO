@@ -288,7 +288,7 @@ export default {
             configuracion
           )
           .then(function (response) {
-            swal({
+            this.$swal.fire({
               title: "Buen trabajo!",
               text: "Cliente editado exitosamente",
               icon: "success",
@@ -317,7 +317,7 @@ export default {
             configuracion
           )
           .then(function (response) {
-            swal({
+            this.$swal.fire({
               title: "Buen trabajo!",
               text: "Cliente agregado exitosamente",
               icon: "success",
@@ -366,7 +366,7 @@ export default {
       axios
         .put("persona/activate", { _id: this.adId }, configuracion)
         .then(function (response) {
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: "Cliente activado exitosamente",
             icon: "success",
@@ -388,7 +388,7 @@ export default {
       axios
         .put("persona/deactivate", { _id: this.adId }, configuracion)
         .then(function (response) {
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: "Cliente desactivado exitosamente",
             icon: "success",

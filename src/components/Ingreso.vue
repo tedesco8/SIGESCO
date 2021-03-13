@@ -562,7 +562,7 @@ export default {
           configuracion
         )
         .then(function (response) {
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: "Ingreso agregado exitosamente",
             icon: "success",
@@ -597,7 +597,7 @@ export default {
       axios
         .put("ingreso/activate", { _id: this.adId }, configuracion)
         .then(function (response) {
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: "Ingreso activado exitosamente",
             icon: "success",
@@ -619,7 +619,7 @@ export default {
       axios
         .put("ingreso/deactivate", { _id: this.adId }, configuracion)
         .then(function (response) {
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: "Ingreso desactivado exitosamente",
             icon: "success",

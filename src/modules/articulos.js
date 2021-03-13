@@ -83,26 +83,26 @@ export default {
         .then(function(res) {
           // debugger;
           dispatch("getArticles", dataArticle.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `El artículo ${res.data.name} agregado exitosamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -131,26 +131,26 @@ export default {
         )
         .then(function(res) {
           dispatch("getArticles", dataArticle.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `El artículo ${res.data.name} fue editado exitosamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -163,17 +163,17 @@ export default {
         .put("article/activate", { id: dataArticle.id }, configuracion)
         .then(function(res) {
           dispatch("getArticles", dataArticle.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Artículo ${res.data.name} activado correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },
@@ -185,17 +185,17 @@ export default {
         .put("article/deactivate", { id: dataArticle.id }, configuracion)
         .then(function(res) {
           dispatch("getArticles", dataArticle.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Artículo ${res.data.name} desactivado correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },

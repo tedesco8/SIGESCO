@@ -37,7 +37,7 @@
 </template>
 <script>
 import axios from "axios";
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -46,33 +46,32 @@ export default {
       errorM: null,
     };
   },
-  computed: {
-    ...mapState("usuariosNamespace", ["token"]),
-  },
   methods: {
     ...mapActions("usuariosNamespace", ["guardarToken"]),
     ingresar() {
+      debugger;
       axios
         .post("user/login", { email: this.email, password: this.password })
-        .then((respuesta) => {
-          return respuesta.data;
-        })
-        .then((data) => {
-          swal({
+        .then((res) => {
+          this.$swal.fire({
             title: "Genial!",
             text: "Bienvenido a SIGESCO",
-            icon: "success",
+            type: "success",
           });
-          this.guardarToken(data.tokenReturn);
+          this.guardarToken(res.data.tokenReturn);
         })
         .catch((error) => {
-          //console.log(error);
           this.errorM = null;
-          if (error.response.status == 404) {
-            this.errorM =
-              "No exíste el usuario o las credenciales son incorrectas";
-          } else {
-            this.errorM = "Ocurrió un error con el servidor";
+          switch (error.status) {
+            case 404:
+              this.errorM = "No exíste el usuario";
+              break;
+            case 403:
+              this.errorM = "Las credenciales son incorrectas";
+              break;
+            default:
+              this.errorM = "Ocurrió un error con el servidor";
+              break;
           }
         });
     },

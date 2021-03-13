@@ -89,26 +89,26 @@ export default {
         .then(function(res) {
           // debugger;
           dispatch("getUsers", dataUser.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Usuario ${res.data.name} ${res.data.surname} agregado exitosamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -134,26 +134,26 @@ export default {
         )
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `El usuario ${res.data.name} ${res.data.surname} fue editado exitosamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return swal({
+              return this.$swal.fire({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                icon: "warning",
+                type: "warning",
               });
             }
           } else {
-            swal({
+            this.$swal.fire({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              icon: "error",
+              type: "error",
             });
           }
         });
@@ -166,17 +166,17 @@ export default {
         .put("user/activate", { id: dataUser.id }, configuracion)
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Usuario ${res.data.name} ${res.data.surname} activado correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
-          swal({
+          this.$swal.fire({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },
@@ -188,21 +188,22 @@ export default {
         .put("user/deactivate", { id: dataUser.id }, configuracion)
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
-          swal({
+          this.$swal.fire({
             title: "Buen trabajo!",
             text: `Usuario ${res.data.name} ${res.data.surname} desactivado correctamente`,
-            icon: "success",
+            type: "success",
           });
         })
         .catch(function(error) {
           swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            icon: "error",
+            type: "error",
           });
         });
     },
     guardarToken({ commit }, token) {
+      debugger
       commit("setToken", token);
       commit("setUsuario", decode(token));
       localStorage.setItem("token", token);
