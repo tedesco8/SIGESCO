@@ -45,16 +45,16 @@
             <UsuariosTemplate :item="item" @listarClick="listar" />
           </template>
           <template v-if="categoria" v-slot:item="{ item }">
-            <CategoriasTemplate :item="item" />
+            <CategoriasTemplate :item="item" @listarClick="listar" />
+          </template>
+          <template v-if="articulos" v-slot:item.type="{ item }">
+            <ArticulosTemplate :item="item" @listarClick="listar" />
           </template>
           <template v-if="ventas" v-slot:item="{ item }">
             <VentasTemplateTable :item="item" @listarClick="listar" />
           </template>
           <!-- <template v-if="ingresos" v-slot:item="{ item }">
             <IngresosTemplate :item="item" />
-          </template>
-          <template v-if="articulos" v-slot:item="{ item }">
-            <ArticulosTemplate :item="item" />
           </template>
           <template v-if="provedores" v-slot:item="{ item }">
             <ProvedoresTemplate :item="item" />
@@ -73,8 +73,8 @@ import Opciones from "./Opciones.vue";
 import UsuariosTemplate from "./templates/usuarios-template-table";
 import CategoriasTemplate from "./templates/categorias-template-table";
 import VentasTemplateTable from "./templates/ventas-template-table";
-import IngresosTemplate from "./templates/ingresos-template-table";
 import ArticulosTemplate from "./templates/articulos-template-table";
+import IngresosTemplate from "./templates/ingresos-template-table";
 import ProvedoresTemplate from "./templates/provedores-template-table";
 import ClientesTemplate from "./templates/clientes-template-table";
 export default {
@@ -82,6 +82,7 @@ export default {
     Opciones,
     UsuariosTemplate,
     CategoriasTemplate,
+    ArticulosTemplate,
     VentasTemplateTable
   },
   props: {

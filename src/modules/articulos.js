@@ -21,7 +21,7 @@ export default {
     clear: async function({ commit }) {
       commit("limpiar");
     },
-    newUser: async function({ commit }) {
+    newArticle: async function({ commit }) {
       commit("limpiar");
     },
     getArticles: async function({ commit }, token) {
@@ -68,20 +68,24 @@ export default {
           "article/add",
           {
             name: data.name,
-            surname: data.surname,
-            email: data.email,
-            rol: data.rol,
-            phone: data.phone,
-            password: data.password,
+            type: data.type,
+            name: data.name,
+            description: data.description,
+            priceUnity: data.priceUnity,
+            priceWholesale: data.priceWholesale,
+            stock: data.stock,
+            image: data.image,
+            class: data.class
+
           },
           configuracion
         )
         .then(function(res) {
           // debugger;
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getArticles", dataArticle.token);
           swal({
             title: "Buen trabajo!",
-            text: `Usuario ${res.data.name} ${res.data.surname} agregado exitosamente`,
+            text: `El artículo ${res.data.name} agregado exitosamente`,
             icon: "success",
           });
         })
@@ -114,19 +118,22 @@ export default {
           {
             id: data.id,
             name: data.name,
-            surname: data.surname,
-            email: data.email,
-            rol: data.rol,
-            phone: data.phone,
-            password: data.password,
+            type: data.type,
+            name: data.name,
+            description: data.description,
+            priceUnity: data.priceUnity,
+            priceWholesale: data.priceWholesale,
+            stock: data.stock,
+            image: data.image,
+            class: data.class
           },
           configuracion
         )
         .then(function(res) {
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getArticles", dataArticle.token);
           swal({
             title: "Buen trabajo!",
-            text: `El usuario ${res.data.name} ${res.data.surname} fue editado exitosamente`,
+            text: `El artículo ${res.data.name} fue editado exitosamente`,
             icon: "success",
           });
         })
@@ -155,10 +162,10 @@ export default {
       await axios
         .put("article/activate", { id: dataArticle.id }, configuracion)
         .then(function(res) {
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getArticles", dataArticle.token);
           swal({
             title: "Buen trabajo!",
-            text: `Usuario ${res.data.name} ${res.data.surname} activado correctamente`,
+            text: `Artículo ${res.data.name} activado correctamente`,
             icon: "success",
           });
         })
@@ -177,10 +184,10 @@ export default {
       await axios
         .put("article/deactivate", { id: dataArticle.id }, configuracion)
         .then(function(res) {
-          dispatch("getUsers", dataArticle.token);
+          dispatch("getArticles", dataArticle.token);
           swal({
             title: "Buen trabajo!",
-            text: `Usuario ${res.data.name} ${res.data.surname} desactivado correctamente`,
+            text: `Artículo ${res.data.name} desactivado correctamente`,
             icon: "success",
           });
         })
