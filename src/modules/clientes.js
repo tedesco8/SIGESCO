@@ -13,16 +13,16 @@ export default {
     setClient(state, data) {
       state.client = data;
     },
-    limpiar(state) {
+    clear(state) {
       state.client = {};
     },
   },
   actions: {
     clear: async function({ commit }) {
-      commit("limpiar");
+      commit("clear");
     },
     newClient: async function({ commit }) {
-      commit("limpiar");
+      commit("clear");
     },
     getClients: async function({ commit }, token) {
       let header = { Token: token };

@@ -96,10 +96,10 @@ export default {
       this.$emit("close");
     },
   },
-  watch: {
-    dialog(val) {
-      val || this.$emit("close");
-    },
-  },
+  // watch: {
+  //   dialog(val) {
+  //     val || this.$emit("close");
+  //   },
+  // },
 };
 </script>

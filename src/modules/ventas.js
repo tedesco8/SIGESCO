@@ -3,37 +3,52 @@ import axios from "axios";
 export default {
   namespaced: true,
   state: {
-    venta: {},
-    ventas: [],
+    total: 0,
+    sale: {},
+    sales: [],
   },
   mutations: {
-    llenarVentas(state, data) {
-      state.ventas = data;
+    setSales(state, data) {
+      state.sales = data;
     },
-    llenarVenta(state, data) {
-      data.data
-        ? (state.venta = data.data)
-        : (state.venta.detalles = data.detalle);
+    setTotal(state, data) {
+      debugger
+      state.total = data
     },
-    nuevaVenta(state, data) {
-      state.venta = data;
+    setSale(state, data) {
+      state.sale = data;
     },
-    limpiar(state) {
-      state.venta = {};
+    setDetail(state, data) {
+      state.sale.details = data
+    },
+    deleteDetail(state, data) {
+      debugger
+      state.sale.details.splice(data, 1);
+    },
+    clear(state) {
+      state.sale = {};
     },
   },
   actions: {
     clear: async function({ commit }) {
-      commit("limpiar");
+      commit("clear");
     },
-    setVenta: async function({ commit }, data) {
-      commit("llenarVenta", data);
+    setTotal: async function({ commit }, data) {
+      commit("setTotal", data);
     },
-    newVenta: async function({ commit }) {
-      let data = { impuesto: 0.18 };
-      commit("nuevaVenta", data);
+    setSale: async function({ commit }, data) {
+      commit("setSale", data);
     },
-    getVentas: async function({ commit }, token) {
+    setDetail: async function({ commit }, data) {
+      commit("setDetail", data);
+    },
+    deleteDetail: async function({ commit }, data) {
+      commit("deleteDetail", data);
+    },
+    newSale: async function({ commit }) {
+      commit("clear");
+    },
+    getSales: async function({ commit }, token) {
       let header = { Token: token };
       let configuracion = { headers: header };
       let data = null;
@@ -43,13 +58,13 @@ export default {
         .get("sale/get", configuracion)
         .then(function(response) {
           data = response.data;
-          commit("llenarVentas", data);
+          commit("setSales", data);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-    getVenta: async function({ commit }, dataVenta) {
+    getSale: async function({ commit }, dataVenta) {
       let header = { Token: dataVenta.token };
       let configuracion = { headers: header };
       let data = null;
@@ -58,22 +73,31 @@ export default {
         .get(`sale/query?id=${dataVenta.id}`, configuracion)
         .then(function(response) {
           data = { data: response.data };
-          commit("llenarVenta", data);
+          commit("setSale", data);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-    saveVenta: async function({ dispatch }, dataVenta) {
+    saveSale: async function({ dispatch }, dataVenta) {
       let header = { Token: dataVenta.token };
       let configuracion = { headers: header };
       let data = dataVenta.data;
       debugger;
       await axios
-        .post("sale/add", { data }, configuracion)
+        .post("sale/add", { 
+          client: data.client,
+          user: dataVenta.user,
+          voucherType: data.voucherType,
+          voucherSeries: data.voucherSeries,
+          voucherNum: data.voucherNum,
+          total: data.total,
+          details: data.details
+
+         }, configuracion)
         .then(function(res) {
           debugger;
-          dispatch("getVentas", dataVenta.token);
+          dispatch("getSales", dataVenta.token);
           this.$swal.fire({
             title: "Buen trabajo!",
             text: "Venta agregada exitosamente",
@@ -98,7 +122,7 @@ export default {
           }
         });
     },
-    updateVenta: async function({ dispatch }, dataVenta) {
+    updateSale: async function({ dispatch }, dataVenta) {
       let header = { Token: dataVenta.token };
       let configuracion = { headers: header };
       //debugger;
@@ -106,7 +130,7 @@ export default {
       await axios
         .put("sale/update", { id: data.id }, configuracion)
         .then(function(res) {
-          dispatch("getVentas", dataVenta.token);
+          dispatch("getSales", dataVenta.token);
           this.$swal.fire({
             title: "Buen trabajo!",
             text: `La venta fue editada exitosamente`,
@@ -131,14 +155,14 @@ export default {
           }
         });
     },
-    activateVenta: async function({ dispatch }, dataVenta) {
+    activateSale: async function({ dispatch }, dataVenta) {
       let header = { Token: dataVenta.token };
       let configuracion = { headers: header };
       //debugger
       await axios
         .put("sale/activate", { id: dataVenta.id }, configuracion)
         .then(function() {
-          dispatch("getVentas", dataVenta.token);
+          dispatch("getSales", dataVenta.token);
           this.$swal.fire({
             title: "Buen trabajo!",
             text: `Venta activada correctamente`,
@@ -153,14 +177,14 @@ export default {
           });
         });
     },
-    deactivateVenta: async function({ dispatch }, dataVenta) {
+    deactivateSale: async function({ dispatch }, dataVenta) {
       let header = { Token: dataVenta.token };
       let configuracion = { headers: header };
       //debugger
       await axios
         .put("sale/deactivate", { id: dataVenta.id }, configuracion)
         .then(function() {
-          dispatch("getVentas", dataVenta.token);
+          dispatch("getSales", dataVenta.token);
           this.$swal.fire({
             title: "Buen trabajo!",
             text: `Venta desactivada correctamente`,
@@ -175,7 +199,7 @@ export default {
           });
         });
     },
-    deleteVenta: async function({ dispatch }, dataVenta) {
+    deleteSale: async function({ dispatch }, dataVenta) {
       let token = dataVenta.token;
       let header = { Token: token };
       let configuracion = { headers: header };
@@ -184,7 +208,7 @@ export default {
         .delete(`sale/remove?id=${dataVenta.id}`, configuracion)
         .then(function() {
           // debugger
-          dispatch("getVentas", dataVenta.token);
+          dispatch("getSales", dataVenta.token);
           this.$swal.fire({
             title: "Buen trabajo!",
             text: `Pedido eliminado correctamente`,

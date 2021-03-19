@@ -68,6 +68,7 @@ export default {
       headers: [
         { text: "Opciones", value: "opciones", sortable: false },
         { text: "Nombre", value: "name", sortable: true },
+        { text: "Código", value: "code", sortable: true },
         { text: "Categoría", value: "type", sortable: true },
         { text: "Descripción", value: "description", sortable: true },
         { text: "Precio x unidad", value: "priceUnity", sortable: true },

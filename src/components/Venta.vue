@@ -38,7 +38,7 @@
         :venta="ventaBoo"
         :dialog="dialog"
         :action="action"
-        :item="venta"
+        :item="sale"
       />
       <!-- Tabla principal -->
       <Table
@@ -50,7 +50,7 @@
         :opciones="true"
         :title="'Ventas'"
         :headers="headers"
-        :items="ventas"
+        :items="sales"
       />
     </v-flex>
   </v-layout>
@@ -70,23 +70,15 @@ export default {
       search: "",
       headers: [
         { text: "Opciones", value: "opciones", sortable: false },
-        { text: "Usuario", value: "usuario.nombre", sortable: true },
-        { text: "Cliente", value: "persona.nombre", sortable: true },
-        { text: "Tipo Comprobante", value: "tipo_comprobante", sortable: true },
-        {
-          text: "Serie comprobante",
-          value: "serie_comprobante",
-          sortable: false,
-        },
-        {
-          text: "Número comprobante",
-          value: "num_comprobante",
-          sortable: false,
-        },
+        { text: "Cliente", value: "client", sortable: true },
+        { text: "Usuario", value: "user", sortable: true },
+        { text: "Tipo Comprobante", value: "voucherType", sortable: true },
+        { text: "Serie comprobante", value: "voucherSeries", sortable: false },
+        { text: "Número comprobante", value: "voucherNum", sortable: false },
         { text: "Fecha", value: "createdAt", sortable: false },
-        { text: "Impuesto", value: "impuesto", sortable: false },
+        { text: "Impuesto", value: "tax", sortable: false },
         { text: "Total", value: "total", sortable: false },
-        { text: "Estado", value: "estado", sortable: false },
+        { text: "Estado", value: "status", sortable: false },
       ],
       _id: "",
       adModal: false,
@@ -112,36 +104,36 @@ export default {
   },
   computed: {
     ...mapState("usuariosNamespace", ["token", "usuario"]),
-    ...mapState("ventasNamespace", ["ventas", "venta"]),
+    ...mapState("ventasNamespace", ["sales", "sale", "total"]),
   },
   methods: {
     ...mapActions("ventasNamespace", [
-      "getVentas",
-      "newVenta",
+      "getSales",
+      "newSale",
       "clear",
-      "setVenta",
-      "saveVenta",
-      "updateVenta",
-      "activateVenta",
-      "deactivateVenta",
+      "setSale",
+      "saveSale",
+      "updateSale",
+      "activateSale",
+      "deactivateSale",
     ]),
     listar() {
-      this.getVentas(this.token);
+      this.getSales(this.token);
     },
     mostrarNuevo() {
-      this.newVenta();
+      this.newSale();
       this.ventaBoo = true;
       this.action = 0;
       this.dialog = true;
     },
     verItem(item) {
-      this.setVenta({ data: item });
+      this.setSale({ data: item });
       this.action = 1;
       this.ventaBoo = true;
       this.dialog = true;
     },
     editItem(item) {
-      this.setVenta({ data: item });
+      this.setSale({ data: item });
       this.action = 2;
       this.ventaBoo = true;
       this.dialog = true;
@@ -157,30 +149,15 @@ export default {
       this.adModal = false;
     },
     guardar() {
-      let me = this;
-      let header = { Token: this.token };
-      let configuracion = { headers: header };
       debugger;
       if (this.action == 0) {
         //Código para guardar
-        let resultado = 0.0;
-        let detalles = this.venta.detalles;
-        if (detalles) {
-          for (var i = 0; i < detalles.length; i++) {
-            resultado =
-              resultado +
-              (detalles[i].cantidad * detalles[i].precio -
-                detalles[i].descuento);
-          }
-        }
-        this.venta.total = resultado;
-        this.venta.usuario = this.usuario._id;
-        this.saveVenta({ token: this.token, data: this.venta });
+        this.saveSale({ token: this.token, data: this.sale, user: this.usuario.id});
         this.close();
         this.listar();
       } else {
         //Código para editar
-        this.updateVenta({ token: this.token, data: this.venta });
+        this.updateSale({ token: this.token, data: this.sale });
         this.close();
         this.listar();
       }
@@ -198,7 +175,7 @@ export default {
       }
     },
     activar(id) {
-      this.activateVenta({ token: this.token, id: id });
+      this.activateSale({ token: this.token, id: id });
       this.adModal = false;
       this.adAccion = 0;
       this.adNombre = "";
@@ -206,7 +183,7 @@ export default {
       this.listar();
     },
     desactivar(id) {
-      this.deactivateVenta({ token: this.token, id: id });
+      this.deactivateSale({ token: this.token, id: id });
       this.adModal = false;
       this.adAccion = 0;
       this.adNombre = "";
