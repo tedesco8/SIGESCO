@@ -62,6 +62,7 @@ import Imprimir from "./base/Imprimir";
 import DialogModal from "./base/modal/DialogModal";
 import { mapState, mapActions } from "vuex";
 export default {
+  name: "Venta",
   data() {
     return {
       dialog: false,
@@ -157,7 +158,7 @@ export default {
         this.listar();
       } else {
         //Código para editar
-        this.updateSale({ token: this.token, data: this.sale });
+        this.updateSale({ token: this.token, data: this.sale, user: this.usuario.id });
         this.close();
         this.listar();
       }

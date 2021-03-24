@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     total: 0,
-    sale: {},
+    sale: {total: 0, tax: 0.0},
     sales: [],
   },
   mutations: {
@@ -26,7 +26,7 @@ export default {
       state.sale.details.splice(data, 1);
     },
     clear(state) {
-      state.sale = {};
+      state.sale = {total: 0, tax: 0.0};
     },
   },
   actions: {

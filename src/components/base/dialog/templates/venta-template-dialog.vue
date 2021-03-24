@@ -84,7 +84,7 @@
         <template>
           <v-data-table
             :headers="cabeceraDetalles"
-            :items="item.details"
+            :items="detalles"
             hide-default-footer
             class="elevation-1"
           >
@@ -96,26 +96,18 @@
             <template v-slot:item.name="{ item }">
               <div class="text-xs-center">{{ item.name }}</div>
             </template>
-            <template v-slot:item.cantidad="{ item }">
+            <template v-slot:item.amount="{ item }">
               <div class="text-xs-center">
                 <v-text-field
-                  v-model="item.cantidad"
+                  v-model="item.amount"
                   type="number"
                 ></v-text-field>
               </div>
             </template>
-            <template v-slot:item.priceUnity="{ item }">
+            <template v-slot:item.price="{ item }">
               <div class="text-xs-center">
                 <v-text-field
-                  v-model="item.priceUnity"
-                  type="number"
-                ></v-text-field>
-              </div>
-            </template>
-            <template v-slot:item.priceWholesale="{ item }">
-              <div class="text-xs-center">
-                <v-text-field
-                  v-model="item.priceWholesale"
+                  v-model="item.price"
                   type="number"
                 ></v-text-field>
               </div>
@@ -131,28 +123,18 @@
             <template v-slot:item.subtotal="{ item }">
               <div class="text-xs-right">
                 $
-                {{
-                  (subTotal = item.cantidad * item.priceUnity - item.descuento)
-                }}
+                {{ item.amount * item.price - item.descuento }}
               </div>
             </template>
             <template slot="no-data">
               <h3>No hay artículos agregados al detalle.</h3>
             </template>
           </v-data-table>
-          <v-flex class="text-xs-right">
-            <strong>Total:</strong>
-            $ {{ calcularTotal }}
-          </v-flex>
         </template>
       </v-flex>
-      <v-flex xs12 sm12 md12 v-show="valida">
-        <div
-          class="red--text"
-          v-for="v in validaMensaje"
-          :key="v"
-          v-text="v"
-        ></div>
+      <v-flex class="text-xs-right">
+        <strong>Total:</strong>
+        $ {{ item.total }}
       </v-flex>
     </v-layout>
   </v-container>
@@ -169,6 +151,8 @@ export default {
       codigo: "",
       total: 0,
       valida: 0,
+      cantidad: 1,
+      descuento: 0,
       errorArticulo: null,
       articulos: [],
       detalles: [],
@@ -203,59 +187,31 @@ export default {
   created() {
     this.selectPersona();
   },
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.setSale(this.item);
+  //   });
+  // },
+  watch: {
+    total(val) {
+      this.setTotal(val);
+    },
+    item(val) {
+      debugger;
+      this.setSale(val);
+    },
+  },
   computed: {
     ...mapState("usuariosNamespace", ["token"]),
     ...mapState("ventasNamespace", ["sale"]),
-    calcularTotal: function () {
-      let resultado = 0.0;
-
-      if (this.sale.details) {
-        let details = this.sale.details;
-        for (var i = 0; i < details.length; i++) {
-          resultado =
-            resultado +
-            (details[i].cantidad * details[i].priceUnity -
-              details[i].descuento);
-        }
-      }
-      return resultado;
-    },
   },
   methods: {
     ...mapActions("ventasNamespace", [
-      "setVenta",
+      "setSale",
       "setDetail",
       "setTotal",
       "deleteDetail",
     ]),
-    validar() {
-      this.valida = 0;
-      this.validaMensaje = [];
-      if (!this.item.persona) {
-        this.validaMensaje.push("Seleccione un cliente.");
-      }
-      if (!this.item.tipo_comprobante) {
-        this.validaMensaje.push("Seleccione un tipo de comprobante.");
-      }
-      if (!this.item.num_comprobante) {
-        this.validaMensaje.push("Ingrese el número del comprobante.");
-      }
-      if (!this.item.impuesto || this.impuesto < 0 || this.impuesto > 1) {
-        this.validaMensaje.push("Ingrese un impuesto válido.");
-      }
-      if (this.item.detalles.length <= 0) {
-        this.validaMensaje.push("Ingrese al menos un artículo al detalle");
-      }
-      if (this.validaMensaje.length) {
-        this.valida = 1;
-      }
-      return this.valida;
-    },
-    // mounted() {
-    //   this.$nextTick(() => {
-    //     this.setSale(this.item)
-    //   });
-    // },
     listarArticulos() {
       let me = this;
       let header = { Token: this.token };
@@ -263,6 +219,10 @@ export default {
       axios
         .get("article/search?value=" + this.texto, configuracion)
         .then(function (response) {
+          response.data.forEach( i => {
+            i.amount = 1
+            i.descuento = 0
+          })
           me.articulos = response.data;
         })
         .catch(function (error) {
@@ -270,6 +230,7 @@ export default {
         });
     },
     agregarDetalle(data) {
+      debugger
       this.errorArticulo = null;
       if (this.encuentra(data.id) == true) {
         this.errorArticulo = "El artículo ya ha sido agregado.";
@@ -278,13 +239,13 @@ export default {
         this.detalles.push({
           id: data.id,
           name: data.name,
-          cantidad: 1,
-          priceUnity: data.priceUnity,
-          priceWholesale: data.priceWholesale,
-          descuento: 0,
+          amount: data.amount,
+          price: data.priceUnity,
+          descuento: data.descuento,
         });
         this.texto = null;
         this.setDetail(this.detalles);
+        this.calcularTotal();
       }
     },
     encuentra(id) {
@@ -299,11 +260,26 @@ export default {
       }
       return sw;
     },
+    calcularTotal() {
+      let resultado = 0.0;
+
+      if (this.item.details) {
+        let details = this.item.details;
+        for (var i = 0; i < details.length; i++) {
+          resultado =
+            resultado +
+            (details[i].cantidad * details[i].priceUnity -
+              details[i].descuento);
+        }
+      }
+      this.total = resultado;
+    },
     eliminarDetalle(item) {
       let i = this.sale.details.indexOf(item);
       if (i != -1) {
         arr.splice(i, 1);
       }
+      this.calcularTotal();
     },
     selectPersona() {
       let me = this;

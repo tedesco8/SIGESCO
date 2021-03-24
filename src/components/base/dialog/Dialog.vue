@@ -22,8 +22,9 @@
         <UsuarioTemplateDialog v-if="usuario" :item="item" :action="action" />
         <ClienteTemplateDialog v-if="cliente" :item="item" :action="action" />
         <CategoriaTemplateDialog v-if="categoria" :item="item" :action="action" />
-        <ArticuloTemplateDialog v-if="articulo" :item="item" :action="action" />
+        <ArticuloTemplateDialog v-if="articulo" :item="item" :action="action" @gallery="showGallery"/>
         <VentaTemplateDialog v-if="venta" :item="item" :action="action" />
+        <Gallery v-if="dialogGallery" @select="selectImage" :dialog="dialog = true" />
       </v-card>
     </v-dialog>
   </v-row>
@@ -34,13 +35,21 @@ import ClienteTemplateDialog from "./templates/cliente-template-dialog";
 import CategoriaTemplateDialog from "./templates/categoria-template-dialog";
 import ArticuloTemplateDialog from "./templates/articulo-template-dialog";
 import VentaTemplateDialog from "./templates/venta-template-dialog";
+import Gallery from "./Gallery";
+import { mapActions } from "vuex";
 export default {
+  data() {
+    return {
+      dialogGallery: false,
+    }
+  },
   components: {
     UsuarioTemplateDialog,
     ClienteTemplateDialog,
     CategoriaTemplateDialog,
     ArticuloTemplateDialog,
     VentaTemplateDialog,
+    Gallery
   },
   props: {
     title: String,
@@ -88,18 +97,28 @@ export default {
     },
   },
   methods: {
+    ...mapActions("articulosNamespace", ["setArticle"]),
     guardar() {
       debugger;
       this.$emit("guardar", this.item);
+    },
+    showGallery() {
+      debugger
+      this.dialogGallery = true;
+    },
+    selectImage(url) {
+      this.dialogGallery = false;
+      this.item.imagen = url;
+      this.setArticle({ data: this.item });
     },
     close() {
       this.$emit("close");
     },
   },
-  // watch: {
-  //   dialog(val) {
-  //     val || this.$emit("close");
-  //   },
-  // },
+  watch: {
+    dialog(val) {
+      val || this.$emit("close");
+    },
+  },
 };
 </script>

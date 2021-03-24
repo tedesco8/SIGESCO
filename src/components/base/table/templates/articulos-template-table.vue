@@ -15,7 +15,6 @@ export default {
   computed: {
     ...mapState("categoriasNamespace", ["categorys"]),
     showCategory() {
-      debugger
       let me = this;
       let categorias = this.categorys;
       let name = '';

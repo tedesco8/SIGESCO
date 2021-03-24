@@ -46,7 +46,6 @@ export default {
   name: "usuario-template-dialog",
   data() {
     return {
-      impuesto: 0.18,
       valida: 0,
       personas: [],
       validaMensaje: [],
