@@ -1,5 +1,7 @@
 # SIGESCO
 
+(https://res.cloudinary.com/ddzlqebet/image/upload/v1613667716/TedescoDev/proyectos/sigesco-inicio_imlazm.png)
+
 _SIGESCO es un sistema cliente de gestión y control desarrollado en Vue.js, basado en la arquitectura cliente/servidor. Está orientado el sector retail con el fin de proporcionar herramientas tecnológicas analíticas y de gestión a las pequeñas y medianas empresas._
 
 _El sistema actualmente gestiona el almacén a través de categorías y los diferentes artículos en stock. Se gestionan los ingresos al almcacen a traves de provedores y las salidad (ventas) en un sistema de inventario eficaz. A su vez, existen modulos independientes para poder dar de alta y gestionar todo lo referente a los clientes y provedores._
@@ -11,7 +13,7 @@ _La idea es poder seguir desarrollando nuevos modulos como la gestion de reporte
 
 _Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
 
-Mira **Deployment** para conocer como desplegar el proyecto.
+Mira **Despliegue** para conocer como desplegar el proyecto.
 
 
 ### Pre-requisitos 📋
@@ -48,8 +50,6 @@ npm run build
 ```
 ## Construido con 🛠️
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
 * [Vue](https://vuejs.org/) - El framework JS usado
 * [Vuetify](https://vuetifyjs.com/en/) - Framework CSS
 * [Chartjs](https://www.chartjs.org/) - Librería para generar gráficas interactivas
@@ -62,7 +62,7 @@ Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) 
 
 ## Wiki 📖
 
-Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tu/proyecto/wiki)
+Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tedesco8/SIGESCO/wiki)
 
 ## Versionado 📌
 
