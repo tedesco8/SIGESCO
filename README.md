@@ -1,6 +1,6 @@
 # SIGESCO
 
-<img width="260px" src="zlqebet/image/upload/v1613667716/TedescoDev/proyectos/sigesco-inicio_imlazm.png">
+<img width="260px" src="https://res.cloudinary.com/ddzlqebet/image/upload/v1613667716/TedescoDev/proyectos/sigesco-inicio_imlazm.png">
 
 _SIGESCO es un sistema cliente de gestión y control desarrollado en Vue.js, basado en la arquitectura cliente/servidor. Está orientado el sector retail con el fin de proporcionar herramientas tecnológicas analíticas y de gestión a las pequeñas y medianas empresas._
 
