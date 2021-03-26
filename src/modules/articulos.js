@@ -98,26 +98,25 @@ export default {
             priceUnity: data.priceUnity,
             priceWholesale: data.priceWholesale,
             stock: data.stock,
-            image: data.image ? data.image : data.imagen,
             class: data.class
-
           },
           configuracion
         )
         .then(function(res) {
           // debugger;
           dispatch("getArticles", dataArticle.token);
-          this.$swal.fire({
-            title: "Buen trabajo!",
-            text: `El artículo ${res.data.name} agregado exitosamente`,
-            type: "success",
-          });
+          // this.$swal.fire({
+          //   title: "Buen trabajo!",
+          //   text: `El artículo ${res.data.name} agregado exitosamente`,
+          //   type: "success",
+          // });
+          debugger
           if (data.image != null && data.image != "unidefined" && data.image != "") {
             const formData = new FormData();
             formData.append("file0", data.image, data.image.name);
 
             axios
-              .post(`article/upload-image/${res.data.id}`, formData, {
+              .post(`article/upload-image/${res.data.result.id}`, formData, {
                 headers: {
                   "Content-Type": "multipart/form-data",
                 },
@@ -175,11 +174,11 @@ export default {
         )
         .then(function(res) {
           dispatch("getArticles", dataArticle.token);
-          this.$swal.fire({
-            title: "Buen trabajo!",
-            text: `El artículo ${res.data.name} fue editado exitosamente`,
-            type: "success",
-          });
+          // this.$swal.fire({
+          //   title: "Buen trabajo!",
+          //   text: `El artículo ${res.data.name} fue editado exitosamente`,
+          //   type: "success",
+          // });
           if (data.image != null && data.image != "unidefined" && data.image != "") {
             const formData = new FormData();
             formData.append("file0", data.image, data.image.name);

@@ -101,12 +101,6 @@ export default {
       this.setArticle({ data: this.item });
     });
   },
-  watch: {
-    item(val) {
-      debugger
-      this.setArticle({ data: this.item });
-    },
-  },
   computed: {
     ...mapState("usuariosNamespace", ["token"]),
     ...mapState("categoriasNamespace", ["categorys"]),
@@ -123,6 +117,8 @@ export default {
     ...mapActions("articulosNamespace", ["setArticle"]),
     ...mapActions("categoriasNamespace", ["getCategorys"]),
     obtenerImagen(file) {
+      console.log(file)
+      debugger
       this.item.image = file;
     },
     showGallery() {
