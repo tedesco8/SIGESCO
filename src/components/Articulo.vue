@@ -55,7 +55,6 @@
 </template>
 <script>
 import Table from "./base/table/Table";
-import DialogModal from "./base/modal/DialogModal";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
@@ -86,8 +85,8 @@ export default {
   },
   components: {
     Table,
-    Dialog: () => import(/* webpackPrefetch: true */ ".//base/dialog/Dialog"),
-    DialogModal,
+    Dialog: () => import(/* webpackPrefetch: true */ "./base/dialog/Dialog"),
+    DialogModal: () => import(/* webpackPrefetch: true */ "./base/modal/DialogModal"),
   },
   watch: {
     dialog(val) {
