@@ -105,7 +105,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("articulosNamespace", ["setArticle"]),
+    ...mapActions("articulosNamespace", ["setArticle", "setImage"]),
     guardar() {
       debugger;
       this.$emit("guardar", this.item);
@@ -115,9 +115,8 @@ export default {
       this.dialogGallery = true;
     },
     selectImage(url) {
+      this.setImage(url);
       this.dialogGallery = false;
-      this.item.image = url;
-      this.setArticle({ data: this.item });
     },
     close() {
       this.$emit("close");

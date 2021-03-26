@@ -101,6 +101,12 @@ export default {
       this.setArticle({ data: this.item });
     });
   },
+  watch: {
+    item(val) {
+      debugger
+      this.setArticle({ data: this.item });
+    },
+  },
   computed: {
     ...mapState("usuariosNamespace", ["token"]),
     ...mapState("categoriasNamespace", ["categorys"]),

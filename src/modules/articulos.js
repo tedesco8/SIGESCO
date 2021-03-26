@@ -14,6 +14,9 @@ export default {
     setArticle(state, data) {
       state.article = data;
     },
+    setImage(state, data) {
+      state.article.image = data;
+    },
     limpiar(state) {
       state.article = {};
     },
@@ -76,6 +79,9 @@ export default {
     },
     setArticle: async function({ commit }, dataArticle) {
       commit("setArticle", dataArticle.data);
+    },
+    setImage: async function({ commit }, image) {
+      commit("setImage", image);
     },
     saveArticle: async function({ dispatch }, dataArticle) {
       let header = { Token: dataArticle.token };
