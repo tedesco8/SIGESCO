@@ -21,35 +21,43 @@
         </v-toolbar>
         <UsuarioTemplateDialog v-if="usuario" :item="item" :action="action" />
         <ClienteTemplateDialog v-if="cliente" :item="item" :action="action" />
-        <CategoriaTemplateDialog v-if="categoria" :item="item" :action="action" />
-        <ArticuloTemplateDialog v-if="articulo" :item="item" :action="action" @gallery="showGallery"/>
+        <CategoriaTemplateDialog
+          v-if="categoria"
+          :item="item"
+          :action="action"
+        />
+        <ArticuloTemplateDialog
+          v-if="articulo"
+          :item="item"
+          :action="action"
+          @gallery="showGallery"
+        />
         <VentaTemplateDialog v-if="venta" :item="item" :action="action" />
-        <Gallery v-if="dialogGallery" @select="selectImage" :dialog="dialog = true" />
+        <Gallery
+          v-if="dialogGallery"
+          @select="selectImage"
+          @close="(dialogGallery = false)"
+          :dialog="(dialog = true)"
+        />
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 <script>
-import UsuarioTemplateDialog from "./templates/usuario-template-dialog";
-import ClienteTemplateDialog from "./templates/cliente-template-dialog";
-import CategoriaTemplateDialog from "./templates/categoria-template-dialog";
-import ArticuloTemplateDialog from "./templates/articulo-template-dialog";
-import VentaTemplateDialog from "./templates/venta-template-dialog";
-import Gallery from "./Gallery";
 import { mapActions } from "vuex";
 export default {
   data() {
     return {
       dialogGallery: false,
-    }
+    };
   },
   components: {
-    UsuarioTemplateDialog,
-    ClienteTemplateDialog,
-    CategoriaTemplateDialog,
-    ArticuloTemplateDialog,
-    VentaTemplateDialog,
-    Gallery
+    UsuarioTemplateDialog: () => import(/* webpackPrefetch: true */ "./templates/usuario-template-dialog"),
+    ClienteTemplateDialog: () => import(/* webpackPrefetch: true */ "./templates/cliente-template-dialog"),
+    CategoriaTemplateDialog: () => import(/* webpackPrefetch: true */ "./templates/categoria-template-dialog"),
+    ArticuloTemplateDialog: () => import(/* webpackPrefetch: true */ "./templates/articulo-template-dialog"),
+    VentaTemplateDialog: () => import(/* webpackPrefetch: true */ "./templates/venta-template-dialog"),
+    Gallery: () => import(/* webpackPrefetch: true */ "./Gallery")
   },
   props: {
     title: String,
@@ -103,12 +111,12 @@ export default {
       this.$emit("guardar", this.item);
     },
     showGallery() {
-      debugger
+      debugger;
       this.dialogGallery = true;
     },
     selectImage(url) {
       this.dialogGallery = false;
-      this.item.imagen = url;
+      this.item.image = url;
       this.setArticle({ data: this.item });
     },
     close() {

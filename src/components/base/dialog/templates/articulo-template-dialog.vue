@@ -61,7 +61,8 @@
         <v-responsive class="pt-4">
           <img
             aspect-ratio="1"
-            :src="item.image ? item.image : imageDefault"
+            height="300"
+            :src="(item.image ? item.image : imageDefault)"
           />
         </v-responsive>
       </v-flex>

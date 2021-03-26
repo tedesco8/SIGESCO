@@ -1,43 +1,52 @@
 <template>
   <v-container>
-    <v-col
-      v-for="image in articlesImages"
-      :key="image.public_id"
-      cols="12"
-      class="gallery-card"
-      md="6"
-    >
-      <v-hover>
-        <template v-slot="{ hover }">
-          <v-card
-            :img="image.url"
-            class="white--text overflow-hidden"
-            dark
-            height="500"
-            hover
-            @click="select(image.url)"
-          >
-            <v-fade-transition>
-              <v-overlay v-if="hover" absolute>
-                <v-icon large> mdi-magnify </v-icon>
-              </v-overlay>
-            </v-fade-transition>
-            <v-slide-y-reverse-transition>
-              <v-footer
-                v-if="hover"
-                absolute
-                class="justify-center"
-                height="75"
+    <v-row justify="center">
+      <v-dialog v-model="dialog" max-width="600" hide-overlay>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="close">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <v-col
+          v-for="image in articlesImages"
+          :key="image.public_id"
+          cols="12"
+          class="gallery-card"
+          md="12"
+        >
+          <v-hover>
+            <template v-slot="{ hover }">
+              <v-card
+                :img="image.url"
+                class="white--text overflow-hidden"
+                dark
+                height="300"
+                hover
+                @click="select(image.url)"
               >
-                <div class="heading">
-                  {{ image.filename }}
-                </div>
-              </v-footer>
-            </v-slide-y-reverse-transition>
-          </v-card>
-        </template>
-      </v-hover>
-    </v-col>
+                <v-fade-transition>
+                  <v-overlay v-if="hover" absolute>
+                    <v-icon large> mdi-magnify </v-icon>
+                  </v-overlay>
+                </v-fade-transition>
+                <v-slide-y-reverse-transition>
+                  <v-footer
+                    v-if="hover"
+                    absolute
+                    class="justify-center"
+                    height="75"
+                  >
+                    <div class="heading">
+                      {{ image.filename }}
+                    </div>
+                  </v-footer>
+                </v-slide-y-reverse-transition>
+              </v-card>
+            </template>
+          </v-hover>
+        </v-col>
+      </v-dialog>
+    </v-row>
   </v-container>
 </template>
 
@@ -59,6 +68,9 @@ export default {
     select(url) {
       this.$emit("select", url);
     },
+    close() {
+      this.$emit("close");
+    }
   },
 };
 </script>
