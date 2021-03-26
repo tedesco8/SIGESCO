@@ -71,22 +71,17 @@
 
 <script>
 import Opciones from "./Opciones.vue";
-import UsuariosTemplate from "./templates/usuarios-template-table";
-import ClientesTemplate from "./templates/clientes-template-table";
-import CategoriasTemplate from "./templates/categorias-template-table";
-import VentasTemplateTable from "./templates/ventas-template-table";
-import ArticulosTemplate from "./templates/articulos-template-table";
-import IngresosTemplate from "./templates/ingresos-template-table";
-import ProvedoresTemplate from "./templates/provedores-template-table";
 
 export default {
   components: {
     Opciones,
-    UsuariosTemplate,
-    ClientesTemplate,
-    CategoriasTemplate,
-    ArticulosTemplate,
-    VentasTemplateTable,
+    UsuariosTemplate: () => import(/* webpackPrefetch: true */ "./templates/usuarios-template-table"),
+    ClientesTemplate: () => import(/* webpackPrefetch: true */ "./templates/clientes-template-table"),
+    CategoriasTemplate: () => import(/* webpackPrefetch: true */ "./templates/categorias-template-table"),
+    ArticulosTemplate: () => import(/* webpackPrefetch: true */ "./templates/articulos-template-table"),
+    VentasTemplateTable: () => import(/* webpackPrefetch: true */ "./templates/ventas-template-table"),
+    IngresosTemplate: () => import(/* webpackPrefetch: true */ "./templates/ingresos-template-table"),
+    ProvedoresTemplate: () => import(/* webpackPrefetch: true */ "./templates/provedores-template-table"),
   },
   props: {
     title: String,
