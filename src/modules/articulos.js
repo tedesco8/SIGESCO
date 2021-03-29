@@ -105,11 +105,6 @@ export default {
         .then(function(res) {
           // debugger;
           dispatch("getArticles", dataArticle.token);
-          // this.$swal.fire({
-          //   title: "Buen trabajo!",
-          //   text: `El artículo ${res.data.name} agregado exitosamente`,
-          //   type: "success",
-          // });
           debugger
           if (data.image != null && data.image != "unidefined" && data.image != "") {
             const formData = new FormData();
@@ -167,18 +162,11 @@ export default {
             priceUnity: data.priceUnity,
             priceWholesale: data.priceWholesale,
             stock: data.stock,
-            image: data.image,
             class: data.class
           },
           configuracion
         )
         .then(function(res) {
-          dispatch("getArticles", dataArticle.token);
-          // this.$swal.fire({
-          //   title: "Buen trabajo!",
-          //   text: `El artículo ${res.data.name} fue editado exitosamente`,
-          //   type: "success",
-          // });
           if (data.image != null && data.image != "unidefined" && data.image != "") {
             const formData = new FormData();
             formData.append("file0", data.image, data.image.name);
@@ -190,6 +178,7 @@ export default {
                 },
               })
               .then((response) => {
+                dispatch("getArticles", dataArticle.token);
                 console.log(response);
               })
               .catch((err) => {

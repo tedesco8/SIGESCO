@@ -117,8 +117,6 @@ export default {
     ...mapActions("articulosNamespace", ["setArticle"]),
     ...mapActions("categoriasNamespace", ["getCategorys"]),
     obtenerImagen(file) {
-      console.log(file)
-      debugger
       this.item.image = file;
     },
     showGallery() {
