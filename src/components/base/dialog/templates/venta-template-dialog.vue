@@ -132,9 +132,9 @@
           </v-data-table>
         </template>
       </v-flex>
-      <v-flex class="text-xs-right">
+      <v-flex v-if="item.details" class="text-xs-right">
         <strong>Total:</strong>
-        $ {{ item.total }}
+        $ {{ calcularTotal }}
       </v-flex>
     </v-layout>
   </v-container>
@@ -187,23 +187,35 @@ export default {
   created() {
     this.selectPersona();
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.setSale(this.item);
-  //   });
-  // },
+  mounted() {
+    this.$nextTick(() => {
+      this.setSale(this.item);
+    });
+  },
   watch: {
     total(val) {
       this.setTotal(val);
-    },
-    item(val) {
-      debugger;
-      this.setSale(val);
     },
   },
   computed: {
     ...mapState("usuariosNamespace", ["token"]),
     ...mapState("ventasNamespace", ["sale"]),
+    calcularTotal: function() {
+      debugger
+      let resultado = 0.0;
+
+      if (this.item.details) {
+        let details = this.item.details;
+        for (var i = 0; i < details.length; i++) {
+          resultado =
+            resultado +
+            (details[i].amount * details[i].price -
+              details[i].descuento);
+        }
+      }
+      this.total = resultado;
+      return resultado
+    },
   },
   methods: {
     ...mapActions("ventasNamespace", [
@@ -245,7 +257,6 @@ export default {
         });
         this.texto = null;
         this.setDetail(this.detalles);
-        this.calcularTotal();
       }
     },
     encuentra(id) {
@@ -259,20 +270,6 @@ export default {
         });
       }
       return sw;
-    },
-    calcularTotal() {
-      let resultado = 0.0;
-
-      if (this.item.details) {
-        let details = this.item.details;
-        for (var i = 0; i < details.length; i++) {
-          resultado =
-            resultado +
-            (details[i].cantidad * details[i].priceUnity -
-              details[i].descuento);
-        }
-      }
-      this.total = resultado;
     },
     eliminarDetalle(item) {
       let i = this.sale.details.indexOf(item);
