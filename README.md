@@ -60,6 +60,8 @@ npm run build
 
 Por favor lee el [CONTRIBUTING.md](https://github.com/tedesco8/api-rest-express/master/CONTRIBUTING.md) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODIGO_DE_CONDUCTA.md)
+
 ## Wiki 📖
 
 Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki](https://github.com/tedesco8/SIGESCO/wiki)
