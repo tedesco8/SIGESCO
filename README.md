@@ -60,7 +60,7 @@ npm run build
 
 Por favor lee el [CONTRIBUTING.md](https://github.com/tedesco8/api-rest-express/master/CONTRIBUTING.md) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODIGO_DE_CONDUCTA.md)
+También debes ser consciente y atenerse a nuestras reglas y normas de conducta para construir un mejor espacio para todos [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 ## Wiki 📖
 
