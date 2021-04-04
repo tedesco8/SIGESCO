@@ -19,9 +19,9 @@ una rama con un nombre descriptivo.
 
 Un buen nombre de sucursal sería (donde el problema # 325 es el ticket en el que está trabajando):
 
-`` sh
+``` sh
 git checkout -b 325-add-japanese-translations
-''
+```
 
 ### Implementa tu corrección o función
 
@@ -33,19 +33,19 @@ todo el mundo es principiante al principio: smile_cat:
 En este punto, debe volver a su rama maestra y asegurarse de que esté
 sincronizado con la rama maestra de SIGESCO:
 
-`` sh
+``` sh
 git remote add upstream git@github.com:tedesco8/SIGESCO.git
 git checkout master
 git pull upstream master
-''
+```
 
 Luego actualice su rama de características desde su copia local de master, ¡y empújela!
 
-`` sh
+``` sh
 git checkout 325-add-japanese-translations
 git rebase master
 git push --set-upstream origin 325-add-japanese-translations
-''
+```
 
 Por último, vaya a GitHub y [haga una solicitud de extracción] []: D
 
@@ -60,11 +60,11 @@ ha cambiado y que necesita actualizar su rama para que sea más fácil fusionar.
 Para obtener más información sobre el rebase en Git, hay muchos [buenos] [git rebasing]
 [recursos] [rebase interactivo] pero aquí está el flujo de trabajo sugerido:
 
-`` sh
+``` sh
 git checkout 325-add-japanese-translations
 git pull --rebase upstream master
 git push --force-with-lease 325-add-japanese-translations
-''
+```
 
 ### Fusionando un PR (solo mantenedores)
 

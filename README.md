@@ -58,7 +58,7 @@ npm run build
 * [jsPDF](http://raw.githack.com/MrRio/jsPDF/master/docs/index.html) - Librería para convertir canvas a PDF
 ## Contribuyendo 🖇️
 
-Por favor lee el [CONTRIBUTING.md](https://github.com/tedesco8/api-rest-express/master/CONTRIBUTING.md) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
+Por favor lee el [CONTRIBUTING.md](https://github.com/tedesco8/SIGESCO/blob/master/CONTRIBUTING.md) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
 
 También debes ser consciente y atenerse a nuestras reglas y normas de conducta para construir un mejor espacio para todos [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
@@ -85,7 +85,7 @@ Este proyecto está bajo la Licencia (MIT) - mira el archivo [LICENSE.md](LICENS
 * Comenta a otros sobre este proyecto 📢
 * Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
 * Da las gracias públicamente 🤓.
-* etc.
+* Estrellita al proyecto ⭐
 
 
 
