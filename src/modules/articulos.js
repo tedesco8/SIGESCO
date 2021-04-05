@@ -31,6 +31,12 @@ export default {
     newArticle: async function({ commit }) {
       commit("limpiar");
     },
+    setArticle: async function({ commit }, dataArticle) {
+      commit("setArticle", dataArticle.data);
+    },
+    setImage: async function({ commit }, image) {
+      commit("setImage", image);
+    },
     getArticles: async function({ commit }, token) {
       let header = { Token: token };
       let configuracion = { headers: header };
@@ -77,136 +83,223 @@ export default {
           console.log(error);
         });
     },
-    setArticle: async function({ commit }, dataArticle) {
-      commit("setArticle", dataArticle.data);
-    },
-    setImage: async function({ commit }, image) {
-      commit("setImage", image);
-    },
     saveArticle: async function({ dispatch }, dataArticle) {
       let header = { Token: dataArticle.token };
       let configuracion = { headers: header };
       let data = dataArticle.data;
       // debugger;
-      await axios
-        .post(
-          "article/add",
-          {
-            name: data.name,
-            type: data.type,
-            description: data.description,
-            priceUnity: data.priceUnity,
-            priceWholesale: data.priceWholesale,
-            stock: data.stock,
-            class: data.class
-          },
-          configuracion
-        )
-        .then(function(res) {
-          // debugger;
-          dispatch("getArticles", dataArticle.token);
-          debugger
-          if (data.image != null && data.image != "unidefined" && data.image != "") {
-            const formData = new FormData();
-            formData.append("file0", data.image, data.image.name);
+      if (data.image.name) {
+        await axios
+          .post(
+            "article/add",
+            {
+              name: data.name,
+              type: data.type,
+              description: data.description,
+              priceUnity: data.priceUnity,
+              priceWholesale: data.priceWholesale,
+              stock: data.stock,
+              class: data.class,
+            },
+            configuracion
+          )
+          .then(function(res) {
+            // debugger;
+            dispatch("getArticles", dataArticle.token);
+            debugger;
+            if (
+              data.image != null &&
+              data.image != "unidefined" &&
+              data.image != ""
+            ) {
+              const formData = new FormData();
+              formData.append("file0", data.image, data.image.name);
 
-            axios
-              .post(`article/upload-image/${res.data.result.id}`, formData, {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              })
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                swal({
-                  title: "Algo anda mal",
-                  text: `La imagen no pudo ser subida`,
-                  icon: "error",
+              axios
+                .post(`article/upload-image/${res.data.result.id}`, formData, {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then((response) => {
+                  console.log(response);
+                })
+                .catch((err) => {
+                  swal({
+                    title: "Algo anda mal",
+                    text: `La imagen no pudo ser subida`,
+                    icon: "error",
+                  });
                 });
-              });
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 422) {
-              return this.$swal.fire({
+            }
+          })
+          .catch((error) => {
+            if (error.response) {
+              if (error.response.status == 422) {
+                return this.$swal.fire({
+                  title: "Lo sentimos!",
+                  text: `${error.response.data.message}`,
+                  type: "warning",
+                });
+              }
+            } else {
+              this.$swal.fire({
                 title: "Lo sentimos!",
-                text: `${error.response.data.message}`,
-                type: "warning",
+                text: `Ha ocurrido un error de tipo ${error}`,
+                type: "error",
               });
             }
-          } else {
+          });
+      } else {
+        await axios
+          .post(
+            "article/add",
+            {
+              name: data.name,
+              type: data.type,
+              description: data.description,
+              image: data.image,
+              priceUnity: data.priceUnity,
+              priceWholesale: data.priceWholesale,
+              stock: data.stock,
+              class: data.class,
+            },
+            configuracion
+          )
+          .then(function(res) {
             this.$swal.fire({
-              title: "Lo sentimos!",
-              text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              title: "Buen trabajo!",
+              text: `Artículo actualizado con éxito`,
+              type: "success",
             });
-          }
-        });
+          })
+          .catch(function(error) {
+            if (error.response) {
+              if (error.response.status == 422) {
+                return this.$swal.fire({
+                  title: "Lo sentimos!",
+                  text: `${error.response.data.message}`,
+                  type: "warning",
+                });
+              }
+            } else {
+              this.$swal.fire({
+                title: "Lo sentimos!",
+                text: `Ha ocurrido un error de tipo ${error}`,
+                type: "error",
+              });
+            }
+          });
+      }
     },
     updateArticle: async function({ dispatch }, dataArticle) {
       let header = { Token: dataArticle.token };
       let configuracion = { headers: header };
       //debugger;
       let data = dataArticle.data;
-      await axios
-        .put(
-          "article/update",
-          {
-            id: data.id,
-            name: data.name,
-            type: data.type,
-            description: data.description,
-            priceUnity: data.priceUnity,
-            priceWholesale: data.priceWholesale,
-            stock: data.stock,
-            class: data.class
-          },
-          configuracion
-        )
-        .then(function(res) {
-          if (data.image != null && data.image != "unidefined" && data.image != "") {
-            const formData = new FormData();
-            formData.append("file0", data.image, data.image.name);
+      if (data.image.name) {
+        await axios
+          .put(
+            "article/update",
+            {
+              id: data.id,
+              name: data.name,
+              type: data.type,
+              description: data.description,
+              priceUnity: data.priceUnity,
+              priceWholesale: data.priceWholesale,
+              stock: data.stock,
+              class: data.class,
+            },
+            configuracion
+          )
+          .then(function(res) {
+            if (
+              data.image != null &&
+              data.image != "unidefined" &&
+              data.image != ""
+            ) {
+              const formData = new FormData();
+              formData.append("file0", data.image, data.image.name);
 
-            axios
-              .post(`article/upload-image/${res.data.id}`, formData, {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              })
-              .then((response) => {
-                dispatch("getArticles", dataArticle.token);
-                console.log(response);
-              })
-              .catch((err) => {
-                swal({
-                  title: "Algo anda mal",
-                  text: `La imagen no pudo ser subida`,
-                  icon: "error",
+              axios
+                .post(`article/upload-image/${res.data.id}`, formData, {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then((response) => {
+                  dispatch("getArticles", dataArticle.token);
+                  console.log(response);
+                })
+                .catch((err) => {
+                  swal({
+                    title: "Algo anda mal",
+                    text: `La imagen no pudo ser subida`,
+                    icon: "error",
+                  });
                 });
-              });
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            if (error.response.status == 422) {
-              return this.$swal.fire({
+            }
+          })
+          .catch((error) => {
+            if (error.response) {
+              if (error.response.status == 422) {
+                return this.$swal.fire({
+                  title: "Lo sentimos!",
+                  text: `${error.response.data.message}`,
+                  type: "warning",
+                });
+              }
+            } else {
+              this.$swal.fire({
                 title: "Lo sentimos!",
-                text: `${error.response.data.message}`,
-                type: "warning",
+                text: `Ha ocurrido un error de tipo ${error}`,
+                type: "error",
               });
             }
-          } else {
+          });
+      } else {
+        await axios
+          .put(
+            "article/update",
+            {
+              id: data.id,
+              name: data.name,
+              type: data.type,
+              description: data.description,
+              image: data.image,
+              priceUnity: data.priceUnity,
+              priceWholesale: data.priceWholesale,
+              stock: data.stock,
+              class: data.class,
+            },
+            configuracion
+          )
+          .then(function(res) {
             this.$swal.fire({
-              title: "Lo sentimos!",
-              text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              title: "Buen trabajo!",
+              text: `Artículo actualizado con éxito`,
+              type: "success",
             });
-          }
-        });
+          })
+          .catch((error) => {
+            if (error.response) {
+              if (error.response.status == 422) {
+                return this.$swal.fire({
+                  title: "Lo sentimos!",
+                  text: `${error.response.data.message}`,
+                  type: "warning",
+                });
+              }
+            } else {
+              this.$swal.fire({
+                title: "Lo sentimos!",
+                text: `Ha ocurrido un error de tipo ${error}`,
+                type: "error",
+              });
+            }
+          });
+      }
     },
     activateArticle: async function({ dispatch }, dataArticle) {
       let header = { Token: dataArticle.token };
