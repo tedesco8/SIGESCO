@@ -1,38 +1,38 @@
 <template>
   <v-container grid-list-sm class="pa-4 white">
-    <v-layout row wrap>
-      <v-flex xs12 sm4 md4 lg4 xl4>
+    <v-row row wrap>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="4">
         <v-text-field v-model="item.name" label="Nombre"></v-text-field>
-      </v-flex>
-      <v-flex xs12 sm4 md4 lg4 xl4>
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="4">
         <v-select
           v-model="item.type"
           :items="selectCategoria"
           label="Categoría"
         ></v-select>
-      </v-flex>
-      <v-flex xs12 sm4 md4 lg4 xl4>
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="4">
         <v-text-field
           v-model="item.description"
           label="Descripción"
         ></v-text-field>
-      </v-flex>
-      <v-flex xs12 sm4 md4 lg4 xl4>
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="4">
         <v-text-field
           v-model="item.priceUnity"
           label="Precio x Unidad"
         ></v-text-field>
-      </v-flex>
-      <v-flex xs12 sm4 md4 lg4 xl4>
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="4">
         <v-text-field
           v-model="item.priceWholesale"
           label="Precio x Mayor"
         ></v-text-field>
-      </v-flex>
-      <v-flex xs12 sm4 md4 lg4 xl4>
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="4">
         <v-text-field v-model="item.stock" label="Stock"></v-text-field>
-      </v-flex>
-      <v-flex v-if="action != 1" xs12 sm4 md6 lg6 xl6>
+      </v-col>
+      <v-col v-if="action != 1" cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
         <span>Sube una imágen</span>
         <v-file-input
           :rules="rulesImage"
@@ -42,31 +42,29 @@
           prepend-icon="photo_camera"
           @change="obtenerImagen"
         ></v-file-input>
-      </v-flex>
-      <v-flex v-if="action != 1" xs12 sm4 md6 lg6 xl6>
+      </v-col>
+      <v-col v-if="action != 1" cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
         <span class="align-center">Asignar imágen desde la galería</span>
         <v-btn class="mx-2" @click="showGallery" fab dark color="primary">
           <v-icon dark> image </v-icon>
         </v-btn>
-      </v-flex>
-      <v-flex xs12 sm12 md12 v-show="valida">
+      </v-col>
+      <v-col xs12 sm12 md12 v-show="valida">
         <div
           class="red--text"
           v-for="v in validaMensaje"
           :key="v"
           v-text="v"
         ></div>
-      </v-flex>
-      <v-flex xs12 sm4 md12 lg12 xl12 class="text-center">
-        <v-responsive class="pt-4">
+      </v-col>
+      <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="text-center">
           <img
             aspect-ratio="1"
             height="300"
             :src="(item.image ? item.image : imageDefault)"
           />
-        </v-responsive>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
