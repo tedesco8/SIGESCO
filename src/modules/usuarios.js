@@ -1,6 +1,7 @@
 import decode from "jwt-decode";
 import axios from "axios";
 import router from "../router";
+import swal from 'sweetalert'
 
 export default {
   namespaced: true,
@@ -89,26 +90,26 @@ export default {
         .then(function(res) {
           // debugger;
           dispatch("getUsers", dataUser.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Usuario ${res.data.name} ${res.data.surname} agregado exitosamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return this.$swal.fire({
+              return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                type: "warning",
+                icon: "warning",
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });
@@ -134,26 +135,26 @@ export default {
         )
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `El usuario ${res.data.name} ${res.data.surname} fue editado exitosamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return this.$swal.fire({
+              return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                type: "warning",
+                icon: "warning",
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });
@@ -166,17 +167,17 @@ export default {
         .put("user/activate", { id: dataUser.id }, configuracion)
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Usuario ${res.data.name} ${res.data.surname} activado correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },
@@ -188,17 +189,17 @@ export default {
         .put("user/deactivate", { id: dataUser.id }, configuracion)
         .then(function(res) {
           dispatch("getUsers", dataUser.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Usuario ${res.data.name} ${res.data.surname} desactivado correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
           swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },

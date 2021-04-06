@@ -1,4 +1,5 @@
 import axios from "axios";
+import swal from 'sweetalert'
 
 export default {
   namespaced: true,
@@ -75,7 +76,7 @@ export default {
         .then(function(res) {
           // debugger;
           dispatch("getCategorys", dataCategory.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Categoría ${res.data.name} agregada exitosamente`,
             icon: "success",
@@ -84,14 +85,14 @@ export default {
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return this.$swal.fire({
+              return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
                 icon: "warning",
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
               type: "error",
@@ -116,7 +117,7 @@ export default {
         )
         .then(function(res) {
           dispatch("getCategorys", dataCategory.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `La Categoría ${res.data.name} fue editada exitosamente`,
             type: "success",
@@ -125,14 +126,14 @@ export default {
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return this.$swal.fire({
+              return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
                 type: "warning",
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
               type: "error",
@@ -148,17 +149,17 @@ export default {
         .put("type/activate", { id: dataCategory.id }, configuracion)
         .then(function(res) {
           dispatch("getCategorys", dataCategory.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Categoría ${res.data.name} activada correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },
@@ -170,17 +171,17 @@ export default {
         .put("type/deactivate", { id: dataCategory.id }, configuracion)
         .then(function(res) {
           dispatch("getCategorys", dataCategory.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Categoría ${res.data.name} desactivada correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },

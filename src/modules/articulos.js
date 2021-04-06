@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import swal from 'sweetalert'
 export default {
   namespaced: true,
   state: {
@@ -87,7 +87,7 @@ export default {
       let header = { Token: dataArticle.token };
       let configuracion = { headers: header };
       let data = dataArticle.data;
-      // debugger;
+      debugger;
       if (data.image.name) {
         await axios
           .post(
@@ -122,7 +122,11 @@ export default {
                   },
                 })
                 .then((response) => {
-                  console.log(response);
+                  swal({
+                    title: "Buen trabajo!",
+                    text: `Artículo creado con éxito`,
+                    icon: "success",
+                  });
                 })
                 .catch((err) => {
                   swal({
@@ -167,26 +171,26 @@ export default {
             configuracion
           )
           .then(function(res) {
-            this.$swal.fire({
+            swal({
               title: "Buen trabajo!",
-              text: `Artículo actualizado con éxito`,
-              type: "success",
+              text: `Artículo creado con éxito`,
+              icon: "success",
             });
           })
           .catch(function(error) {
             if (error.response) {
               if (error.response.status == 422) {
-                return this.$swal.fire({
+                return swal({
                   title: "Lo sentimos!",
                   text: `${error.response.data.message}`,
-                  type: "warning",
+                  icon: "warning",
                 });
               }
             } else {
-              this.$swal.fire({
+              swal({
                 title: "Lo sentimos!",
                 text: `Ha ocurrido un error de tipo ${error}`,
-                type: "error",
+                icon: "error",
               });
             }
           });
@@ -230,7 +234,11 @@ export default {
                 })
                 .then((response) => {
                   dispatch("getArticles", dataArticle.token);
-                  console.log(response);
+                  swal({
+                    title: "Buen trabajo!",
+                    text: `Artículo actualizado con éxito`,
+                    icon: "success",
+                  });
                 })
                 .catch((err) => {
                   swal({
@@ -244,14 +252,14 @@ export default {
           .catch((error) => {
             if (error.response) {
               if (error.response.status == 422) {
-                return this.$swal.fire({
+                return swal({
                   title: "Lo sentimos!",
                   text: `${error.response.data.message}`,
                   type: "warning",
                 });
               }
             } else {
-              this.$swal.fire({
+              swal({
                 title: "Lo sentimos!",
                 text: `Ha ocurrido un error de tipo ${error}`,
                 type: "error",
@@ -259,6 +267,7 @@ export default {
             }
           });
       } else {
+        debugger
         await axios
           .put(
             "article/update",
@@ -276,23 +285,23 @@ export default {
             configuracion
           )
           .then(function(res) {
-            this.$swal.fire({
+            swal({
+              icon: 'success',
               title: "Buen trabajo!",
-              text: `Artículo actualizado con éxito`,
-              type: "success",
-            });
+              text: `Artículo actualizado con éxito`
+            })
           })
           .catch((error) => {
             if (error.response) {
               if (error.response.status == 422) {
-                return this.$swal.fire({
+                return swal({
                   title: "Lo sentimos!",
                   text: `${error.response.data.message}`,
                   type: "warning",
                 });
               }
             } else {
-              this.$swal.fire({
+              swal({
                 title: "Lo sentimos!",
                 text: `Ha ocurrido un error de tipo ${error}`,
                 type: "error",
@@ -309,17 +318,17 @@ export default {
         .put("article/activate", { id: dataArticle.id }, configuracion)
         .then(function(res) {
           dispatch("getArticles", dataArticle.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Artículo ${res.data.name} activado correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },
@@ -331,17 +340,17 @@ export default {
         .put("article/deactivate", { id: dataArticle.id }, configuracion)
         .then(function(res) {
           dispatch("getArticles", dataArticle.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Artículo ${res.data.name} desactivado correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },

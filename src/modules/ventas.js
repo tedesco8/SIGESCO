@@ -1,10 +1,11 @@
 import axios from "axios";
+import swal from "sweetalert";
 
 export default {
   namespaced: true,
   state: {
     total: 0,
-    sale: {total: 0, tax: 0.0},
+    sale: { total: 0, tax: 0.0 },
     sales: [],
   },
   mutations: {
@@ -12,21 +13,21 @@ export default {
       state.sales = data;
     },
     setTotal(state, data) {
-      debugger
-      state.total = data
+      debugger;
+      state.total = data;
     },
     setSale(state, data) {
       state.sale = data;
     },
     setDetail(state, data) {
-      state.sale.details = data
+      state.sale.details = data;
     },
     deleteDetail(state, data) {
-      debugger
+      debugger;
       state.sale.details.splice(data, 1);
     },
     clear(state) {
-      state.sale = {total: 0, tax: 0.0};
+      state.sale = { total: 0, tax: 0.0 };
     },
   },
   actions: {
@@ -85,39 +86,42 @@ export default {
       let data = dataVenta.data;
       debugger;
       await axios
-        .post("sale/add", { 
-          client: data.client,
-          user: dataVenta.user,
-          voucherType: data.voucherType,
-          voucherSeries: data.voucherSeries,
-          voucherNum: data.voucherNum,
-          total: data.total,
-          details: data.details
-
-         }, configuracion)
+        .post(
+          "sale/add",
+          {
+            client: data.client,
+            user: dataVenta.user,
+            voucherType: data.voucherType,
+            voucherSeries: data.voucherSeries,
+            voucherNum: data.voucherNum,
+            total: data.total,
+            details: data.details,
+          },
+          configuracion
+        )
         .then(function(res) {
           debugger;
           dispatch("getSales", dataVenta.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: "Venta agregada exitosamente",
-            type: "success",
+            icon: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return this.$swal.fire({
+              return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                type: "warning",
+                icon: "warning",
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });
@@ -131,26 +135,26 @@ export default {
         .put("sale/update", { id: data.id }, configuracion)
         .then(function(res) {
           dispatch("getSales", dataVenta.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `La venta fue editada exitosamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch((error) => {
           if (error.response) {
             if (error.response.status == 422) {
-              return this.$swal.fire({
+              return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                type: "warning",
+                icon: "warning",
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });
@@ -163,17 +167,17 @@ export default {
         .put("sale/activate", { id: dataVenta.id }, configuracion)
         .then(function() {
           dispatch("getSales", dataVenta.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Venta activada correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },
@@ -185,17 +189,17 @@ export default {
         .put("sale/deactivate", { id: dataVenta.id }, configuracion)
         .then(function() {
           dispatch("getSales", dataVenta.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Venta desactivada correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
-          this.$swal.fire({
+          swal({
             title: "Lo sentimos!",
             text: `Ha ocurrido un error de tipo ${error}`,
-            type: "error",
+            icon: "error",
           });
         });
     },
@@ -209,10 +213,10 @@ export default {
         .then(function() {
           // debugger
           dispatch("getSales", dataVenta.token);
-          this.$swal.fire({
+          swal({
             title: "Buen trabajo!",
             text: `Pedido eliminado correctamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch(function(error) {
