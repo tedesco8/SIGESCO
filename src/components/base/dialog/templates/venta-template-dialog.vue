@@ -35,12 +35,12 @@
         ></v-text-field>
       </v-flex>
       <!--Buscar articulos -->
-      <v-card v-if="action != 1">
+      <v-card v-if="action != 1" elevation="2">
         <v-card-title>
           <span class="headline">Agregue artículos al detalle</span>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
+          <v-container>
             <v-layout wrap>
               <v-flex xs12 sm12 md12 lg12 xl12>
                 <v-text-field
@@ -106,10 +106,7 @@
             </template>
             <template v-slot:item.price="{ item }">
               <div class="text-xs-center">
-                <v-text-field
-                  v-model="item.price"
-                  type="number"
-                ></v-text-field>
+                <v-text-field v-model="item.price" type="number"></v-text-field>
               </div>
             </template>
             <template v-slot:item.descuento="{ item }">
@@ -134,7 +131,7 @@
       </v-flex>
       <v-flex v-if="item.details" class="text-xs-right">
         <strong>Total:</strong>
-        $ {{ calcularTotal }}
+        $ {{ total }}
       </v-flex>
     </v-layout>
   </v-container>
@@ -161,8 +158,8 @@ export default {
       cabeceraDetalles: [
         { text: "Borrar", value: "borrar", sortable: false },
         { text: "Artículo", value: "name", sortable: false },
-        { text: "Cantidad", value: "cantidad", sortable: false },
-        { text: "Precio", value: "priceUnity", sortable: false },
+        { text: "Cantidad", value: "amount", sortable: false },
+        { text: "Precio", value: "price", sortable: false },
         { text: "Descuento", value: "descuento", sortable: false },
         { text: "Sub Total", value: "subtotal", sortable: false },
       ],
@@ -196,26 +193,35 @@ export default {
     total(val) {
       this.setTotal(val);
     },
+    item(val) {
+      let resultado = 0.0;
+      let details = val.details;
+      for (var i = 0; i < details.length; i++) {
+        resultado =
+          resultado +
+          (details[i].amount * details[i].price - details[i].descuento);
+      }
+      this.total = resultado;
+    },
   },
   computed: {
     ...mapState("usuariosNamespace", ["token"]),
     ...mapState("ventasNamespace", ["sale"]),
-    calcularTotal: function() {
-      debugger
-      let resultado = 0.0;
+    // calcularTotal: function () {
+    //   debugger;
+    //   let resultado = 0.0;
 
-      if (this.item.details) {
-        let details = this.item.details;
-        for (var i = 0; i < details.length; i++) {
-          resultado =
-            resultado +
-            (details[i].amount * details[i].price -
-              details[i].descuento);
-        }
-      }
-      this.total = resultado;
-      return resultado
-    },
+    //   if (this.item.details) {
+    //     let details = this.item.details;
+    //     for (var i = 0; i < details.length; i++) {
+    //       resultado =
+    //         resultado +
+    //         (details[i].amount * details[i].price - details[i].descuento);
+    //     }
+    //   }
+    //   this.total = resultado;
+    //   return resultado;
+    // },
   },
   methods: {
     ...mapActions("ventasNamespace", [
@@ -231,10 +237,10 @@ export default {
       axios
         .get("article/search?value=" + this.texto, configuracion)
         .then(function (response) {
-          response.data.forEach( i => {
-            i.amount = 1
-            i.descuento = 0
-          })
+          response.data.forEach((i) => {
+            i.amount = 1;
+            i.descuento = 0;
+          });
           me.articulos = response.data;
         })
         .catch(function (error) {
@@ -242,7 +248,7 @@ export default {
         });
     },
     agregarDetalle(data) {
-      debugger
+      debugger;
       this.errorArticulo = null;
       if (this.encuentra(data.id) == true) {
         this.errorArticulo = "El artículo ya ha sido agregado.";

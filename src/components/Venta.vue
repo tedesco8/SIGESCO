@@ -34,9 +34,9 @@
       <Dialog
         @close="close"
         @guardar="guardar"
+        :dialog="dialog"
         :title="'venta'"
         :venta="ventaBoo"
-        :dialog="dialog"
         :action="action"
         :item="sale"
       />
@@ -57,9 +57,6 @@
 </template>
 <script>
 import Table from "./base/table/Table";
-import Dialog from "./base/dialog/Dialog";
-import Imprimir from "./base/Imprimir";
-import DialogModal from "./base/modal/DialogModal";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "Venta",
@@ -91,14 +88,9 @@ export default {
   },
   components: {
     Table,
-    Dialog,
-    Imprimir,
-    DialogModal,
-  },
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
+    Dialog: () => import(/* webpackPrefetch: true */ "./base/dialog/Dialog"),
+    Imprimir: () => import(/* webpackPrefetch: true */ "./base/Imprimir"),
+    DialogModal: () => import(/* webpackPrefetch: true */ "./base/modal/DialogModal"),
   },
   created() {
     this.listar();
