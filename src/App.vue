@@ -1,13 +1,13 @@
 <template>
   <v-app id="app">
     <NavBar />
-    <v-content>
+    <v-main>
       <v-container fluid fill-height>
         <v-slide-y-transition mode="out-in">
           <router-view />
         </v-slide-y-transition>
       </v-container>
-    </v-content>
+    </v-main>
     <Footer />
   </v-app>
 </template>
