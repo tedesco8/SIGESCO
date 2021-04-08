@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     total: 0,
-    sale: { total: 0, tax: 0.0 },
+    sale: { total: 0, tax: 0.0, details: [] },
     sales: [],
   },
   mutations: {
@@ -13,21 +13,20 @@ export default {
       state.sales = data;
     },
     setTotal(state, data) {
-      debugger;
       state.total = data;
     },
     setSale(state, data) {
       state.sale = data;
     },
     setDetail(state, data) {
-      state.sale.details = data;
+      state.sale.details.push(data);
     },
     deleteDetail(state, data) {
       debugger;
       state.sale.details.splice(data, 1);
     },
     clear(state) {
-      state.sale = { total: 0, tax: 0.0 };
+      state.sale = { total: 0, tax: 0.0 , details: []};
     },
   },
   actions: {

@@ -40,7 +40,7 @@
       <DetalleArticulos />
       <v-flex v-if="item.details" class="text-xs-right">
         <strong>Total:</strong>
-        $ {{ total }}
+        $ {{ calcTotal }}
       </v-flex>
     </v-layout>
   </v-container>
@@ -80,25 +80,23 @@ export default {
     total(val) {
       this.setTotal(val);
     },
-    item(val) {
+  },
+  computed: {
+    ...mapState("usuariosNamespace", ["token"]),
+    ...mapState("ventasNamespace", ["sale"]),
+    calcTotal: function() {
       let resultado = 0.0;
-      debugger;
-      if (val.details != "undefined" && val.details != null) {
-        let details = val.details;
+      if (this.sale.details != "undefined" && this.sale.details != null) {
+        let details = this.sale.details;
         for (var i = 0; i < details.length; i++) {
-          debugger
           resultado =
             resultado +
             (details[i].amount * details[i].price - details[i].descuento);
         }
       }
       this.total = resultado;
-      this.setSale(val);
-    },
-  },
-  computed: {
-    ...mapState("usuariosNamespace", ["token"]),
-    ...mapState("ventasNamespace", ["sale"]),
+      return resultado
+    }
   },
   methods: {
     ...mapActions("ventasNamespace", [

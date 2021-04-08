@@ -96,14 +96,13 @@ export default {
         this.errorArticulo = "El artículo ya ha sido agregado.";
         this.texto = null;
       } else {
-        let detalles = [];
-        detalles.push({
+        let detalles = {
           id: data.id,
           name: data.name,
           amount: data.amount,
           price: data.priceUnity,
           descuento: data.descuento,
-        });
+        };
         this.texto = null;
         this.setDetail(detalles);
       }

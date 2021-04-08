@@ -77,12 +77,12 @@ export default {
         this.renderComponent = true;
       });
     },
-    eliminarDetalle(item) {
-      let i = this.sale.details.indexOf(item);
-      if (i != -1) {
-        arr.splice(i, 1);
-      }
-    },
+    // eliminarDetalle(item) {
+    //   let i = this.sale.details.indexOf(item);
+    //   if (i != -1) {
+    //     arr.splice(i, 1);
+    //   }
+    // },
   },
 };
 </script>
