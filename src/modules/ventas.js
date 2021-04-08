@@ -4,7 +4,6 @@ import swal from "sweetalert";
 export default {
   namespaced: true,
   state: {
-    total: 0,
     sale: { total: 0, tax: 0.0, details: [] },
     sales: [],
   },
@@ -13,7 +12,7 @@ export default {
       state.sales = data;
     },
     setTotal(state, data) {
-      state.total = data;
+      state.sale.total = data;
     },
     setSale(state, data) {
       state.sale = data;
@@ -26,7 +25,7 @@ export default {
       state.sale.details.splice(data, 1);
     },
     clear(state) {
-      state.sale = { total: 0, tax: 0.0 , details: []};
+      state.sale = { total: 0, tax: 0.0, details: [] };
     },
   },
   actions: {
@@ -93,6 +92,7 @@ export default {
             voucherType: data.voucherType,
             voucherSeries: data.voucherSeries,
             voucherNum: data.voucherNum,
+            tax: data.tax,
             total: data.total,
             details: data.details,
           },
@@ -131,7 +131,21 @@ export default {
       //debugger;
       let data = dataVenta.data;
       await axios
-        .put("sale/update", { id: data.id }, configuracion)
+        .put(
+          "sale/update",
+          {
+            id: data.id,
+            client: data.client,
+            user: dataVenta.user,
+            voucherType: data.voucherType,
+            voucherSeries: data.voucherSeries,
+            voucherNum: data.voucherNum,
+            tax: data.tax,
+            total: data.total,
+            details: data.details,
+          },
+          configuracion
+        )
         .then(function(res) {
           dispatch("getSales", dataVenta.token);
           swal({
