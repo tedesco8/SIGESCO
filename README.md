@@ -2,7 +2,7 @@
 
 <img src="https://res.cloudinary.com/ddzlqebet/image/upload/v1613667716/TedescoDev/proyectos/sigesco-inicio_imlazm.png">
 
-_SIGESCO es un sistema cliente de gestión y control desarrollado en Vue.js, basado en la arquitectura cliente/servidor. Está orientado el sector retail con el fin de proporcionar herramientas tecnológicas analíticas y de gestión a las pequeñas y medianas empresas._
+_SIGESCO es un sistema de código abierto de gestión y control desarrollado en Vue.js. Está orientado el sector retail con el fin de proporcionar herramientas tecnológicas analíticas y de gestión a las pequeñas y medianas empresas._
 
 _El sistema actualmente gestiona el almacén a través de categorías y los diferentes artículos en stock. Se gestionan los ingresos al almcacen a traves de provedores y las salidad (ventas) en un sistema de inventario eficaz. A su vez, existen modulos independientes para poder dar de alta y gestionar todo lo referente a los clientes y provedores._
 
