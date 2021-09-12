@@ -1,5 +1,4 @@
 import axios from "axios";
-import swal from 'sweetalert'
 
 export default {
   namespaced: true,
@@ -99,10 +98,10 @@ export default {
               });
             }
           } else {
-            this.$swal.fire({
+            swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });

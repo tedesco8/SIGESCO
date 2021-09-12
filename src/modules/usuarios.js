@@ -1,7 +1,6 @@
 import decode from "jwt-decode";
 import axios from "axios";
 import router from "../router";
-import swal from 'sweetalert'
 
 export default {
   namespaced: true,

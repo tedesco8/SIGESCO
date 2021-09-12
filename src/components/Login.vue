@@ -52,13 +52,16 @@ export default {
       debugger;
       axios
         .post("user/login", { email: this.email, password: this.password })
-        .then((res) => {
-          this.$swal.fire({
+        .then((respuesta) => {
+          return respuesta.data;
+        })
+        .then((data) => {
+          swal({
             title: "Genial!",
             text: "Bienvenido a SIGESCO",
-            type: "success",
+            icon: "success",
           });
-          this.guardarToken(res.data.tokenReturn);
+          this.guardarToken(data.tokenReturn);
         })
         .catch((error) => {
           this.errorM = null;

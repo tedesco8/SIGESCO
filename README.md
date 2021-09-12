@@ -21,12 +21,10 @@ Mira **Despliegue** para conocer como desplegar el proyecto.
 _Que cosas necesitas para instalar el software y como instalarlas_
 
 ```
-Lo primero que necesitas para comenzar a usar el software es tener Node.js instalado en tu sistema.
+Lo primero que necesitas para comenzar a usar el software es tener Node.js instalado en tu sistema. También es recomendable tener vue-developer-tools.
 ```
 
 ### Instalación 🔧
-
-_Una serie de ejemplos paso a paso que te dice lo que debes ejecutar para tener un entorno de desarrollo ejecutandose_
 
 _Instala las dependencias del proyecto_
 
@@ -40,8 +38,9 @@ _Ejecuta el proyecto_
 npm run serve
 ```
 
-_Para lograr hacer funcionar correctamente el sistema, necesitarás una api que te provea datos en formato JSON. Recuerda que este es solo un cliente en la arquitectura. Si necesitas utilizar una api de pruebas, muevete a la rama mongoBack y define en el mains.js la url https://sigesco.tedesco.es/api/_
-
+_Para lograr hacer funcionar correctamente el sistema, necesitarás una api que te provea datos en formato JSON. Recuerda que este es solo un cliente en la arquitectura._ 
+_Si necesitas utilizar una api de pruebas, muevete a la rama mongoBack y define en el main.js la url: https://sigesco.tedesco.es/api/ En este ambiente te encontrarás una api orientada a MongoDB._
+_Si prefieres tener en tu ambiente una base de datos relacional, mantente en la rama máster y define en el main.js la url: 
 ## Despliegue 📦
 
 _Para poder desplegar la app, debes generar un bundle que se ubicara en la carpeta disti y subir el contenido a la raiz publica cualquier dominio que use Apache o Ngnix_

@@ -1,5 +1,4 @@
 import axios from "axios";
-import swal from "sweetalert";
 
 export default {
   namespaced: true,
@@ -95,7 +94,7 @@ export default {
             swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });
@@ -120,7 +119,7 @@ export default {
           swal({
             title: "Buen trabajo!",
             text: `La Categoría ${res.data.name} fue editada exitosamente`,
-            type: "success",
+            icon: "success",
           });
         })
         .catch((error) => {
@@ -129,14 +128,14 @@ export default {
               return swal({
                 title: "Lo sentimos!",
                 text: `${error.response.data.message}`,
-                type: "warning",
+                icon: "warning",
               });
             }
           } else {
             swal({
               title: "Lo sentimos!",
               text: `Ha ocurrido un error de tipo ${error}`,
-              type: "error",
+              icon: "error",
             });
           }
         });

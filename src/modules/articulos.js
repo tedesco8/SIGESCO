@@ -1,5 +1,5 @@
 import axios from "axios";
-import swal from 'sweetalert'
+
 export default {
   namespaced: true,
   state: {
@@ -140,17 +140,17 @@ export default {
           .catch((error) => {
             if (error.response) {
               if (error.response.status == 422) {
-                return this.$swal.fire({
+                return swal({
                   title: "Lo sentimos!",
                   text: `${error.response.data.message}`,
-                  type: "warning",
+                  icon: "warning",
                 });
               }
             } else {
-              this.$swal.fire({
+              swal({
                 title: "Lo sentimos!",
                 text: `Ha ocurrido un error de tipo ${error}`,
-                type: "error",
+                icon: "error",
               });
             }
           });
@@ -255,14 +255,14 @@ export default {
                 return swal({
                   title: "Lo sentimos!",
                   text: `${error.response.data.message}`,
-                  type: "warning",
+                  icon: "warning",
                 });
               }
             } else {
               swal({
                 title: "Lo sentimos!",
                 text: `Ha ocurrido un error de tipo ${error}`,
-                type: "error",
+                icon: "error",
               });
             }
           });
@@ -297,14 +297,14 @@ export default {
                 return swal({
                   title: "Lo sentimos!",
                   text: `${error.response.data.message}`,
-                  type: "warning",
+                  icon: "warning",
                 });
               }
             } else {
               swal({
                 title: "Lo sentimos!",
                 text: `Ha ocurrido un error de tipo ${error}`,
-                type: "error",
+                icon: "error",
               });
             }
           });
